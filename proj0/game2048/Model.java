@@ -114,10 +114,88 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+        /*
+        1. Set perspective to North side
+        2. Run a processColumnUp() function on each column
+        3. Set changed to true if processColumnUp() returns true at all
+        4. Set perspective back
+        */
+
+        board.setViewingPerspective(side);
+
+        for (int c = 0; c < size(); c += 1) {
+            if (processColumnUp(board, c)) {
+                System.out.println(c);
+                changed = true;
+            }
+        }
+
+        board.setViewingPerspective(Side.NORTH);
+
         checkGameOver();
         if (changed) {
             setChanged();
         }
+        return changed;
+    }
+
+    /** Moves and merges all tiles in column c towards the up direction,
+     *  returns true if anything moves.
+     */
+    private boolean processColumnUp(Board b, int c) {
+        /*
+        Have two pointers: availableMerge and availableEmpty, each an int representing a row.
+        First tile is availableMerge if not null, otherwise availableEmpty.
+        At next to top tile if it's empty, keep going.
+        If that tile can be merged with the availableMerge, do so. availableMerge becomes null.
+        If that tile can't be merged, move to availableEmpty. Set availableEmpty to the tile
+        BELOW where it was moved to.
+        Repeat for next two tiles.
+         */
+
+        boolean changed = false;
+
+        // Initialize with -1, meaning no available/empty rows
+        int availableEmpty = -1;
+        int availableMerge = -1;
+
+        // If the first tile is empty, set it as availableEmpty. Otherwise, set it as avilableMerge
+        if (b.tile(c, size() - 1) == null) {
+            availableEmpty = size() - 1;
+        } else {
+            availableMerge = size() - 1;
+        }
+
+        for (int r = size() - 2; r >= 0; r--) {
+            Tile currentTile = b.tile(c, r);
+            // If this tile is empty, check if availableEmpty is set. If not, set it to this row.
+            if (currentTile == null) {
+                if (availableEmpty == -1) {
+                    availableEmpty = r;
+                }
+            }
+
+            // From this point we know the currentTile is not empty.
+            // If there is an availableMerge, check if the values are the same. If so, move
+            // and merge the tile, and update the score.
+            else if (availableMerge != -1 && currentTile.value() == b.tile(c, availableMerge).value()) {
+                score = score + currentTile.value() * 2;
+                b.move(c, availableMerge, currentTile);
+                changed = true;
+                availableEmpty = availableMerge - 1;
+                availableMerge = -1;
+            }
+
+            // Otherwise, if there is an availableEmpty
+            // move the tile to that empty and reassign new empty/merge values.
+            else if(availableEmpty != -1) {
+                b.move(c, availableEmpty, currentTile);
+                changed = true;
+                availableMerge = availableEmpty;
+                availableEmpty -= 1;
+            }
+        }
+
         return changed;
     }
 
@@ -137,7 +215,13 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++){
+            for (int j = 0; j < b.size(); j++){
+                if (b.tile(i, j) == null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +231,14 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++){
+            for (int j = 0; j < b.size(); j++){
+                Tile currentTile = b.tile(i, j);
+                if (currentTile != null && currentTile.value() == MAX_PIECE){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -158,8 +249,49 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        if (emptySpaceExists(b)){
+            return true;
+        }
+        for (int i = 0; i < b.size(); i++){
+            for (int j = 0; j < b.size(); j++){
+                if (adjacentEqual(b.tile(i, j), b)){
+                    return true;
+                }
+            }
+        }
         return false;
+    }
+
+    /** Returns true if the given tile has an adjacent tile of equal value. */
+    private static boolean adjacentEqual(Tile t, Board b) {
+        // The coordinates of all adjacent tiles (might not be valid)
+        int[][] adjacentCoordinates = {
+                {t.col(), t.row() + 1},
+                {t.col() + 1, t.row()},
+                {t.col(), t.row() - 1},
+                {t.col() - 1, t.row()}
+        };
+
+        for (int[] adjacent : adjacentCoordinates){
+            if (validCoordinate(adjacent[0], adjacent[1], b)){
+                Tile currentTile = b.tile(adjacent[0], adjacent[1]);
+                if (currentTile != null && equalTiles(t, currentTile)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /** Returns true if the two tiles have an equal value */
+    private static boolean equalTiles(Tile t1, Tile t2){
+        return t1.value() == t2.value();
+    }
+
+    /** Returns true if column c and row r are a valid board coordinate. */
+    private static boolean validCoordinate(int c, int r, Board b){
+        return (c >= 0 && c < b.size() && r >= 0 && r < b.size());
     }
 
 
