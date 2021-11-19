@@ -125,7 +125,6 @@ public class Model extends Observable {
 
         for (int c = 0; c < size(); c += 1) {
             if (processColumnUp(board, c)) {
-                System.out.println(c);
                 changed = true;
             }
         }
@@ -159,7 +158,7 @@ public class Model extends Observable {
         int availableEmpty = -1;
         int availableMerge = -1;
 
-        // If the first tile is empty, set it as availableEmpty. Otherwise, set it as avilableMerge
+        // If the first tile is empty, set it as availableEmpty. Otherwise, set it as availableMerge
         if (b.tile(c, size() - 1) == null) {
             availableEmpty = size() - 1;
         } else {
@@ -193,6 +192,13 @@ public class Model extends Observable {
                 changed = true;
                 availableMerge = availableEmpty;
                 availableEmpty -= 1;
+            }
+
+            // At this point there is not a merge or a movement of the tile.
+            // We need to set it as the new availableMerge, and set availableEmpty to -1
+            else {
+                availableMerge = r;
+                availableEmpty = -1;
             }
         }
 
