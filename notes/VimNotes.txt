@@ -60,7 +60,7 @@ This is a little block of text for testing
 def testFunction() {
     return "This is a test of the emergency alert system";
 }
-Testing one {asdf}
+TestSort one {asdf}
 
 /*
 This is a test comment
