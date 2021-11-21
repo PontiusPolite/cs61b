@@ -1,0 +1,97 @@
+
+COMMAND MODE:
+
+h j k l - left down up right
+:q - quit
+:wq - save and quit
+:q! - save and don't quit
+:w - save
+
+i - insert
+I - insert at beginning of line
+a - insert after cursor
+A - insert mode at end of line
+x - delete letter at cursor
+r - replace a letter
+d - delete, can be followed other letter to specify what should be deleted.
+    dw - delete word
+    d} - delete block
+    dt{char} deletes everthing up to that character
+    dl - delete letter
+dd - delete line (also copies to clipboard)
+c - change (like delete, but it puts you in insert mode after deleting)
+esc - back to command mode
+G - go to bottom of file
+gg - go to top of file
+} - go to bottom of block of code
+{ - go to top of block
+You can put numbers in front of commands to perform that many times.
+u - undo
+ctrl+r - redo
+yy - copy line to clipboard
+p - paste below
+P - paste above
+V - visual mode (lets you select text)
+
+o - adds a new line and puts you in insert mode
+O - adds line above "
+w - go to next word
+b - go back to previous word
+0 - go to beginning of line
+$ - go to the end of the line
+^ - go to first word in line (same as pressing 0 w)
+f{char} - go to that char in line
+t{char} - go before that char in line
+% - go between two brackets
+* - toggle between instances of a word
+
+z - center cursor
+~ - swap letter case
+. - re-does the last thing you did
+
+MACROS
+q {char to save recording to} {commands} q
+
+Test Text:
+Lorem ipsum testing ground 
+More lorems and ipsums.
+This is a little block of text for testing
+(Please mess this shit up).
+def testFunction() {
+    return "This is a test of the emergency alert system";
+}
+Testing one {asdf}
+
+/*
+This is a test comment
+Here we go
+*/
+
+
+const arr = [
+	one
+	two
+	three
+	one
+	one
+	two
+	three
+	two
+	three
+	one
+	two
+	three
+	one
+	two
+	three
+	one
+	one
+	two
+	three
+	two
+	three
+	one
+	two
+	three
+]
+
