@@ -77,7 +77,7 @@ TESTING
 - See the Sort and TestSort classes for example
 - Use JUnit instead of ad hoc testing methods
 - Testing provides stability and scaffolding - use helper functions to manage complexity,
-    and test those helper functions to be confident that foundation is solid
+and test those helper functions to be confident that foundation is solid
 
 Simpler JUnit
 - Annotate each test with @org.junit.Test
@@ -94,7 +94,7 @@ Test-Driven Development (TDD)
     - You may want to build a quick, messy prototype to paint a clearer picture of what you need.
 
 - TDD is an extreme departure from naive workflow, so for this class we can be somewhere
-    in between the two.
+in between the two.
 */
 
 /* 
@@ -108,18 +108,36 @@ MEMORY
     - These are assigned default values, until the constructor changes those values
     - The 'new' keyword returns the location that the new object was placed in
 - When you declare a reference variable, Java always allocates 64 bits (the size
-    of the location address)
+of the location address)
 
 THE GOLDEN RULE OF EQUALS:
 - Saying y = x copies the bits at location x into location y
     - They both don't point to the same box
 - Saying obj1 = obj2 copies the bits that are the location in memory, so they both
-    point to the same location
+point to the same location
 
 PARAMETER PASSING:
 - When you pass a variable into a function, the bits are copied as the new parameter
 - So, passing a reference variable and manipulating it will also manipulate it 
-    outside the frame of the function
+outside the frame of the function
+
+
+LISTS
+- See IntList class for an example of a recursive list data structure
+- We use IntNode and then SLList as an intermediary, so that we don't
+have this naked recursive data (might be harder for someone to understand)
+
+PRIVATE KEYWORD
+- We can use the private keyword to prevent using class members from outside
+the class
+- The private keyword lets you hide implementation
+- This is 'access control', but it's a soft restriction
+- If you make something public, the expectation is you will never remove it
+
+NESTED CLASSES
+- We can put the IntNode class inside of SLList, since it is obviously suboordinate
+to it
+
 
 ARRAYS
 - Instantiating an array is similar to instantiating an object, and the GROE still applies
