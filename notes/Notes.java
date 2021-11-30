@@ -141,4 +141,12 @@ to it
 
 ARRAYS
 - Instantiating an array is similar to instantiating an object, and the GROE still applies
+
+INVARIANTS
+- An invariant is a condition guaranteed to be true
+- The SLList has the following invariants:
+    - the sentinel reference always points to the sentinel node
+    - the first node is always sentinel.next
+    - the size variable is always the total number of items added
+
 */
