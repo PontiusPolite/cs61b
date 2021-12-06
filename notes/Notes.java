@@ -38,38 +38,38 @@ public class Notes {
         d.weightInPounds = 25;
         d.makeNoise(); // invocation of the makeNoise method
     }
-}
 
-/*
- * COMPILATION
- *
- * Compiling in Terminal: > javac HelloWorld.java - This compiles the java file
- * into a class file > java HelloWorld - Runs the program
- *
- * The Class File: - .class has been type checked - .class files are simpler for
- * the machine to execute
- *
- */
 
-/*
- * DEFINING AND INSTANTIATING CLASSES - See Dog.java for an example class
- *
- * Static vs. Nonstatic - static methods and variables can be accessed without
- * instantiating
- *
- * Helper Methods:
- *
- */
+    /*
+     * COMPILATION
+     *
+     * Compiling in Terminal: > javac HelloWorld.java - This compiles the java file
+     * into a class file > java HelloWorld - Runs the program
+     *
+     * The Class File: - .class has been type checked - .class files are simpler for
+     * the machine to execute
+     *
+     */
 
- /*
- * USEFUL TERMINAL COMMANDS
- *
- * - Rm - delete file (remove)
- * - Ls - lists contents of directory
- * - Cat - shows contents of file
- * - Code - opens or creates a new file in vscode (i.e. code Hello.java)
- *
- */
+    /*
+     * DEFINING AND INSTANTIATING CLASSES - See Dog.java for an example class
+     *
+     * Static vs. Nonstatic - static methods and variables can be accessed without
+     * instantiating
+     *
+     * Helper Methods:
+     *
+     */
+
+    /*
+     * USEFUL TERMINAL COMMANDS
+     *
+     * - Rm - delete file (remove)
+     * - Ls - lists contents of directory
+     * - Cat - shows contents of file
+     * - Code - opens or creates a new file in vscode (i.e. code Hello.java)
+     *
+     */
 
 /*
 TESTING
@@ -124,7 +124,7 @@ outside the frame of the function
 
 LISTS
 - See IntList class for an example of a recursive list data structure
-- We use IntNode and then SLList as an intermediary, so that we don't
+- We use IntNode and then SLList (Single Linked List) as an intermediary, so that we don't
 have this naked recursive data (might be harder for someone to understand)
 
 PRIVATE KEYWORD
@@ -135,7 +135,7 @@ the class
 - If you make something public, the expectation is you will never remove it
 
 NESTED CLASSES
-- We can put the IntNode class inside of SLList, since it is obviously suboordinate
+- We can put the IntNode class inside SLList, since it is obviously suboordinate
 to it
 
 
@@ -148,5 +148,38 @@ INVARIANTS
     - the sentinel reference always points to the sentinel node
     - the first node is always sentinel.next
     - the size variable is always the total number of items added
-
 */
+
+/*
+LECTURE 6
+
+DLLIST
+- Doubly Linked List: has pointers to next and prev
+- We could have two sentinels then: at the front and back
+- OR, we could just have ONE sentinel at the front and back
+
+- We can parametrize the List class to take any type of variable as the item in the list
+    - See the SLList class definition for a parameter
+
+
+ALIST
+- The Array List: orthogonally stored info rather than recursive
+- Arrays are a special object which consists of a numbered sequence of memory boxes
+    - Unlike other objects which have named memory boxes
+- Arrays also have a length that cannot change
+ */
+
+    public void ArrayBasics() {
+        // Three valid notations for creating array
+        int[] y = new int[3];
+        int[] x = new int[]{1, 2, 3, 4};
+        int[] w = {9, 10, 11}; // only works when declaring a variable
+
+        // 2D arrays
+        int[][] y2;
+        int[][] x2 = new int[4][]; // this line creates one array
+        int[][] w2 = new int[4][]; // this line creates five arrays
+    }
+
+
+}

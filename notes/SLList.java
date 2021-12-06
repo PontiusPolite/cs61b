@@ -1,16 +1,19 @@
-public class SLList {
+
+// Item_type is the name of our new parameter, which determines the type
+// of any Item_type variable
+public class SLList<Item_type> {
     /* The first item, if it exists, is at sentinel.next */
-    private IntNode sentinel;
-    private IntNode first;
+    private StuffNode sentinel;
+    private StuffNode first;
     // We can cache the size to make retrieving it much faster
     private int size;
 
     /* We can nest this class inside SLList */
-    public class IntNode {
-        public int item;
-        public IntNode next;
+    public class StuffNode {
+        public Item_type item;
+        public StuffNode next;
 
-        public IntNode(int i, IntNode n) {
+        public StuffNode(Item_type i, StuffNode n) {
             item = i;
             next = n;
         }
@@ -18,19 +21,19 @@ public class SLList {
 
     /** Creates an empty SLList */
     public SLList() {
-        sentinel = new IntNode(42, null);
+        sentinel = new StuffNode(42, null);
         size = 0;
     }
 
     public SLList(int x) {
-        sentinel = new IntNode(42, null);
-        sentinel.next = new IntNode(x, null);
+        sentinel = new StuffNode(42, null);
+        sentinel.next = new StuffNode(x, null);
         size = 1;
     }
 
     /** Adds x to the front of the list. */
-    public void addFirst(int x){
-        sentinel.next = new IntNode(x, sentinel.next);
+    public void addFirst(Item_type x){
+        sentinel.next = new StuffNode(x, sentinel.next);
         size += 1;
     }
 
@@ -40,12 +43,12 @@ public class SLList {
     }
 
     /** Adds x to the end of the list. */
-    public void addLast(int x) {
-        IntNode p = sentinel;
+    public void addLast(Item_type x) {
+        StuffNode p = sentinel;
         while (p.next != null) {
             p = p.next;
         }
-        p.next = new IntNode(x, null);
+        p.next = new StuffNode(x, null);
         size += 1;
     }
 
