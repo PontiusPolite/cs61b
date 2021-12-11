@@ -72,6 +72,8 @@ public class Notes {
      */
 
 /*
+LECTURE 3
+
 TESTING
 
 - See the Sort and TestSort classes for example
@@ -97,7 +99,9 @@ Test-Driven Development (TDD)
 in between the two.
 */
 
-/* 
+/*
+LECTURE 4
+
 PRIMITIVES of Java: byte, short, int, long, float, double, boolean, char
 
 MEMORY
@@ -120,7 +124,10 @@ PARAMETER PASSING:
 - When you pass a variable into a function, the bits are copied as the new parameter
 - So, passing a reference variable and manipulating it will also manipulate it 
 outside the frame of the function
+*/
 
+/*
+LECTURE 5
 
 LISTS
 - See IntList class for an example of a recursive list data structure
@@ -162,7 +169,7 @@ DLLIST
     - See the SLList class definition for a parameter
 
 
-ALIST
+ARRAY LISTS
 - The Array List: orthogonally stored info rather than recursive
 - Arrays are a special object which consists of a numbered sequence of memory boxes
     - Unlike other objects which have named memory boxes
@@ -181,5 +188,14 @@ ALIST
         int[][] w2 = new int[4][]; // this line creates five arrays
     }
 
+/*
+LECTURE 7
+
+ALIST
+- DLList has a problem of items far from sentinel node being inefficient to get
+- We can use arrays to solve this, since the get time for any item is constant
+- Resizing an array means creating a copy of the array, and making items point to that
+    - Arrays can be copies with System.arraycopy or with a simple loop
+ */
 
 }

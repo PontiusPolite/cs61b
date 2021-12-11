@@ -21,12 +21,12 @@ public class SLList<Item_type> {
 
     /** Creates an empty SLList */
     public SLList() {
-        sentinel = new StuffNode(42, null);
+        sentinel = new StuffNode(null, null);
         size = 0;
     }
 
-    public SLList(int x) {
-        sentinel = new StuffNode(42, null);
+    public SLList(Item_type x) {
+        sentinel = new StuffNode(null, null);
         sentinel.next = new StuffNode(x, null);
         size = 1;
     }
@@ -38,7 +38,7 @@ public class SLList<Item_type> {
     }
 
     /** Returns the first item in the list. */
-    public int getFirst(){
+    public Item_type getFirst(){
         return sentinel.next.item;
     }
 
