@@ -196,6 +196,16 @@ ALIST
 - We can use arrays to solve this, since the get time for any item is constant
 - Resizing an array means creating a copy of the array, and making items point to that
     - Arrays can be copies with System.arraycopy or with a simple loop
+
+Speed Analysis:
+- Adding new items to the AList is slow, because N(N+1)/2 memory boxes have to be created
+- Our SLList was only constant time
+- Instead of resize(size + RFACTOR), we can use resize(size * RFACTOR)
+    - This is a geometric resizing, which works much better
+- ALists often have a usage ratio R = size / items.length, to make them efficient in space as well
+
+- We also want to null out deleted objects, which makes sure the memory that object occupied
+is recovered
  */
 
 }
