@@ -10,7 +10,7 @@ Invariants:
 - The last item in the list is always in position size - 1.
  */
 
-public class AList<Item> {
+public class AList<Item> implements List61B<Item>{
     private Item[] items;
     private int size;
 
@@ -28,6 +28,7 @@ public class AList<Item> {
     }
 
     /** Inserts x at the end of the list. */
+    @Override
     public void addLast(Item x) {
         // Increases the size of our items array if necessary
         if (size == items.length) {
@@ -39,21 +40,25 @@ public class AList<Item> {
     }
 
     /** Returns the last item in the list. */
+    @Override
     public Item getLast() {
         return items[size - 1];
     }
 
     /** Returns the i'th item in the list */
+    @Override
     public Item get(int i) {
         return items[i];
     }
 
     /** Returns the size of the list */
+    @Override
     public int size() {
         return size;
     }
 
     /** Remove the last element in the list and return it */
+    @Override
     public Item removeLast() {
         // Due to our invariants, by just decreasing the size we 'delete' the last element
         Item x = getLast();

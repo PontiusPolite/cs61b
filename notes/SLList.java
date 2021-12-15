@@ -1,19 +1,18 @@
 
 // Item_type is the name of our new parameter, which determines the type
 // of any Item_type variable
-public class SLList<Item_type> {
+public class SLList<Item>{
     /* The first item, if it exists, is at sentinel.next */
     private StuffNode sentinel;
-    private StuffNode first;
     // We can cache the size to make retrieving it much faster
     private int size;
 
     /* We can nest this class inside SLList */
     public class StuffNode {
-        public Item_type item;
+        public Item item;
         public StuffNode next;
 
-        public StuffNode(Item_type i, StuffNode n) {
+        public StuffNode(Item i, StuffNode n) {
             item = i;
             next = n;
         }
@@ -25,25 +24,25 @@ public class SLList<Item_type> {
         size = 0;
     }
 
-    public SLList(Item_type x) {
+    public SLList(Item x) {
         sentinel = new StuffNode(null, null);
         sentinel.next = new StuffNode(x, null);
         size = 1;
     }
 
     /** Adds x to the front of the list. */
-    public void addFirst(Item_type x){
+    public void addFirst(Item x){
         sentinel.next = new StuffNode(x, sentinel.next);
         size += 1;
     }
 
     /** Returns the first item in the list. */
-    public Item_type getFirst(){
+    public Item getFirst(){
         return sentinel.next.item;
     }
 
     /** Adds x to the end of the list. */
-    public void addLast(Item_type x) {
+    public void addLast(Item x) {
         StuffNode p = sentinel;
         while (p.next != null) {
             p = p.next;
@@ -52,9 +51,18 @@ public class SLList<Item_type> {
         size += 1;
     }
 
+    public Item getLast() {
+        StuffNode p = sentinel;
+        while (p.next != null) {
+            p = p.next;
+        }
+        return p.item;
+    }
+
     public int size() {
         return size;
     }
+
 
     /** Returns the size of the list using helper function. */
 //    public int size() {
@@ -69,9 +77,4 @@ public class SLList<Item_type> {
 //        return 1 + size(first.next);
 //    }
 
-    public static void main(String[] args) {
-        SLList L = new SLList(10);
-        L.addFirst(10);
-        L.addFirst(5);
-    }
 }

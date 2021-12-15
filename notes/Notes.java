@@ -207,5 +207,45 @@ Speed Analysis:
 - We also want to null out deleted objects, which makes sure the memory that object occupied
 is recovered
  */
-
 }
+
+
+/*
+LECTURE 8
+
+INHERITANCE
+- Overloading methods works, but is a crude solution
+    - Messy source files, repeated code, more code to maintain
+- Both ALists and SLists are Lists - list is a hypernym
+    - We can use an Interface to capture this
+
+INTERFACE
+- An interface is a list of all method signatures
+- It specifies what the thing should be able to do, but not how they should do it
+- The 'implements' keyword points the class to that interface
+    - If a method overrides what the interface specifies, we can add an @Override tag
+        - See AList for examples
+        - @Override isn't necessary, but it does catch name typos and is a helpful reminder
+- Using our example of List61B and AList, the following code does compile and run fine:
+    > List61B<String> someList = new AList<String>();
+    > someList.addFirst("elk");
+
+IMPLEMENTATION INHERITANCE
+- We can write code within the implementation that is used by its children
+    - Use 'default' in the method signature
+- These default methods can use methods we've already listed in our interface
+- This is a new, albeit controversial feature, to run code inside an interface
+- You can override these default methods too
+
+STATIC VS DYNAMIC TYPE
+- The static type is determined by the variable declaration (compile-time type)
+- the dynamic type is specified at instantiation (run-time type)
+- Suppose we have an object with compile-time type X and run-time type Y. If Y overrides a method,
+Y's method is used instead.
+
+JAVA LIST
+- When writing actual code, we use java's built-in java.util.List and java.util.ArrayList
+> List<Integer> L = new ArrayList<>();
+
+
+ */
