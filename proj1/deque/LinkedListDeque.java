@@ -17,15 +17,17 @@ public class LinkedListDeque<Item> implements Deque<Item>{
             prev = this;
         }
 
-        public Node(Item v, Node n, Node p) {
-            item = v;
-            next = n;
-            prev = p;
+        public Node(Item item, Node previous, Node next) {
+            this.item = item;
+            this.next = next;
+            this.prev = previous;
         }
     }
 
+    // Invariants:
     // sentinel.next always points to the first item in the list
     // sentinel.prev always points to the last item in the list
+    // For Node n, n.next.prev always points to n
     private Node sentinel;
     private int size;
 
@@ -37,20 +39,16 @@ public class LinkedListDeque<Item> implements Deque<Item>{
 
     @Override
     public void addFirst(Item item) {
-        Node added_node = new Node(item, sentinel.next, sentinel);
-        if (this.isEmpty()){
-            sentinel.prev = added_node;
-        }
+        Node added_node = new Node(item, sentinel, sentinel.next);
+        sentinel.next.prev = added_node;
         sentinel.next = added_node;
         size += 1;
     }
 
     @Override
     public void addLast(Item item) {
-        Node added_node = new Node(item, sentinel, sentinel.prev);
-        if (this.isEmpty()) {
-            sentinel.next = added_node;
-        }
+        Node added_node = new Node(item, sentinel.prev, sentinel);
+        sentinel.prev.next = added_node;
         sentinel.prev = added_node;
         size += 1;
     }
@@ -74,36 +72,59 @@ public class LinkedListDeque<Item> implements Deque<Item>{
 
     @Override
     public Item removeFirst() {
-        if (!this.isEmpty()){
-            Item removed_item = sentinel.next.item;
-            sentinel.next = sentinel.next.next;
-            size -= 1;
-            return removed_item;
+        if (this.isEmpty()){
+            return null;
         }
-        return null;
+
+        Item removed_item = sentinel.next.item;
+        sentinel.next = sentinel.next.next;
+        size -= 1;
+        return removed_item;
     }
 
     @Override
     public Item removeLast() {
-        if (!this.isEmpty()) {
-            Item removed_item = sentinel.prev.item;
-            sentinel.prev = sentinel.prev.prev;
-            size -= 1;
-            return removed_item;
+        if (this.isEmpty()) {
+            return null;
         }
-        return null;
+
+        Item removed_item = sentinel.prev.item;
+        sentinel.prev = sentinel.prev.prev;
+        size -= 1;
+        return removed_item;
     }
 
     @Override
     public Item get(int index) {
-        Node p = sentinel.next;
-        while(index != 0) {
-            if (p == sentinel) {
-                return null;
+        if (isValidIndex(index)){
+            Node p = sentinel.next;
+            while(index != 0) {
+                p = p.next;
+                index -= 1;
             }
-            p = p.next;
-            index -= 1;
+            return p.item;
         }
-        return p.item;
+        return null;
+    }
+
+    /** Returns the item at the index. */
+    public Item getRecursive(int index) {
+        if (isValidIndex(index)){
+            return getRecursiveHelper(index, sentinel.next);
+        }
+        return null;
+    }
+
+    /** Returns the item at the index starting at node n. */
+    private Item getRecursiveHelper(int index, Node n) {
+        if (index == 0) {
+            return n.item;
+        }
+        return getRecursiveHelper(index - 1, n.next);
+    }
+
+    /** Returns true if the index is valid for the list. */
+    private boolean isValidIndex(int index){
+        return (index >= 0 && index < size);
     }
 }
