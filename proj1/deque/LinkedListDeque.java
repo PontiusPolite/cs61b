@@ -37,19 +37,31 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         size = 0;
     }
 
+    /** Connects the two nodes first and second such that first.next = second and second.prev = first */
+    private void connectNodes(Node first, Node second) {
+        first.next = second;
+        second.prev = first;
+    }
+
+    /** Connects the three nodes to be sequentially linked. */
+    private void connectNodes(Node first, Node second, Node third) {
+        connectNodes(first, second);
+        connectNodes(second, third);
+    }
+
     @Override
     public void addFirst(Item item) {
-        Node added_node = new Node(item, sentinel, sentinel.next);
-        sentinel.next.prev = added_node;
-        sentinel.next = added_node;
+        Node added_node = new Node();
+        added_node.item = item;
+        connectNodes(sentinel, added_node, sentinel.next);
         size += 1;
     }
 
     @Override
     public void addLast(Item item) {
-        Node added_node = new Node(item, sentinel.prev, sentinel);
-        sentinel.prev.next = added_node;
-        sentinel.prev = added_node;
+        Node added_node = new Node();
+        added_node.item = item;
+        connectNodes(sentinel.prev, added_node, sentinel);
         size += 1;
     }
 
@@ -77,7 +89,7 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         }
 
         Item removed_item = sentinel.next.item;
-        sentinel.next = sentinel.next.next;
+        connectNodes(sentinel, sentinel.next.next);
         size -= 1;
         return removed_item;
     }
@@ -89,10 +101,12 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         }
 
         Item removed_item = sentinel.prev.item;
-        sentinel.prev = sentinel.prev.prev;
+        connectNodes(sentinel.prev.prev, sentinel);
         size -= 1;
         return removed_item;
     }
+
+
 
     @Override
     public Item get(int index) {

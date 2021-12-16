@@ -155,4 +155,61 @@ public class LinkedListDequeTest {
         assertTrue("Should have the same value", a.getRecursive(1) == 2);
         assertTrue("Should have the same value", a.getRecursive(a.size() - 1) == 5);
     }
+
+    @Test
+    public void thoroughDequeTest() {
+        LinkedListDeque<Integer> a = new LinkedListDeque<>();
+
+        assertTrue(a.isEmpty());
+        assertNull(a.get(0));
+        assertNull(a.get(-1));
+        assertNull(a.get(1));
+
+        // Create list of 10000 elements, 0 through 9999
+        for (int i = 0; i < 10000; i += 1) {
+            a.addLast(i);
+        }
+        assertEquals(0, (int) a.get(0));
+        assertEquals(0, (int) a.getRecursive(0));
+        assertEquals(9999, (int) a.get(9999));
+        assertEquals(10, (int) a.getRecursive(10));
+        assertFalse(a.isEmpty());
+        assertEquals(10000, a.size());
+        assertNull(a.get(-1));
+        assertNull(a.get(10000));
+
+        assertEquals(0, (int) a.removeFirst());
+        assertEquals(1, (int) a.get(0));
+        assertEquals(1, (int) a.getRecursive(0));
+        assertEquals(11, (int) a.getRecursive(10));
+        assertEquals(9999, a.size());
+        assertNull(a.get(-1));
+        assertNull(a.get(9999));
+
+        assertEquals(9999, (int) a.removeLast());
+        assertEquals(5000, (int) a.get(4999));
+        assertEquals(9998, (int) a.get(9997));
+        assertEquals(11, (int) a.getRecursive(10));
+        assertEquals(9998, a.size());
+        assertNull(a.get(-1));
+        assertNull(a.get(9998));
+
+        for (int i = 0; i < 1000; i += 1) {
+            a.removeFirst();
+        }
+        assertEquals(8998, a.size());
+
+        System.out.println(a.size());
+
+        while(a.size() != 0) {
+            a.removeLast();
+        }
+
+        a.printDeque();
+
+        assertTrue(a.isEmpty());
+        assertNull(a.removeFirst());
+        assertNull(a.removeLast());
+
+    }
 }
