@@ -1,7 +1,7 @@
 
 // Item_type is the name of our new parameter, which determines the type
 // of any Item_type variable
-public class SLList<Item>{
+public class SLList<Item> implements List61B<Item>{
     /* The first item, if it exists, is at sentinel.next */
     private StuffNode sentinel;
     // We can cache the size to make retrieving it much faster
@@ -59,10 +59,49 @@ public class SLList<Item>{
         return p.item;
     }
 
+    /**
+     * Returns the i'th item in the list
+     *
+     * @param i
+     */
+    @Override
+    public Item get(int i) {
+        if (size == 0) {
+            return null;
+        }
+        return getHelper(i, sentinel.next);
+    }
+
+    private Item getHelper(int i, StuffNode n) {
+        if (i == 0) {
+            return n.item;
+        }
+        return getHelper(i - 1, n.next);
+    }
+
     public int size() {
         return size;
     }
 
+    public Item removeLast() {
+        StuffNode p = sentinel;
+        while (p.next != null) {
+            p = p.next;
+        }
+        if (p == sentinel) {
+            return null;
+        }
+
+        StuffNode one_before_p = sentinel;
+
+        while(one_before_p.next != p) {
+            one_before_p = one_before_p.next;
+        }
+
+        one_before_p.next = null;
+        return one_before_p.item;
+
+    }
 
     /** Returns the size of the list using helper function. */
 //    public int size() {

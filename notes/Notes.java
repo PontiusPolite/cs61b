@@ -72,7 +72,7 @@ public class Notes {
      */
 
 /*
-LECTURE 3
+LECTURE 3: TESTING
 
 TESTING
 
@@ -100,7 +100,7 @@ in between the two.
 */
 
 /*
-LECTURE 4
+LECTURE 4: REFERENCES, RECURSION, AND LISTS
 
 PRIMITIVES of Java: byte, short, int, long, float, double, boolean, char
 
@@ -127,7 +127,7 @@ outside the frame of the function
 */
 
 /*
-LECTURE 5
+LECTURE 5: SLLISTS, NESTED CLASSES, SENTINEL NODES
 
 LISTS
 - See IntList class for an example of a recursive list data structure
@@ -158,7 +158,7 @@ INVARIANTS
 */
 
 /*
-LECTURE 6
+LECTURE 6: DLLISTS, ARRAYS
 
 DLLIST
 - Doubly Linked List: has pointers to next and prev
@@ -189,7 +189,7 @@ ARRAY LISTS
     }
 
 /*
-LECTURE 7
+LECTURE 7: ALISTS, RESIZING
 
 ALIST
 - DLList has a problem of items far from sentinel node being inefficient to get
@@ -211,7 +211,7 @@ is recovered
 
 
 /*
-LECTURE 8
+LECTURE 8: INHERITANCE AND IMPLEMENTS
 
 INHERITANCE
 - Overloading methods works, but is a crude solution
@@ -247,5 +247,18 @@ JAVA LIST
 - When writing actual code, we use java's built-in java.util.List and java.util.ArrayList
 > List<Integer> L = new ArrayList<>();
 
+ */
+
+/*
+LECTURE 9: EXTENDS, CASTING, HIGHER ORDER FUNCTIONS
+
+IMPLEMENTATION INHERITENCE
+- We can use a 'extends' when we want a class to be a hyponym of another
+    - Poodle extends Dog, Poodle 'is a' Dog
+    - See RotatingSLList.java for example
+- Extends mean the child will inherit all of the following that are public:
+    - instance and static variables
+    - methods
+    - nested classes
 
  */

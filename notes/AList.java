@@ -22,7 +22,7 @@ public class AList<Item> implements List61B<Item>{
 
     /** Resizes the underlying array to the target capacity. */
     private void resize(int capacity) {
-        Item[] a = (Item[]) new Object[capacity];
+            Item[] a = (Item[]) new Object[capacity];
         System.arraycopy(items, 0, a, 0, size);
         items = a;
     }
