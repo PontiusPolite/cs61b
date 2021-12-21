@@ -230,7 +230,7 @@ INTERFACE
     > List61B<String> someList = new AList<String>();
     > someList.addFirst("elk");
 
-IMPLEMENTATION INHERITANCE
+DEFAULT KEYWORD
 - We can write code within the implementation that is used by its children
     - Use 'default' in the method signature
 - These default methods can use methods we've already listed in our interface
@@ -252,13 +252,20 @@ JAVA LIST
 /*
 LECTURE 9: EXTENDS, CASTING, HIGHER ORDER FUNCTIONS
 
-IMPLEMENTATION INHERITENCE
+IMPLEMENTATION INHERITANCE
 - We can use a 'extends' when we want a class to be a hyponym of another
     - Poodle extends Dog, Poodle 'is a' Dog
     - See RotatingSLList.java for example
-- Extends mean the child will inherit all of the following that are public:
+- Extends mean the subclass will inherit all of the following that are public:
     - instance and static variables
     - methods
     - nested classes
+- The 'super' keyword lets you refer to methods/variables in the superclass
+    - super() will call the superclass' constructor
+- You can override methods the exact same way as interfaces
+- Your subclass constructor will always call the superclass constructor silently with super()
+    - HOWEVER, if you need to pass in a parameter, you need to call super(parm) in your constructor
+
+- Every class by default extends the Object class
 
  */
