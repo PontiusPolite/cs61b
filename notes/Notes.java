@@ -268,4 +268,25 @@ IMPLEMENTATION INHERITANCE
 
 - Every class by default extends the Object class
 
+- Implementation Inheritance can break our understanding of abstraction
+    - suppose you have a superclass with methods f and g, and f calls g
+    - if you are the user behind the layer of abstraction, you might not know f calls g. You just
+    know the description and results of calling f and g
+    - if you write a subclass that extends this superclass, and write an override of g that calls
+    super.f (or doesn't implement any override of f), then you've created an infinite loop
+
+CASTING
+- casting forces an expression to have a certain compile-time type
+- it effectively tells java to ignore its type checking duties
+- We'll run into problems at run-time, rather than compile-time, if we cast incorrectly
+
+HIGHER ORDER FUNCTIONS
+- functions couldn't be passed as variables in old versions of java
+    - there isn't a 'function' type
+    - This is allowed after Java 8
+- See IntUnaryInterface / TenX / HoFDemo for example
+- We take advantage of the fact that we can pass in an instance of the interface
+into the function, which itself has an 'apply' method. That apply method can be specified
+in any subclasses of that interface. So, f(f(x)) will be f.apply(f.apply(x)).
+
  */
