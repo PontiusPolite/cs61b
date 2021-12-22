@@ -132,7 +132,7 @@ public class ArrayDeque<Item> implements Deque<Item>{
         return items[index + startIndex];
     }
 
-    /** Used for testing, delete after */
+    /** Used for testing purposes, prints out the Deque, its size, and indices. */
     private void printStats() {
         System.out.print("Current List: ");
         this.printDeque();
