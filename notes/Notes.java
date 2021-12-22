@@ -274,19 +274,46 @@ IMPLEMENTATION INHERITANCE
     know the description and results of calling f and g
     - if you write a subclass that extends this superclass, and write an override of g that calls
     super.f (or doesn't implement any override of f), then you've created an infinite loop
+    - For this reason, it's sometimes something to avoid
 
 CASTING
 - casting forces an expression to have a certain compile-time type
 - it effectively tells java to ignore its type checking duties
 - We'll run into problems at run-time, rather than compile-time, if we cast incorrectly
+- Casting only 'lasts' for the one line it is in. You're forcing the compiler to accept a type
 
 HIGHER ORDER FUNCTIONS
 - functions couldn't be passed as variables in old versions of java
     - there isn't a 'function' type
-    - This is allowed after Java 8
+    - This is allowed after Java 7
 - See IntUnaryInterface / TenX / HoFDemo for example
 - We take advantage of the fact that we can pass in an instance of the interface
 into the function, which itself has an 'apply' method. That apply method can be specified
 in any subclasses of that interface. So, f(f(x)) will be f.apply(f.apply(x)).
+
+ */
+
+/*
+LECTURE 10: SUBTYPE POLYMORPHISM VS. HoFs
+- There's no need to override static methods or use same-name variables in a subclass
+    - This is called 'hiding' and is bad practice
+
+POLYMORPHISM
+- providing a single interface to entities of different types
+- Suppose we want to have a single 'compare' function for objects
+    - We created an interface OurComparable.java
+    - We made ComparableDog implement OurComparable
+    - We created a max method in Maximizer.java that uses the compareTo method
+    of OurComparable objects
+- There are some problems with the above implementation
+    - Strange casting to compare Dogs
+    - no existing classes implement OurComparable, we made it up
+- We can use the built-in Comparable<T> interface
+
+COMPARATOR
+- The 'natural order' sometimes refers to the ordering implied by compareTo
+
+-These comparison interfaces let us make 'callbacks' to functions like compareTo
+- Java doesn't have explicit function passing like python, so this is what we use
 
  */

@@ -17,6 +17,10 @@ public class Dog {
         }
     }
 
+    public void bark() {
+        System.out.println("Bark! " + weightInPounds);
+    }
+
     public static Dog maxDog(Dog d1, Dog d2) {
         if (d1.weightInPounds > d2.weightInPounds) {
             return d1;
