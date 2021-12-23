@@ -317,3 +317,18 @@ COMPARATOR
 - Java doesn't have explicit function passing like python, so this is what we use
 
  */
+
+/*
+LECTURE 11: EXCEPTIONS, ITERATORS, OBJECT METHODS
+
+JAVA LISTS AND SETS
+- We use the built-in List interface with several implementations, i.e. ArrayList
+- Sets can only have one copy of each item, and have no sense of order
+    > Set<String> S = new HashSet<>();
+
+ENHANCED FOR LOOP
+> for (int n : list)
+- We can enable our home-made lists to use this syntax, see ArraySet
+- This syntax uses an iterator and while loop to access each item
+
+ */

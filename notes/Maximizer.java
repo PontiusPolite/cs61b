@@ -14,7 +14,7 @@ public class Maximizer {
         ComparableDog[] dogs = {new ComparableDog("Ted", 3),
                 new ComparableDog("Luna", 9),
                 new ComparableDog("Porl", 15)};
-        ComparableDog maxDog = (ComparableDog) max(dogs);
-        maxDog.bark();
+        //ComparableDog maxDog = ComparableDog max(dogs);
+        //maxDog.bark();
     }
 }
