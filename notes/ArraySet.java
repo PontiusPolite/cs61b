@@ -2,10 +2,11 @@
  * Created by Carson Crow on 12/23/2021
  */
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Iterator;
 
-public class ArraySet<T> {
+public class ArraySet<T> implements Iterable{
     private T[] items;
     private int size;
 
@@ -38,15 +39,54 @@ public class ArraySet<T> {
         return size;
     }
 
+    /** Returns an iterator into ME */
+    public Iterator<T> iterator() {
+        return new ArraySetIterator();
+    }
+
+    private class ArraySetIterator implements Iterator<T> {
+        private int pos;
+        public ArraySetIterator() {
+            pos = 0;
+        }
+
+        public boolean hasNext() {
+            return pos < size;
+        }
+
+        public T next() {
+            T returnItem = items[pos];
+            pos += 1;
+            return returnItem;
+        }
+    }
+
     public static void main(String[] args) {
-        ArraySet<String> s = new ArraySet<>();
+        ArraySet<String> aset = new ArraySet<>();
         //s.add(null);
-        s.add("horse");
-        s.add("fish");
-        s.add("house");
-        s.add("fish");
-        System.out.println(s.contains("horse"));
-        System.out.println(s.size());
+        aset.add("horse");
+        aset.add("fish");
+        aset.add("house");
+        aset.add("fish");
+        System.out.println(aset.contains("horse"));
+        System.out.println(aset.size());
+        System.out.println("-------------------------");
+
+        Set<Integer> javaset = new HashSet<>();
+        javaset.add(5);
+        javaset.add(23);
+        javaset.add(42);
+
+        // Iterator example
+        Iterator<Integer> seer = javaset.iterator();
+        while (seer.hasNext()) {
+            int i = seer.next();
+            System.out.println(i);
+        }
+
+        for (String a : aset) {
+            System.out.println(a);
+        }
 
     }
 

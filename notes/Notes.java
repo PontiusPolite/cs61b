@@ -329,6 +329,9 @@ JAVA LISTS AND SETS
 ENHANCED FOR LOOP
 > for (int n : list)
 - We can enable our home-made lists to use this syntax, see ArraySet
-- This syntax uses an iterator and while loop to access each item
+- This syntax uses an iterator and while(hasNext) loop to access each item
+    - We need to add an iterator() to the class that returns an Iterator<T>
+    - The returned Iterator<T> needs to have hasNext() and next() implemented
+    - The class also needs to implement Iterable<T>
 
  */
