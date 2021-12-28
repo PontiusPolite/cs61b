@@ -253,10 +253,10 @@ JAVA LIST
 LECTURE 9: EXTENDS, CASTING, HIGHER ORDER FUNCTIONS
 
 IMPLEMENTATION INHERITANCE
-- We can use a 'extends' when we want a class to be a hyponym of another
+- We can use a 'extends' when we want a class to be a hypernym of another
     - Poodle extends Dog, Poodle 'is a' Dog
     - See RotatingSLList.java for example
-- Extends mean the subclass will inherit all of the following that are public:
+- Extends mean the subclass will inherit all the following that are public:
     - instance and static variables
     - methods
     - nested classes
@@ -333,5 +333,12 @@ ENHANCED FOR LOOP
     - We need to add an iterator() to the class that returns an Iterator<T>
     - The returned Iterator<T> needs to have hasNext() and next() implemented
     - The class also needs to implement Iterable<T>
+
+OBJECT METHODS: toString() and equals()
+- The implementation of toString() in the Object class is the object name, an @ sign, and its
+memory location
+- STRINGBUILDER: see ArraySet.toString() for example
+
+
 
  */

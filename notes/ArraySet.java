@@ -3,10 +3,9 @@
  */
 
 import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
+import java.util.*;
 
-public class ArraySet<T> implements Iterable{
+public class ArraySet<T> implements Iterable<T>{
     private T[] items;
     private int size;
 
@@ -61,6 +60,67 @@ public class ArraySet<T> implements Iterable{
         }
     }
 
+    /*
+    @Override
+    public String toString() {
+        // Warning: this is very slow. Adding a single character requires a new copy of the string
+        String returnString = "{";
+        for (int i = 0; i < size - 1; i += 1) {
+            returnString += items[i].toString();
+            returnString += ", ";
+        }
+        returnString += items[size - 1];
+        returnString += "}";
+
+        // We can use a string builder instead, which runs in linear time
+        StringBuilder returnSB = new StringBuilder("{");
+        for (int i = 0; i < size - 1; i += 1) {
+            returnSB.append(items[i].toString());
+            returnSB.append(", ");
+        }
+        returnSB.append(items[size - 1]);
+        return returnSB.toString();
+    } */
+
+    @Override
+    /** A better toString method than the one above, using join(). */
+    public String toString() {
+        List<String> listOfItems = new ArrayList<>();
+        for (T x : this) {
+            listOfItems.add(x.toString());
+        }
+        return "{" + String.join(",", listOfItems) + "}";
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (other.getClass() != this.getClass()) {
+            return false;
+        }
+        ArraySet<T> o = (ArraySet<T>) other;
+        if (o.size() != this.size()) {
+            return false;
+        }
+        for (T item : this) {
+            if (!o.contains(item)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** Allows you to create an ArraySet by plugging in a list of values */
+    public static <Glerp> ArraySet<Glerp> of(Glerp... stuff) { // A var-arg, variable number of arguments
+        ArraySet<Glerp> returnSet = new ArraySet<>();
+        for (Glerp x : stuff) {
+            returnSet.add(x);
+        }
+        return returnSet;
+    }
+
     public static void main(String[] args) {
         ArraySet<String> aset = new ArraySet<>();
         //s.add(null);
@@ -70,6 +130,11 @@ public class ArraySet<T> implements Iterable{
         aset.add("fish");
         System.out.println(aset.contains("horse"));
         System.out.println(aset.size());
+
+        for (String a : aset) {
+            System.out.println(a);
+        }
+
         System.out.println("-------------------------");
 
         Set<Integer> javaset = new HashSet<>();
@@ -84,9 +149,13 @@ public class ArraySet<T> implements Iterable{
             System.out.println(i);
         }
 
-        for (String a : aset) {
-            System.out.println(a);
-        }
+        System.out.println("-------------------------");
+
+        ArraySet<String> ofExample = ArraySet.of("hi", "how", "are", "you");
+        System.out.println(ofExample);
+
+
+
 
     }
 
