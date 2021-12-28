@@ -53,6 +53,19 @@ public class ArrayDequeTest {
             a.addLast(i);
         }
 
+        assertEquals(0, (int) a.get(0));
+        assertEquals(9999, (int) a.get(a.size() - 1));
+        assertEquals(5000, (int) a.get(5000));
+
+        for (int i = 29999; i >= 20000; i -= 1) {
+            a.addFirst(i);
+        }
+
+        assertEquals(20000, (int) a.get(0));
+        assertEquals(9999, (int) a.get(a.size() - 1));
+        assertEquals(29999, (int) a.get(9999));
+        assertEquals(25000, (int) a.get(5000));
+
     }
 
 }

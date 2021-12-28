@@ -39,7 +39,7 @@ public class ArrayDeque<Item> implements Deque<Item>{
     @Override
     public void addFirst(Item item) {
         if (!spaceAvailableInFront()) {
-            addFrontSpaceToArray(size);
+            addFrontSpaceToArray(size + 1);
         }
 
         startIndex -= 1;
