@@ -339,6 +339,61 @@ OBJECT METHODS: toString() and equals()
 memory location
 - STRINGBUILDER: see ArraySet.toString() for example
 
+ */
+
+/*
+LAB 4: GIT
+$ git init: creates repo
+    - starts keeping track of staging area and commits
+$ git add: lets git know which files should be made a snapshot of (committed)
+    - this adds the files to the staging area
+    - the staging area contains the version of the project to be committed
+$ git commit: makes a snapshot of the current version
+    - the staging area is cleared
+    - the first commit creates the master and HEAD pointers
+    - on subsequent commit, we clone the previous one
+        - the staging area is used to modify the new commit
+        - the master and HEAD pointers are moved to the new commit
+    - the master pointer always points to the latest commit
+$ git checkout: controls the HEAD pointer
+    - the HEAD is 'detached' when it's not pointing to the tip of some branch
+    - git checkout master returns to the tip of the master branch
+    - you can't checkout if your repo isn't in a clean state
+    - checkout will automatically stage all changed files from going back to older version
+        - you can then commit this older version as the latest snapshot
+$ git reset HEAD [file]
+    - unstages the specified file, so it is not committed
+$ git add [forgotten-file]
+$ git commit --amend
+    - lets you amend the previous commit by adding a file or changing the commit message
+
+REMOTE REPOS
+$ git clone [remote-repo-url]
+    - makes a copy of the repository on your computer from the latest commit
+    - also records the url for future data transfers
+    - gives it the special remote-repo-name 'origin'
+$ git remote add [remote-repo-name] [remote-repo-url]
+    - records a new location for data transfers
+$ git pull [remote-repo] master
+    - get the most recent copy of all of the files at the remote repo
+$ git push [remote-repo] master
+    - pushes the most recent copy of your files to the remote repo
+
+BRANCHES
+- Branches allow multiple versions of the code to be worked on/changed and then later merged
+$ git branch [new-branch-name]
+$ git checkout [new-branch-name]
+OR
+$ git checkout -b [new-branch-name]
+    - both do the same thing
+
+$ git branch -d [branch-to-delete]
+$ git branch -v
+    - shows which branch you are on
+
+$ git checkout master
+$ git merge [branch-to-be-merged-with-current]
+    - will merge branch with the master branch
 
 
  */
