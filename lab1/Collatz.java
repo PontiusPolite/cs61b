@@ -4,7 +4,6 @@
 public class Collatz {
 
     /** Returns the next number in the Collatz Sequence following n */
-    // Adding this comment for the sake of a commit change
     public static int nextNumber(int n) {
         if (n == 1) {
             return 1;
