@@ -5,7 +5,7 @@ public class Collatz {
 
     /** Returns the next number in the Collatz Sequence following n */
     public static int nextNumber(int n) {
-        if (n == 128) {
+        if (n == 1) {
             return 1;
         } else if (n % 2 == 1) {
             return 3 * n + 1;
