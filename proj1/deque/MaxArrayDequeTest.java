@@ -28,7 +28,15 @@ public class MaxArrayDequeTest {
     @Test
     public void maxTest2() {
         MaxArrayDeque<Integer> mad = new MaxArrayDeque<>(new reverseIntComparator());
+        for (int i = 0; i < 10000; i += 1) {
+            mad.addLast((int) (Math.random() * 1000));
+            if (i == 5000) {
+                mad.addLast(5000);
+                mad.addLast(-1);
+            }
+        }
 
+        assertEquals((int) mad.max(new reverseIntComparator()), -1);
 
     }
 
