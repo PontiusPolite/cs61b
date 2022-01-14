@@ -87,13 +87,29 @@ public class ArrayDequeTest {
         while (a.get(0) != 5000) {
             a.removeFirst();
         }
+
         int y = a.removeFirst();
         assertEquals(y, 5000);
     }
 
     @Test
     public void testRemoveLast() {
-        
+        ArrayDeque<Integer> a = new ArrayDeque<>();
+        for (int i = 0; i < 10000; i += 1) {
+            a.addLast(i);
+        }
+
+        int x = a.removeLast();
+        assertEquals(x, 9999);
+        x = a.removeLast();
+        assertEquals(x, 9998);
+
+        while (a.get(a.size() - 1) != 5000) {
+            a.removeLast();
+        }
+
+        x = a.removeLast();
+        assertEquals(x, 5000);
     }
 
 }
