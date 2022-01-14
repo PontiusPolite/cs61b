@@ -110,7 +110,35 @@ public class ArrayDeque<Item> implements Deque<Item>{
      */
     @Override
     public Item removeFirst() {
-        return null;
+        Item removed_item = this.get(0);
+        items[startIndex] = null;
+        startIndex += 1;
+        size -= 1;
+        if (arrayBelowUsageFactor(0.25)) {
+            trimArrayToLength(this.size);
+        }
+        return removed_item;
+    }
+
+    /** Returns true if the ratio of the deque size to the array length is below the
+     * specified usage_factor. */
+    public boolean arrayBelowUsageFactor(double usage_factor) {
+        if (this.size / items.length < usage_factor) {
+            return true;
+        }
+        return false;
+    }
+
+    /** Resizes the underlying array to the specified length if that length is larger
+     * than the deque size. */
+    public void trimArrayToLength(int length) {
+        if (length > this.size) {
+            return;
+        }
+        Item[] new_array = (Item[]) new Object[length];
+        System.arraycopy(this.items, startIndex, new_array, 0, this.size);
+        this.startIndex = 0;
+        items = new_array;
     }
 
     /**
@@ -118,7 +146,13 @@ public class ArrayDeque<Item> implements Deque<Item>{
      */
     @Override
     public Item removeLast() {
-        return null;
+        Item removed_item = this.get(this.size - 1);
+        items[this.size - 1] = null;
+        size -= 1;
+        if (arrayBelowUsageFactor(0.25)) {
+            trimArrayToLength(this.size);
+        }
+        return removed_item;
     }
 
     /**

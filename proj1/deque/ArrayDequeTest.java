@@ -1,6 +1,9 @@
 package deque;
 
 import org.junit.Test;
+
+import javax.annotation.concurrent.ThreadSafe;
+
 import static org.junit.Assert.*;
 
 public class ArrayDequeTest {
@@ -66,6 +69,31 @@ public class ArrayDequeTest {
         assertEquals(29999, (int) a.get(9999));
         assertEquals(25000, (int) a.get(5000));
 
+    }
+
+    @Test
+    public void testRemoveFirst() {
+        ArrayDeque<Integer> a = new ArrayDeque<>();
+        for (int i = 0; i < 10000; i += 1) {
+            a.addLast(i);
+        }
+        int x = a.removeFirst();
+        assertEquals(x, 0);
+        x = a.removeFirst();
+        assertEquals(x, 1);
+
+        assertEquals(a.size(), 9998);
+
+        while (a.get(0) != 5000) {
+            a.removeFirst();
+        }
+        int y = a.removeFirst();
+        assertEquals(y, 5000);
+    }
+
+    @Test
+    public void testRemoveLast() {
+        
     }
 
 }

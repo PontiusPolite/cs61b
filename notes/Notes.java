@@ -313,9 +313,9 @@ POLYMORPHISM
 COMPARATOR
 - The 'natural order' sometimes refers to the ordering implied by compareTo
 
--These comparison interfaces let us make 'callbacks' to functions like compareTo
+- These comparison interfaces let us make 'callbacks' to functions like compareTo
 - Java doesn't have explicit function passing like python, so this is what we use
-
+- See project 1 MaxArrayDeque for implementation
  */
 
 /*
