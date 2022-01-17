@@ -1,6 +1,7 @@
 package deque;
 
 import net.sf.saxon.functions.Minimax;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 

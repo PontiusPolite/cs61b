@@ -9,7 +9,9 @@ public interface Deque<T> {
     public void addLast(T item);
 
     /** Returns true if deque is empty. */
-    public boolean isEmpty();
+    default public boolean isEmpty() {
+        return (size() == 0);
+    }
 
     /** Returns the number of items in the deque. */
     public int size();

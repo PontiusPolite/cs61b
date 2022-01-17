@@ -1,32 +1,32 @@
 package deque;
 
-public class ArrayDeque<Item> implements Deque<Item>{
+public class ArrayDeque<T> implements Deque<T>{
 
-    private Item[] items;
+    private T[] items;
     private int size;
     // startIndex refers to the index of our first item in the items array
     // There is a buffer of memory boxes at both the front and back of our array for adding first
     // and last elements.
-    private int startIndex;
+    private int start_index;
 
     /** Create an empty ArrayDeque */
     public ArrayDeque() {
-        items = (Item[]) new Object[8];
+        items = (T[]) new Object[8];
         size = 0;
-        startIndex = 0;
+        start_index = 0;
     }
 
     /** Adds space in the front of our array for adding elements */
     private void addFrontSpaceToArray(int space) {
-        Item[] new_array = (Item[]) new Object[space + size];
+        T[] new_array = (T[]) new Object[space + size];
         System.arraycopy(items, 0, new_array, space, size);
-        startIndex += space;
+        start_index += space;
         items = new_array;
     }
 
     /** Adds space at the back of our array for adding elements */
     private void addBackSpaceToArray(int space) {
-        Item[] new_array = (Item[]) new Object[space + size];
+        T[] new_array = (T[]) new Object[space + size];
         System.arraycopy(items, 0, new_array, 0, size);
         items = new_array;
     }
@@ -34,57 +34,57 @@ public class ArrayDeque<Item> implements Deque<Item>{
     /**
      * Adds an item to the front of the deque.
      *
-     * @param item
+     * @param t
      */
     @Override
-    public void addFirst(Item item) {
+    public void addFirst(T t) {
         if (!spaceAvailableInFront()) {
             addFrontSpaceToArray(size + 1);
         }
 
-        startIndex -= 1;
-        items[startIndex] = item;
+        start_index -= 1;
+        items[start_index] = t;
         size += 1;
     }
 
     /** Returns true if there is space available in the array before the first item. */
     private boolean spaceAvailableInFront() {
-        if (startIndex == 0) {
-            return false;
+        if (start_index != 0) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
      * Adds an item to the back of the deque.
      *
-     * @param item
+     * @param t
      */
     @Override
-    public void addLast(Item item) {
+    public void addLast(T t) {
         if (!spaceAvailableInBack()) {
             addBackSpaceToArray(size);
         }
 
-        items[size] = item;
+        items[size + start_index] = t;
         size += 1;
     }
 
     /** Returns true if there is space available in the array after the last item. */
     private boolean spaceAvailableInBack() {
-        if (startIndex + size == items.length) {
-            return false;
+        if (start_index + size != items.length) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
      * Returns true if deque is empty.
      */
-    @Override
-    public boolean isEmpty() {
-        return (size == 0);
-    }
+//    @Override
+//    public boolean isEmpty() {
+//        return (size == 0);
+//    }
 
     /**
      * Returns the number of items in the deque.
@@ -99,7 +99,7 @@ public class ArrayDeque<Item> implements Deque<Item>{
      */
     @Override
     public void printDeque() {
-        for (int i = startIndex; i < size; i++) {
+        for (int i = start_index; i < size; i++) {
             System.out.print(items[i] + " ");
         }
         System.out.println();
@@ -109,20 +109,20 @@ public class ArrayDeque<Item> implements Deque<Item>{
      * Removes and returns the item at the front of the deque.
      */
     @Override
-    public Item removeFirst() {
-        Item removed_item = this.get(0);
-        items[startIndex] = null;
-        startIndex += 1;
+    public T removeFirst() {
+        T removed_t = this.get(0);
+        items[start_index] = null;
+        start_index += 1;
         size -= 1;
-        if (arrayBelowUsageFactor(0.25)) {
+        if (isArrayBelowUsageFactor(0.25)) {
             trimArrayToLength(this.size);
         }
-        return removed_item;
+        return removed_t;
     }
 
     /** Returns true if the ratio of the deque size to the array length is below the
      * specified usage_factor. */
-    public boolean arrayBelowUsageFactor(double usage_factor) {
+    public boolean isArrayBelowUsageFactor(double usage_factor) {
         if (this.size / items.length < usage_factor) {
             return true;
         }
@@ -135,9 +135,9 @@ public class ArrayDeque<Item> implements Deque<Item>{
         if (length > this.size) {
             return;
         }
-        Item[] new_array = (Item[]) new Object[length];
-        System.arraycopy(this.items, startIndex, new_array, 0, this.size);
-        this.startIndex = 0;
+        T[] new_array = (T[]) new Object[length];
+        System.arraycopy(this.items, start_index, new_array, 0, this.size);
+        start_index = 0;
         items = new_array;
     }
 
@@ -145,14 +145,14 @@ public class ArrayDeque<Item> implements Deque<Item>{
      * Removes and returns the item at the back of the deque.
      */
     @Override
-    public Item removeLast() {
-        Item removed_item = this.get(this.size - 1);
+    public T removeLast() {
+        T removed_t = this.get(this.size - 1);
         items[this.size - 1] = null;
         size -= 1;
-        if (arrayBelowUsageFactor(0.25)) {
+        if (isArrayBelowUsageFactor(0.25)) {
             trimArrayToLength(this.size);
         }
-        return removed_item;
+        return removed_t;
     }
 
     /**
@@ -162,14 +162,14 @@ public class ArrayDeque<Item> implements Deque<Item>{
      * @param index
      */
     @Override
-    public Item get(int index) {
-        return items[index + startIndex];
+    public T get(int index) {
+        return items[index + start_index];
     }
 
     /** Used for testing purposes, prints out the Deque, its size, and indices. */
     private void printStats() {
         System.out.print("Current List: ");
         this.printDeque();
-        System.out.println("Size: " + size + "; Start Index: " + startIndex + "; array.length: " + items.length);
+        System.out.println("Size: " + size + "; Start Index: " + start_index + "; array.length: " + items.length);
     }
 }
