@@ -395,5 +395,30 @@ $ git checkout master
 $ git merge [branch-to-be-merged-with-current]
     - will merge branch with the master branch
 
+ */
+
+/*
+LECTURE 12: COMMAND LINE PROGRAMMING, GIT
+
+COMMAND LINE COMPILATION
+- Hello.java -> javac (compiler) -> Hello.class -> java (interpreter) -> program runs
+- You can give input from the command line which will be String[] args
+    $ java HelloWorld x y z
+
+GIT
+- Git is written in C, which is compiled into a binary that doesn't require an interpreter
+    - Thus using the $git command calls the git binary and passes the arguments
+
+- Git uses the git-SHA1 hash to label versions of files
+    - The first two digits of the hash are used to label a folder in the .git directory
+    - The rest is used to label a file in that folder which contains the compressed contents of
+    the commit
+- Commits
+    - A commit has an author, a date, a commitMessage, and a parentID
+
+I/O WITH OBJECTS
+- We can read and write java objects into a file as long as the class implements Serializable
+- With a file f and object c, we can use Utils.writeObject(f, c);
+- Then read it back with Utils.readObject(f, ~.class); where ~ is the name of the class
 
  */
