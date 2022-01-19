@@ -207,7 +207,7 @@ Speed Analysis:
 - We also want to null out deleted objects, which makes sure the memory that object occupied
 is recovered
  */
-}
+
 
 
 /*
@@ -422,3 +422,48 @@ I/O WITH OBJECTS
 - Then read it back with Utils.readObject(f, ~.class); where ~ is the name of the class
 
  */
+
+/*
+LECTURE 13: ASYMPTOTICS I
+
+Techniques for Measuring Computational Cost:
+- Timing: easy to measure, but may result in lots of time waiting
+- Count Operations: machine independent, scalable, but hard to compute and doesn't necessarily
+measure time
+- Count Operations in terms of input size N: tells you how algorithm scales, but even more tedious
+to compute
+
+ASYMPTOTIC BEHAVIOR
+- in most cases, we only care about what happens for very large N
+- algorithms that scale well have better asymptotic runtimes 
+
+BIG THETA NOTATION (we'll use Q in text)
+- theta represents a family of functions which serve as both upper and lower bound
+- for a function R(N) (and we're using E to mean 'is an element of'):
+    - R(N) E Q(f(N)) if there exists positive constants k1 and k2 such that
+    k1 * f(N) <= R(N) <= k2 * f(N)
+    - Example:  40sin(N) + 4N^2 E Q(N^2)
+
+BIG O NOTATION
+- closely related to big theta, but only for the upper bound
+- while N^3 + 3N^4 E Q(N^4) and E O(N^4), it is also an element of say O(N^6)
+
+Q(f(N)): order of growth is f(N)
+O(f(N)): order of growth is less than or equal to f(N)
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
