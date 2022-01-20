@@ -453,6 +453,54 @@ O(f(N)): order of growth is less than or equal to f(N)
 
 */
 
+/*
+LECTURE 14: DISJOINT SETS
+
+- Disjoint Sets Data Structure has 2 operations
+    - connect(x, y)
+    - is Connected(x, y) 
+        - connections can be transitive, not necessarily direct
+
+- We can think of connecting two items as putting them in the same set
+Now we need a way to keep track of these sets:
+- Naive: a list of these sets. But this takes O(N) runtime.
+
+- QuickFind: use an array, where the item i belongs to the set int[i]. Example:
+        SETS                        ARRAY
+{0, 1, 2, 4}, {3, 5}, {6} -> [4, 4, 4, 5, 4, 5, 6]    0 belongs to 4, 1 belongs to 4, etc.
+    set4       set5  set6     0  1  2  3  4  5  6
+    - With this approach, isConnected is constant, but connect is still linear since you have
+to add items to the array.
+
+- QuickUnion: assign each item a parent instead of an id. So our new array looks like:
+[-1, 0, 1, -1, 0, 3, -1]
+  0  1  2   3  4  5   6
+    - if an item has no parent, it is assigned -1
+    - starts to look like a tree ;)
+    - Suppose we want to connect 5 to 2. We find the root of 5, and connect that to the
+     root of 2.
+        - This can become expensive though if the tree is really tall
+        - Finding the root is Q(N)
+        - see QuickUnionDS for an implementation
+
+- WeightedQuickUnion: modified to avoid tall trees
+    - we need to track tree size
+    - new rule: always link root of smaller tree (by weight, not height) to larger tree
+    - to track sizes, we can use the root parent value
+        - a root parent of -6 means the tree has size 6
+    - now the worst case tree height is Q(log N)
+        - think about how the tree grows as quickly as possible
+
+PATH COMPRESSION
+- What if, when we determine the root, we set the parent of all items on the path we take to
+the root
+    - Helps widen our tree and remove height
+    - Form of memoization, caching
+    - Results in operations that are close to amortized constant time
+        - amortized meaning average
+    - log* is the iterative logarithm, and is <= 5 for realistic inputs
+*/
+
 
 
 
