@@ -501,6 +501,134 @@ the root
     - log* is the iterative logarithm, and is <= 5 for realistic inputs
 */
 
+/*
+LECTURE 15: ASYMPTOTICS II
+
+- There's no magic shortcut, but these sums are important to remember:
+    - 1 + 2 + 3 + ... + N = N(N+1)/2 = Q(N^2)
+    - 1 + 2 + 4 + 8 + ... + N = 2N-1 = Q(N)
+
+EXAMPLES:
+ */
+    /** Checks if there are duplicates in a sorted array A. */
+    boolean dup1(int[] A) {
+        int N = A.length;
+        for (int i = 0; i < N; i += 1) {
+            for (int j = i + 1; j < N; j += 1) {
+                if (A[i] == A[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    /*
+    - Choosing == as our operation,
+    - Worst case number of == operations: N(N-1)/2
+    - Since == is Q(N), the whole method is Q(N)
+    - We can draw a grid with side lengths i and j, and color in the section that == will happen
+    for a geometric understanding
+     */
+
+    /** Example of nested loops that isn't Q(N^2). */
+    void printParty(int N) {
+        for (int i = 1; i <= N; i = i * 2) {
+            for (int j = 0; j < i; j += 1) {
+                System.out.println("hello");
+                int ZUG = 1 + 1;
+            }
+        }
+    }
+    /*
+    - Cost model C(N), println("hello") calls:
+    N     1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18
+    C(N)  1  3  3  7  7  7  7  15 15 15  15  15  15  15  15  31  31  31
+
+    - The runtime is Q(N), not Q(N*logN) despite it seeming that way at first
+     */
+
+    /** Recursive function example. */
+    public static int f3(int n) {
+        if (n <= 1) {
+            return 1;
+        }
+        return f3(n-1) + f3(n-1);
+    }
+    /*
+    - Example of tree recursive call - every time you increase N by one, you double the work needed
+    - Algebraic approach: we can express the number of calls to f3:
+        C(N) = 1 + 2 + 4 + ... + 2^(N-1)
+    - We know that 1 + 2 + 4 + ... + P = 2P - 1, so C(N) = 2*2^(N-1) - 1 = 2^N - 1
+    - Thus f3 E Q(2^N)
+
+    - Recurrence Relation approach:
+    - C(1) = 1, if N equals 1 there's only 1 call to f3
+    - C(N) = 2C(N-1) + 1
+        - solving the algebra here is harder, but doable
+     */
+
+/*
+Binary Search Example
+- We have an array of sorted items, and a key we want to find. Start with low, high and mid
+pointers (mid pointer goes to middle rounded down)
+- Compare key against mid pointer
+    - Too small, move to left side. Adjust high pointer to be one below the previous mid,
+    and move mid to the middle of our selection
+    - Too big, move to right side. Adjust low pointer to be one above previous mid, and move
+    mid to middle of new selection
+    - Equal, found
+- The number of entries still left to search is N = high - low + 1
+- Quite tricky to implement
+
+- Intuitive worst case runtime: logN
+    - We start with N items, then have N/2, then N/4...
+
+ - Algebraically: C(N) = floor(log_2(N)) - 1, where C(N) is the number of function calls
+    - We can determine this by just counting function calls for given N in a chart
+    - Since floor(f(N)) E Q(f(N)), floor(log_2(N)) E Q(logN)
+ */
+
+/*
+Selection Sort (Prelude to Merge Sort)
+- find the smallest unfixed item, and move it to the front and fix it
+- sort the remaining items
+- This is Q(N^2)
+
+- Arbitrary Unit of Time: we can just say an operation takes a certain amount of AU
+units of time. For selection sort, we might say for N = 6 it takes 36 AU, then for N = 64,
+it takes 2048 AU.
+
+Array Merging:
+- We can glue two sorted arrays together by comparing the first items, and taking the smallest one,
+then repeating on the rest
+- This will combine the two sorted arrays into one big sorted array.
+- Q(N) runtime for N total elements
+- Merging is faster than selection sort, and because sorting is N^2, it's beneficial to
+split the array up, sort, and then merge them.
+    - Say for N = 64, just selection sort would be 2048 AU
+    - If we split into two 32 length arrays, then sorting each would be 512 AU
+    - Merging them would be only 64 AU, so the total is 1088 AU for the same sorting
+    - This is still Q(N^2), but it's empirically faster than only selection sort.
+    - We can do better by splitting it up further, all the way down to arrays of one element
+        - At this point, we don't even need selection sort
+
+Merge Sort:
+ - if array is size 1, do nothing
+ - mergesort the left half
+ - mergesort the right half
+ - merge the results
+
+Intuitive Analysis:
+ - Every layer takes about N AU
+ - Top level is N, next level is N/2 + N/2, next level is N/4+N/4+N/4+N/4
+ - So the total runtime is Nk for k levels.
+ - There are log_2(N) levels
+ - Overall runtime is Q(Nlog(N))
+
+
+ */
+
+
 
 
 
