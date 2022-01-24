@@ -1,6 +1,9 @@
 package capers;
 
+import net.sf.saxon.trans.SymbolicName;
+
 import java.io.File;
+import java.util.Arrays;
 
 import static capers.Utils.*;
 
@@ -51,8 +54,13 @@ public class Main {
             CapersRepository.writeStory(text);
             break;
         case "dog":
+            //TODO
             validateNumArgs("dog", args, 4);
-            // TODO: make a dog
+            Dog d = new Dog(args[1], args[2], Integer.parseInt(args[3]));
+            File f = new File("./dogs/" + args[1]);
+
+
+
             break;
         case "birthday":
             validateNumArgs("birthday", args, 2);

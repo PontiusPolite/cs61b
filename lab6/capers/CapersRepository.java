@@ -18,8 +18,7 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = null; // TODO Hint: look at the `join`
-                                            //      function in Utils
+    static final File CAPERS_FOLDER = join(CWD, ".capers");
 
     /**
      * Does required filesystem operations to allow for persistence.
@@ -31,7 +30,22 @@ public class CapersRepository {
      *    - story -- file containing the current story
      */
     public static void setupPersistence() {
-        // TODO
+        // Check that our .capers directory exists
+        if (!CAPERS_FOLDER.exists()) {
+            CAPERS_FOLDER.mkdir();
+        }
+
+        // Check that ./capers/dogs directory exists
+        File dogs_dir = join(CAPERS_FOLDER, "dogs");
+        if (!dogs_dir.exists()) {
+            dogs_dir.mkdir();
+        }
+
+        // Check that ./capers/story directory exists
+        File story_dir = join(CAPERS_FOLDER, "story");
+        if (!story_dir.exists()) {
+            story_dir.mkdir();
+        }
     }
 
     /**
