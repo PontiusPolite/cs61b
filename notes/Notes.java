@@ -628,6 +628,24 @@ Intuitive Analysis:
 
  */
 
+/*
+PROJECT 2: GITLET NOTES
+- See current working directory (CWD) in program: System.getProperty("user.dir");
+
+FILES
+$ File f = new File ("dummy.txt");
+    - this creates a reference to a file in java, but doesn't actually create the file itself
+$ f.createNewFile();
+    - this will create the file
+$ f.exists();
+    - returns true if f now exists
+- See Utils.java library for more methods on manipulating files
+
+DIRECTORIES
+- directories are also represented as file objects
+$ File d = new File("dummy");
+$ d.mkdir();
+ */
 
 
 
