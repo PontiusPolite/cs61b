@@ -22,7 +22,7 @@ public class CapersRepository {
     /** Main metadata folder. */
     static final File CAPERS_FOLDER = join(CWD, "capers", ".capers");
 
-    static final File STORY_FILE = join(CAPERS_FOLDER, "story");
+    static final File STORY_FILE = join(CAPERS_FOLDER, "story.txt");
 
 
     /**
@@ -50,7 +50,7 @@ public class CapersRepository {
             try {
                 STORY_FILE.createNewFile();
             } catch(Exception e) {
-                System.out.println("Error creating story file: " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }
