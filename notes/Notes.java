@@ -18,6 +18,9 @@ BASICS
 - All functions must be part of a class in java, so they are all methods
 */
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class Notes {
 
     // The below is the method signature
@@ -647,11 +650,75 @@ $ File d = new File("dummy");
 $ d.mkdir();
  */
 
+/*
+LECTURE 16: ADTs, SETS, MAPS, BSTs
 
+ABSTRACT DATA TYPES
+- defined only by its operations, not its implementations (like our List interface)
+- The Stack ADT
+    - push(): puts x on top of stack
+    - pop(): removes and returns the item on top of stack
+    - both a linked list or array implementation could work, although linked list is
+    a bit cleaner
+- The GrabBag ADT
+    - insert(x): inserts x into the grab bag
+    - remove(): removes a random item
+    - sample(): samples a random item without removing
+    - size(): number of items in bag
+    - an array implementation would be fastest
 
+- List, Set, and Map in java extend the Collection interface
 
+MAPS EXAMPLE (same as dictionary in python):
+ */
+    void mapExample() {
+        Map<String, Integer> m = new TreeMap<>();
+        String[] text = {"sumomo", "mo", "momo", "mo", "momo", "no", "uchi"};
+        for (String s : text) {
+            // get the current count of that word in the map, or 0 if it doesn't
+            int currentCount = m.getOrDefault(s, 0);
+            m.put(s, currentCount + 1);
+        }
+    }
+/*
 
+BINARY SEARCH TREES
+- a tree is a collection of nodes and edges, such that between any two nodes there is only one path
+- a rooted tree is a tree where we just call one node the root
+    - every node N except the root has one parent, defined as the first node on the path from
+    N to the root
+    - a node with no child is a leaf
+- in a rooted binary tree, every node has either 0, 1, or 2 children
 
+- A Binary Search Tree is a rooted binary tree with the BST property
+    - for every node X in the tree, every key in the left subtree is less than X's key
+    - every key in the right subtree is greater than X's key
+    - no duplicate keys allowed
+- A BST Search
+    - if searchKey equals T.key, return
+        - if searchKey < T.key, search T.left
+        - if searchKey > T.key, search T.right
+
+- BST Insert Pseudocode
+    static BST insert(BST T, Key ik) {
+        if (T == null)
+            return new BST(ik);
+        if (ik < T.key)
+            T.left = insert(T.left, ik);
+        else if (ik > T.key)
+            T.right = insert(T.right, ik);
+        return T;
+- trust the base case, don't do something like, if (T.left) == null {T.left = new BST(ik);}
+
+- BST Delete
+    - Case 1: deletion key has no children
+        - we just get rid of it
+    - Case 2: deleting a key with one child
+        - move the key's parent pointer to the key's child
+    - Case 3: deletion key has two children
+        - pick either the predecessor or successor
+        - delete it and move the key to the root
+ */
 
 
 
