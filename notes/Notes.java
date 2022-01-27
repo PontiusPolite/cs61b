@@ -720,7 +720,48 @@ BINARY SEARCH TREES
         - delete it and move the key to the root
  */
 
+/*
+LECTURE 17: B-TREES
 
+BST HEIGHT
+- trees can be 'bushy' or 'spindly'
+    - the difference is logarithmic vs linear operation times
+
+- The Depth of a node is its distance from the root, where the root is depth 0
+- The Height is the depth of the deepest leaf
+- The Average Depth is, well, the average of all the node depths
+
+- If you add N items randomly, the expected average depth and expected height are Q(logN)
+    - the problem then is how to randomly add data: hence B-trees
+
+B-TREES
+- avoid adding new leaves by 'overstuffing' the leaf nodes, such that they become lists
+    - set a limit for the number of items in each node
+    - if we go above that limit, pass one of the middle items to the parent node
+        - split the node down the middle, so that now the parent has pointers to each from the
+        middle of its item list
+            - this is to stay logically consistent: suppose we're searching for 16 and
+            reach a leaf with items [12, 14, 20]. We know to check if there's a tree pointer
+            between 14 and 20. If not, we add it to the items, which then need to be split, etc.
+
+- adding items to a node that isn't a leaf can start a chain reaction
+- what if the root is too full?
+    - take a middle item and make it the new root
+        - this maintains a perfectly balanced tree - all leaves are same depth
+
+- our limit of 3 items is called a 2-3-4 Tree, since nodes can have 2-4 children
+- B trees of order L=2 are 2-3 trees.
+
+B-Tree Invariants:
+- all leaves are same depth
+- a non leaf node with k items must have k+1 children
+
+B-Tree Runtime:
+- worst case: height grows with log_L+1(N)
+- best case: log_2(N)
+- overall height is Q(logN)
+
+ */
 
 
 
