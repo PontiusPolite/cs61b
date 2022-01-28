@@ -763,7 +763,49 @@ B-Tree Runtime:
 
  */
 
+/*
+LECTURE 18: RED BLACK TREES
 
+B Trees suffer from some problems:
+- maintaining different node types
+- converting between nodes
+
+BST Structure and Tree Rotation:
+- for N items, there are Catalan(N) different BSTs
+- we can 'rotate' between different BSTs
+    - pick one node, and move it to the left or right
+        - say we're rotating to the right. Merge the node with the left child, the move that node
+        down to the right
+
+Red Black Tree:
+- suppose we have a 2-3 tree, but we want the advantages of a normal balanced B-tree
+- we can split up our 2 item nodes and use a 'red' glue link to tie them together
+    - the red links are typically on the left just for consistency
+        - an LLRB, or left leaning rb tree
+        - suppose we have a 3 node. Take the left item in the node, and make it the child of
+        that node's middle child
+            - this doubles the height, so an LLRB has no more than 2H+1 the height of a 2-3 tree
+
+LLRB Properties:
+- no node has two red links, otherwise it would be a 4 node
+- every path from root to a leaf has same number of black links, since 2-3 tree mapping
+must be balanced
+
+Implementation:
+- we insert as usual into a BST, then use rotations to maintain the 1-1 mapping with a LLRB
+    - this avoids the problems of implementing a 2-3 B Tree
+Insertion Color:
+- new values are always added using a red link
+Inserting to the right:
+- we need to rotate the parent to the left
+Double Insertion on the Left:
+- we allow temporary 4 nodes when two red links are added
+- rotate the top of the first red link to the right
+Splitting Temporary 4 Nodes:
+- flip the colors of all links touching the parent of the two red links
+
+It's possible that the rotation or flip operation will cascade into other fixes
+ */
 
 
 
