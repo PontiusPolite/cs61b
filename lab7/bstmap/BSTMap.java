@@ -1,42 +1,77 @@
 package bstmap;
 
+import java.util.Iterator;
 import java.util.Set;
 
-/* Your implementation BSTMap should implement this interface. To do so,
- * append "implements Map61B<K,V>" to the end of your "public class..."
- * declaration, though you can use other formal type parameters if you'd like.
+/**
+ * Created by Carson Crow on 1/31/2022
  */
-public interface Map61B<K, V> extends Iterable<K> {
+public class BSTMap<K, V> implements Map61B<K, V>{
 
-    /** Removes all of the mappings from this map. */
-    void clear();
+    /**
+     * Removes all of the mappings from this map.
+     */
+    @Override
+    public void clear() {
+
+    }
 
     /** Returns true if this map contains a mapping for the specified key. */
-    boolean containsKey(K key);
+    @Override
+    public boolean containsKey(K key) {
+        return false;
+    }
 
     /** Returns the value to which the specified key is mapped, or null if this
      * map contains no mapping for the key.
      */
-    V get(K key);
+    @Override
+    public V get(K key) {
+        return null;
+    }
 
     /** Returns the number of key-value mappings in this map. */
-    int size();
+    @Override
+    public int size() {
+        return 0;
+    }
 
     /** Associates the specified value with the specified key in this map. */
-    void put(K key, V value);
+    @Override
+    public void put(K key, V value) {
+
+    }
 
     /** Returns a Set view of the keys contained in this map. Not required for Lab 7.
      * If you don't implement this, throw an UnsupportedOperationException. */
-    Set<K> keySet();
+    @Override
+    public Set keySet() {
+        return null;
+    }
 
     /** Removes the mapping for the specified key from this map if present.
      * Not required for Lab 7. If you don't implement this, throw an
      * UnsupportedOperationException. */
-    V remove(K key);
+    @Override
+    public V remove(K key) {
+        return null;
+    }
 
     /** Removes the entry for the specified key only if it is currently mapped to
      * the specified value. Not required for Lab 7. If you don't implement this,
      * throw an UnsupportedOperationException.*/
-    V remove(K key, V value);
+    @Override
+    public V remove(K key, V value) {
+        return null;
+    }
 
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator iterator() {
+        return null;
+    }
 }
