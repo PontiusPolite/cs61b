@@ -22,33 +22,32 @@ public class BSTMap<K extends Comparable<K>, V extends Comparable<V>> implements
     private class BSTNode {
         public K key;
         public V val;
-        public BSTNode left, right, parent;
+        public BSTNode left, right;
 
         /** Creates an empty node. */
         public BSTNode() {
             key = null;
             val = null;
-            left = right = parent = null;
+            left = right = null;
         }
 
         public BSTNode(K node_key, V node_value) {
             key = node_key;
             val = node_value;
-            left = right = parent = null;
+            left = right = null;
         }
 
-        public BSTNode(K node_key, V node_value, BSTNode parent_node,
+        public BSTNode(K node_key, V node_value,
                        BSTNode left_child, BSTNode right_child) {
             key = node_key;
             val = node_value;
-            parent = parent_node;
             left = left_child;
             right = right_child;
         }
     }
 
     /**
-     * Removes all of the mappings from this map.
+     * Removes all key value pairs from this map.
      */
     @Override
     public void clear() {
@@ -56,7 +55,7 @@ public class BSTMap<K extends Comparable<K>, V extends Comparable<V>> implements
         size = 0;
     }
 
-    /** Returns true if this map contains a mapping for the specified key. */
+    /** Returns true if this tree contains a mapping for the specified key. */
     @Override
     public boolean containsKey(K key) {
         return find(key) != null;
@@ -75,24 +74,24 @@ public class BSTMap<K extends Comparable<K>, V extends Comparable<V>> implements
     }
 
     /** Returns the BSTNode with the given key, or null if key is not found. */
-    private BSTNode find(K key) {
-        return findHelper(key, root);
+    private BSTNode find(K find_key) {
+        return findHelper(find_key, root);
     }
 
     /** Returns the BSTNode with the given key, or null if key is not found starting
      * at node T */
-    private BSTNode findHelper(K key, BSTNode T) {
+    private BSTNode findHelper(K find_key, BSTNode T) {
         if (T == null) {
             return null;
         }
-        if (T.key.compareTo(key) == 0) {
+        if (find_key.compareTo(T.key) == 0) {
             return T;
         }
 
-        if (T.key.compareTo(key) < 0){
-            return findHelper(key, T.left);
+        if (find_key.compareTo(T.key) < 0){
+            return findHelper(find_key, T.left);
         } else {
-            return findHelper(key, T.right);
+            return findHelper(find_key, T.right);
         }
     }
 
@@ -106,23 +105,23 @@ public class BSTMap<K extends Comparable<K>, V extends Comparable<V>> implements
     @Override
     public void put(K key, V value) {
         root = putHelper(root, key, value);
+        size += 1;
     }
 
-    private BSTNode putHelper(BSTNode T, K key, V value) {
+    /** Recursive helper to put new key value pairs into our mapping by keeping track of the current
+     * node T
+     */
+    private BSTNode putHelper(BSTNode T, K put_key, V put_value) {
         if (T == null) {
-            return new BSTNode(key, value);
+            return new BSTNode(put_key, put_value);
         }
-        if (key.compareTo(T.key) == 0) {
-            T = new BSTNode(key, value);
+        if (put_key.compareTo(T.key) == 0) {
+            T = new BSTNode(put_key, put_value, T.left, T.right);
         }
-        if (key.compareTo(T.key) == -1) {
-            BSTNode n = putHelper(T.left, key, value);
-            T.left = n;
-            n.parent = T;
+        if (put_key.compareTo(T.key) < 0) {
+            T.left = putHelper(T.left, put_key, put_value);;
         } else {
-            BSTNode n = putHelper(T.right, key, value);
-            T.right = n;
-            n.parent = T;
+            T.right = putHelper(T.right, put_key, put_value);
         }
         return T;
     }
@@ -151,7 +150,8 @@ public class BSTMap<K extends Comparable<K>, V extends Comparable<V>> implements
      * Not required for Lab 7. If you don't implement this, throw an
      * UnsupportedOperationException. */
     @Override
-    public V remove(K key) {
+    public V remove(K key) throws UnsupportedOperationException{
+
         BSTNode kill = find(key);
         if (kill == null) {
             return null;
@@ -163,26 +163,6 @@ public class BSTMap<K extends Comparable<K>, V extends Comparable<V>> implements
             kill = null;
 
 
-        }
-
-        // one child - replace node with child
-        else if (kill.left == null) {
-            kill.parent.right = kill.right;
-            kill.right.parent = kill.parent;
-            kill = null;
-        }
-        else if (kill.right == null) {
-            kill.parent.left = kill.left;
-            kill.left.parent = kill.parent;
-            kill = null;
-        }
-
-        // two children - find predecessor and replace with that
-        else {
-            BSTNode B = findPredecessor(kill);
-            kill.key = B.key;
-            kill.val = B.val;
-            remove(B.key);
         }
 
         return return_value;
@@ -215,7 +195,7 @@ public class BSTMap<K extends Comparable<K>, V extends Comparable<V>> implements
      * the specified value. Not required for Lab 7. If you don't implement this,
      * throw an UnsupportedOperationException.*/
     @Override
-    public V remove(K key, V value) {
+    public V remove(K key, V value) throws UnsupportedOperationException {
         return null;
     }
 
