@@ -807,7 +807,70 @@ Splitting Temporary 4 Nodes:
 It's possible that the rotation or flip operation will cascade into other fixes
  */
 
+/*
+LECTURE 18: HASHING
 
+DATA AS THE INDEX:
+- lets start with an array of booleans indexed by our data
+- initially all values are false
+- when an integer is added, set that index to true
+Problems:
+- very memory wasteful, need 2 billion booleans for just positive ints
+- need to generalize beyond integers
+
+To solve the generalization problem, we can come up with a function that converts data to
+an integer index. However, we need to avoid collisions.
+
+STRING EXAMPLE:
+For strings, we can convert them into a base 27 number:
+- "bee" converted to digits is 2-5-5
+- (2 * 27^2) + (5 * 27^1) + (5 * 27^0) = 1598, which is our new index
+- we used a base >= 26, since that guarantees with 26 letters there will never be a collision
+    - makes sense if you think about it, if we think of the letters as digits in base 27
+We'll need a bigger base for all string characters though.
+- The largest printable character in ASCII is char 126, so we could do base 126
+- unicode would base 40959
+- this gets unfeasible, because our index is overflowing the max int
+    - there's a ridiculous number of unique strings
+- what we need is a hash code that projects to a smaller set
+
+HASH CODE: projects a value from a set with many members to a value from a set with a fixed number
+of fewer members
+Pigeonhole Principle: if there's more items in our set than we can index, we'll have collisions
+- we need a way to handle collisions
+
+BUCKETS:
+Suppose N items have numerical representation h:
+- Instead of storing true at position h, let's store a "bucket" of N items at position h
+- Every array value starts with an empty bucket
+- When item x gets added at index h:
+    - if bucket h is empty, we create a new list at h containing x
+    - if bucket h is already a list, we add x to it if it isn't already present
+- might call it a 'separate chaining data indexed array'
+- worst case performance is Q(M), where M is the longest bucket size
+
+HASH TABLE:
+- data is converted by a hash function into int representation called a hash code
+- hash code is then reduced to a valid index, usually with the mod operator
+    - use the Math.floorMod() op in java to handle negative numbers better
+- Load factor: for M buckets and N items in our table, load is N/M
+    - we can resize and increase M for better performance
+    - we'll change the mod amount to our new size and move items around
+    - good default load is <=1.5
+
+HASHMAPS IN JAVA:
+
+- Implemented as the HashMap and HashSet classes in java.util
+- the Object class has a hashCode() function
+    - this is overwritten in other classes like String
+
+Warnings:
+- never store objects that can change - it's hash code changes
+- never override equals without also overriding hashCode
+
+
+
+ */
 
 
 }
