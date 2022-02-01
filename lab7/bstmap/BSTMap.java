@@ -157,19 +157,58 @@ public class BSTMap<K extends Comparable<K>, V extends Comparable<V>> implements
             return null;
         }
         V return_value = kill.val;
+
+        // no children - just null the node
         if (kill.left == null && kill.right == null) {
             kill = null;
-        } else if (kill.left == null) {
+
+
+        }
+
+        // one child - replace node with child
+        else if (kill.left == null) {
             kill.parent.right = kill.right;
             kill.right.parent = kill.parent;
             kill = null;
-        } else if (kill.right == null) {
+        }
+        else if (kill.right == null) {
             kill.parent.left = kill.left;
             kill.left.parent = kill.parent;
             kill = null;
         }
 
+        // two children - find predecessor and replace with that
+        else {
+            BSTNode B = findPredecessor(kill);
+            kill.key = B.key;
+            kill.val = B.val;
+            remove(B.key);
+        }
+
         return return_value;
+    }
+
+    /** Finds the node that is the predecessor of T by key value, or returns null if there is none. */
+    private BSTNode findPredecessor(BSTNode T) {
+        if (T.left != null) {
+            BSTNode current = T.left;
+            while (current.right != null) {
+                current = current.right;
+            }
+            return current;
+        }
+        return null;
+    }
+
+    private BSTNode findSuccessor(BSTNode T) {
+        if (T.right != null) {
+            BSTNode current = T.right;
+            while (current.left != null) {
+                current = current.left;
+            }
+            return current;
+        }
+        return null;
     }
 
     /** Removes the entry for the specified key only if it is currently mapped to
