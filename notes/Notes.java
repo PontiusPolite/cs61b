@@ -476,8 +476,8 @@ Now we need a way to keep track of these sets:
 to add items to the array.
 
 - QuickUnion: assign each item a parent instead of an id. So our new array looks like:
-[-1, 0, 1, -1, 0, 3, -1]
-  0  1  2   3  4  5   6
+values: [-1, 0, 1, -1, 0, 3, -1]
+indexes:  0  1  2   3  4  5   6
     - if an item has no parent, it is assigned -1
     - starts to look like a tree ;)
     - Suppose we want to connect 5 to 2. We find the root of 5, and connect that to the
@@ -808,7 +808,7 @@ It's possible that the rotation or flip operation will cascade into other fixes
  */
 
 /*
-LECTURE 18: HASHING
+LECTURE 19: HASHING
 
 DATA AS THE INDEX:
 - lets start with an array of booleans indexed by our data
@@ -868,9 +868,84 @@ Warnings:
 - never store objects that can change - it's hash code changes
 - never override equals without also overriding hashCode
 
+ */
+
+/*
+LECTURE 20: HEAPS AND PQs
+
+THE MIN PRIORITY QUEUE INTERFACE:
+- a bag that only lets you interact with the smallest item
+- lets say we only care about the 'most harmonious' text strings M from our snooping
+    - we add the string, then removeSmallest() from our PQ once its size is >M
+    - at the end, we have M most harmonious strings
+Implementations:
+- ordered array: adding and removeSmallest are Q(N)
+- bushy BST: handling duplicates is hard
+- hash table: items go to random places, no good
+- we need a heap
+
+HEAPS
+- a binary min-heap is a binary tree that is complete and obeys min-heap property
+    - min-heap: every node is <= to both of its children
+    - complete: missing items only at the bottom level if any, and all nodes
+    are as far left as possible. By 'missing' just mean only one child.
+
+OPERATIONS WITH HEAP:
+- getSmallest(): always at root
+- add(): temporarily add item to bottom of heap. Then 'swim' it up until it's in the correct spot.
+- removeSmallest(): swap the last item in the heap into the root. Then sink that new root, swapping with
+ the smaller child, until it's in the right place.
+
+TREE REPRESENTATIONS OF HEAP:
+- could have attributes of key and left_child, right_child
+- could also have key and array Tree[] children
+- Sibling Tree: the parent points to a favored child node, and that node points at
+its sibling and its child
+
+- we could store our keys in an array, and our parents in an array as well, much like the
+Disjoint Sets data structure, where the parent of keys[i] is at index parents[i]
+    - if we assume the tree is complete, then the parents array is actually redundant. It will
+    always look like: [0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, ...]
+    - so we only need a Key[] array
+    - the parent() method: takes index k and returns its parent index
+        public int parent(k) {
+            return (k - 1) / 2;
+        }
+
+- Other version of the above is to leave an empty space at index 0 to simplify operations:
+    - then parent is k/2, leftChild is k*2, and rightChild is k*2 + 1
+    - root is at index 1
+
+PERFORMANCE:
+- heap is logN time amortized
+- can have a constant getSmallest
+- handles duplicate priorities more naturally than BST
+- array based heaps take less memory
+
+DATA STRUCTURES SUMMARY
+- all of our structures are trying to solve the search problem
+SETS AND MAPS:
+    - BST, 2-3 Tree, LLRBs
+    - Hash Tables
+STACKS:
+    - linked list
+    - resizing array
+LISTS:
+    - linked list
+    - resizing arrays
+PRIORITY QUEUE:
+    - ordered array
+    - balanced tree
+    - Heap
+DISJOINT SETS:
+    - Quick find
+    - Quick union
+    - Weighted quick union
+    - WQU with path compression
 
 
  */
+
 
 
 }
