@@ -942,7 +942,83 @@ DISJOINT SETS:
     - Quick union
     - Weighted quick union
     - WQU with path compression
+ */
 
+/*
+LECTURE 21: TREE AND GRAPH TRAVERSALS
+
+- There are many orders in which we might visit the tree nodes
+Level Order: visit top to bottom, left to right across nodes of each depth
+Depth First Traversal: traverse deep nodes before shallow ones
+- Preorder: 'visit' a node, then traverse its children (DBACFEG)
+    - this is like tracing a path around graph from top going counter-clockwise. 'Visit' every time
+    we pass the left of a node
+    $ preOrder (BSTNode x) {
+        if (x == null) return;
+        print(x.key);
+        preOrder(x.left);
+        preOrder(x.right);
+    }
+- In order: traverse left child, visit, then traverse right child (ABCDEFG)
+    - ... "Visit" every time you cross the bottom of a node
+    $ inOrder (BSTNode x) {
+        if (x == null) return;
+        inOrder(x.left);
+        print(x.key);
+        inOrder(x.right);
+    }
+- Post order: traverse left, traverse right, then visit (ACBEGFD)
+     ... "Visit" every time you cross the right of a node
+
+Example: let's say our tree is a file directory
+- preorder would be good for printing the file structure neatly
+- post order would be good for gathering all the file sizes
+
+GRAPHS
+A simple graph is a graph with:
+    - no edges that connect a vertex to itself
+    - no two edges that connect the same vertices
+In this class, we'll assume we're always talking about simple graphs unless specified.
+
+Terminology:
+- Directed: each edge has a direction
+- Cyclic: multiple paths between nodes (note that a non-cyclic graph isn't necessarily a tree,
+it can have disconnected nodes)
+- Graph:
+    - set of vertices
+    - set of edges (pairs of vertices)
+    - vertices connected by an edge are adjacent
+    - vertices may have labels or weights
+- path: a sequence of vertices connected by edges
+
+GRAPH PROBLEM DIFFICULTY
+Euler Tour: is there a cycle that uses every edge once?
+Hamilton Tour: is there a cycle that uses every vertex once?
+    - an efficient euler algorithm O(# of edges) has been known since 1873
+    - no efficient hamilton tour algo exists
+
+S-T CONNECTIVITY
+- given source s and target t, is there a path between them?
+     - mark s
+     - does s == t? if so return true
+     - otherwise, if connected(v, t) for any unmarked neighbor v of s, return true
+     - return false
+- the above is an example of depth first traversal: we explore the entire neighbor's subgraph
+before moving to the next neighbor
+
+DEPTH-FIRST PATHS:
+dfs(v) {
+- maintain an array of edges, and an array of marks
+    - mark v
+    - for each unmarked adjacent vertex w:
+        - set edgeTo[w] = v
+        - dfs(w) (recursive call)
+}
+
+- the above is called DFS Preorder: we do an action before traversing to the neighbors
+
+BREADTH FIRST SEARCH:
+- analogous to level-order tree search
 
  */
 
