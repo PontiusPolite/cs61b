@@ -1022,6 +1022,47 @@ BREADTH FIRST SEARCH:
 
  */
 
+/*
+LECTURE 22: GRAPH TRAVERSALS AND IMPLEMENTATIONS
+
+SHORTEST PATH
+Breadth First Search:
+- initialize a queue with starting vertex s and mark it
+    - a queue is a list with two ops: enqueue (addLast) and dequeue (removeFirst)
+    - we'll call this queue our 'fringe' (it's the edge of what we're exploring)
+- repeat until queue is empty:
+    - remove vertex v from the front of queue
+    - for each unmarked neighbor n of v:
+        - mark n
+        - set edgeTo[n] = v, optionally set distanceTo[n] = distanceTo[v] + 1
+        - add n to end of queue
+
+Princeton Graph API:
+public class Graph
+    public Graph(int V):               create an empty graph with v vertices
+    public void addEdge(int v, int w): add an edge v-w
+    Iterable<Integer> adj(int):        vertices adjacent to v
+    int V():                           number of vertices
+    int E():                           number of edges
+
+- the choice of API has big implications for runtime and memory
+
+GRAPH REPRESENTATIONS
+
+List of Edges
+
+Adjacency Matrix:
+- matrix of 0's and 1's determining edges
+- each edge represented twice in undirected graphs
+
+Adjacency List:
+- maintain an array of lists indexed by vertex number
+- most popular approach
+- good since most graphs area sparse, there's not a lot of edges
+- also the best runtime for adj(v) which many algos rely heavily on
+
+ */
+
 
 
 }
