@@ -134,7 +134,7 @@ LECTURE 5: SLLISTS, NESTED CLASSES, SENTINEL NODES
 
 LISTS
 - See IntList class for an example of a recursive list data structure
-- We use IntNode and then SLList (Single Linked List) as an intermediary, so that we don't
+- We use StuffNode and then SLList (Single Linked List) as an intermediary, so that we don't
 have this naked recursive data (might be harder for someone to understand)
 
 PRIVATE KEYWORD
@@ -145,7 +145,7 @@ the class
 - If you make something public, the expectation is you will never remove it
 
 NESTED CLASSES
-- We can put the IntNode class inside SLList, since it is obviously suboordinate
+- We can put the IntNode class inside SLList, since it is obviously subordinate
 to it
 
 
@@ -166,7 +166,7 @@ LECTURE 6: DLLISTS, ARRAYS
 DLLIST
 - Doubly Linked List: has pointers to next and prev
 - We could have two sentinels then: at the front and back
-- OR, we could just have ONE sentinel at the front and back
+- OR, we could just have ONE sentinel pointing to the front and back
 
 - We can parametrize the List class to take any type of variable as the item in the list
     - See the SLList class definition for a parameter
@@ -250,7 +250,7 @@ JAVA LIST
 - When writing actual code, we use java's built-in java.util.List and java.util.ArrayList
 > List<Integer> L = new ArrayList<>();
 
- */
+*/
 
 /*
 LECTURE 9: EXTENDS, CASTING, HIGHER ORDER FUNCTIONS
@@ -528,7 +528,7 @@ EXAMPLES:
     /*
     - Choosing == as our operation,
     - Worst case number of == operations: N(N-1)/2
-    - Since == is Q(N), the whole method is Q(N)
+    - Since == is Q(N), the whole method is Q(N^2)
     - We can draw a grid with side lengths i and j, and color in the section that == will happen
     for a geometric understanding
      */
@@ -773,20 +773,23 @@ B Trees suffer from some problems:
 BST Structure and Tree Rotation:
 - for N items, there are Catalan(N) different BSTs
 - we can 'rotate' between different BSTs
-    - pick one node, and move it to the left or right
-        - say we're rotating to the right. Merge the node with the left child, the move that node
-        down to the right
+    - let P be the right child of R. To rotate R to the left, make R the new left child of P.
+    - Now P might have 3 children. Take the middle child k, and make it the right child of R.
+        - we can also think of this as merging P with R, then R goes down to the left and carries
+        k with it as its right child
+    - So now by rotating to the right, G has become the right child of its former left child x.
 
 Red Black Tree:
 - suppose we have a 2-3 tree, but we want the advantages of a normal balanced B-tree
 - we can split up our 2 item nodes and use a 'red' glue link to tie them together
     - the red links are typically on the left just for consistency
         - an LLRB, or left leaning rb tree
-        - suppose we have a 3 node. Take the left item in the node, and make it the child of
-        that node's middle child
-            - this doubles the height, so an LLRB has no more than 2H+1 the height of a 2-3 tree
+        - suppose we have a 3 node XY. Take the left item X in the node, and make it the left child.
+        of Y. The former left and middle children of XY become the children of X.
+            - this adds one link, so an LLRB has no more than 2H+1 the height of a 2-3 tree
 
 LLRB Properties:
+- there's always a corresponding 2-3 tree
 - no node has two red links, otherwise it would be a 4 node
 - every path from root to a leaf has same number of black links, since 2-3 tree mapping
 must be balanced
@@ -795,12 +798,16 @@ Implementation:
 - we insert as usual into a BST, then use rotations to maintain the 1-1 mapping with a LLRB
     - this avoids the problems of implementing a 2-3 B Tree
 Insertion Color:
-- new values are always added using a red link
+- new values are always added using a red link, since in we always insert new values into
+a leaf node in a 2-3 tree
 Inserting to the right:
-- we need to rotate the parent to the left
+- if when we insert an item that goes on the right, we need to rotate the parent to the left
+- this keeps the red link on the left
 Double Insertion on the Left:
+- say we need to insert on the left, and the left child is already a red link
 - we allow temporary 4 nodes when two red links are added
-- rotate the top of the first red link to the right
+- rotate the top of the first red link to the right, so both the children are red links
+- then we flip the links (see below)
 Splitting Temporary 4 Nodes:
 - flip the colors of all links touching the parent of the two red links
 
@@ -1063,6 +1070,19 @@ Adjacency List:
 
  */
 
+/*
+LECTURE 23: SHORTEST PATHS
+BFS vs DFS for path finding:
+- both will find same path, but BFS always gives back the shortest paths
+- DFS is worse for spindly graphs, very deep call stack
+- BFS is worse for bushy graphs for memory
+- say we're finding a street route - we need to account for the length of the street, what
+we can refer to 'edge weight'
+
+DJIKSTRA's ALGORITHM
+- the solution of shortest paths from a given source is always a tree
+
+ */
 
 
 }
