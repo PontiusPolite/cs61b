@@ -97,7 +97,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param tableSize the size of the table to create
      */
     private Collection<Node>[] createTable(int tableSize) {
-        return null;
+        return new Collection[tableSize];
     }
 
     // TODO: Implement the methods of the Map61B Interface below
@@ -108,7 +108,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public void clear() {
-        buckets = new Collection[initialSize];
+        buckets = createTable(initialSize);
     }
 
     /**
@@ -118,7 +118,15 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public boolean containsKey(K key) {
+        if (keys.contains(key)){
+            return true;
+        }
         return false;
+    }
+
+    /** Returns the hashTable index that the specified key should be placed into. */
+    private int getBucketIndex(K key) {
+        return key.hashCode() % buckets.length;
     }
 
     /**
@@ -129,6 +137,11 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
+        for (Node n : buckets[getBucketIndex(key)]) {
+            if (n.key == key){
+                return n.value;
+            }
+        }
         return null;
     }
 
@@ -150,7 +163,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public void put(K key, V value) {
-
+        keys.add(key);
+        buckets[getBucketIndex(key)].add(createNode(key, value));
+        size += 1;
     }
 
     /**
