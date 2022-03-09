@@ -912,7 +912,7 @@ its sibling and its child
 - we could store our keys in an array, and our parents in an array as well, much like the
 Disjoint Sets data structure, where the parent of keys[i] is at index parents[i]
     - if we assume the tree is complete, then the parents array is actually redundant. It will
-    always look like: [0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, ...]
+    always look like: [-1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, ...]
     - so we only need a Key[] array
     - the parent() method: takes index k and returns its parent index
         public int parent(k) {
@@ -955,6 +955,12 @@ DISJOINT SETS:
 LECTURE 21: TREE AND GRAPH TRAVERSALS
 
 - There are many orders in which we might visit the tree nodes
+
+    D
+   / \
+  B   F
+ / \ / \
+A  C E  G
 Level Order: visit top to bottom, left to right across nodes of each depth
 Depth First Traversal: traverse deep nodes before shallow ones
 - Preorder: 'visit' a node, then traverse its children (DBACFEG)
@@ -1041,8 +1047,9 @@ Breadth First Search:
     - remove vertex v from the front of queue
     - for each unmarked neighbor n of v:
         - mark n
+        - add n to our fringe
         - set edgeTo[n] = v, optionally set distanceTo[n] = distanceTo[v] + 1
-        - add n to end of queue
+
 
 Princeton Graph API:
 public class Graph
@@ -1064,10 +1071,14 @@ Adjacency Matrix:
 
 Adjacency List:
 - maintain an array of lists indexed by vertex number
+    - kind of like our hash table, but the bucket index is the vertex #, not the hashcode
 - most popular approach
-- good since most graphs area sparse, there's not a lot of edges
+- good since most graphs are sparse, there's not a lot of edges
 - also the best runtime for adj(v) which many algos rely heavily on
-
+- The runtime to print every edge in an adjacency list is Q(V + E) for V vertices and E edges
+    - We create V iterators, one for each vertex that we're checking the adjacency 'bucket' of
+    - We print E times, one for each edge in every bucket
+    - E could be at most V^2, so worst case is Q(V^2)
  */
 
 /*
