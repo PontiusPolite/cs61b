@@ -1090,8 +1090,71 @@ BFS vs DFS for path finding:
 - say we're finding a street route - we need to account for the length of the street, what
 we can refer to 'edge weight'
 
-DJIKSTRA's ALGORITHM
 - the solution of shortest paths from a given source is always a tree
+    - it won't contain any cycles, unless there's a negative weight for some edge!
+
+Bad Algorithm:
+- mark every node as having infinite distance initially, our start has 0.
+- perform a depth first search. When you visit v:
+    - for each edge from v to w, add edge to our shortest path tree only if that edge yields
+    a better distance. This process is called relaxation, that is, only using the edge that
+    yields a better distance to the neighbor node.
+    - the problem is if we mark a node trying one path, we need to unmark it for doing
+    some other path that could touch it. This is do-able but slow.
+
+DIJKSTRA's ALGORITHM
+- perform a best first search (closest first). When you visit v:
+    - for each edge from v to w, relax that edge
+
+Implementation:
+- insert all vertices into a fringe PQ, storing vertices in order from distance from source.
+    - they all start out as infinity, but we do a change priority operation when we update
+     a distance
+- repeat: remove closest vertex v from PQ and relax all edges pointing from v
+
+Dijkstra's Pseudocode:
+PQ.add(source, 0)
+For other vertices v, PQ.add(v, infinity)
+While PQ is not empty:
+    p = PQ.removeSmallest()
+    Relax all edges from p
+
+Relaxing an edge p->q with weight w:
+    if distTo[p] + w < distTo[q]:
+        distTo[q] = distTo[p] + w
+        edgeTo[q] = p
+        PQ.changePriority(q, distTo[q])
+
+Key Invariants:
+- edgeTo[v] is the best known predecessor of v
+- distTo[v] is the best known total distance from source to v
+- PQ contains all unvisited vertices in order of distTo
+
+Why does it work?:
+- assume there are no negative edges
+- at start, distTo[source] = 0, which is optimal. After relaxing all edges from source, let vertex
+v1 be the vertex with minimum weight. Thus distTo[v1] is optimal, since any other path would require
+another edge. By induction, this holds true for all vertices after dequeueing.
+
+DIJKSTRA'S RUNTIME:
+PQ Operation count:
+- add: V times, each costing O(logV)
+- removeSmallest: V times, each costing O(logV)
+- changePriority: E times, each costing O(logV)
+So overall runtime is O(VlogV + VlogV + ElogV). Assuming E>V for a connected graph, overall is
+O(ElogV)
+
+What if we have only a single target in mind?
+
+A* PATHFINDING
+- we can visit vertices in order of d(source, v) + h(v, goal) where h(v, goal) is an estimate
+of the distance from v to our goal.
+    - whereas Dijkstra's only considers d(source, v)
+- this will give us to shortest path to our destination, but not a valid shortest paths tree
+- h(v, goal) is a heuristic - doesn't have to be perfect, it's a best guess
+    - example, if we were pathfinding between cities, we could use the latitude/longitude straight
+    line distance
+    - if we set it to a constant, it's just dijkstra's
 
  */
 
