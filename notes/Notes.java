@@ -475,7 +475,7 @@ Now we need a way to keep track of these sets:
     - With this approach, isConnected is constant, but connect is still linear since you have
 to add items to the array.
 
-- QuickUnion: assign each item a parent instead of an id. So our new array looks like:
+- Quick Union: assign each item a parent instead of an id. So our new array looks like:
 values: [-1, 0, 1, -1, 0, 3, -1]
 indexes:  0  1  2   3  4  5   6
     - if an item has no parent, it is assigned -1
@@ -486,7 +486,7 @@ indexes:  0  1  2   3  4  5   6
         - Finding the root is Q(N)
         - see QuickUnionDS for an implementation
 
-- WeightedQuickUnion: modified to avoid tall trees
+- Weighted Quick Union: modified to avoid tall trees
     - we need to track tree size
     - new rule: always link root of smaller tree (by weight, not height) to larger tree
     - to track sizes, we can use the root parent value
@@ -1155,6 +1155,61 @@ of the distance from v to our goal.
     - example, if we were pathfinding between cities, we could use the latitude/longitude straight
     line distance
     - if we set it to a constant, it's just dijkstra's
+
+ */
+
+/*
+LECTURE 24: MINIMUM SPANNING TREES
+
+SPANNING TREES
+- given an undirected graph, a spanning tree T is a subgraph of G where T:
+    - is connected  } make it a tree
+    - is acyclic    }
+    - includes all vertices  } makes it spanning
+- if there are V vertices, there will be V-1 edges in the ST
+
+- a MINIMUM spanning tree is one with total minimum edge weight
+- SPT depends on the start vertex, but for an MST there is no source. It is a global property
+of the entire graph.
+
+The Cut Property:
+- a cut is an assignment of a graph's node to two non-empty sets (think two different colors)
+- a crossing edge is an edge which connects a node from one set to the other
+- given any cut, minimum weight crossing edge must be part of the MST
+Proof:
+- suppose that a minimum crossing edge e were not in the MST
+    - adding e to the MST creates a cycle
+    - some other edge f must also be a crossing edge
+    - removing f and adding e is a lower weight spanning tree
+    - contradiction!
+
+PRIM'S ALGORITHM
+- start from arbitrary start node
+    - add shortest edge that has one node to the MST under construction
+    - now we consider everything in our MST (two nodes rn) as one set in our cut
+    - use cut property to add a new edge
+        - the cut property assumed all edges are unique, but if we have a duplicate edge we just
+        select one of them
+    - repeat until V-1 edges
+- this is a conceptual, inefficient version - we can use a fringe PQ to speed things up
+
+PRIM's IMPLEMENTATION WITH PQ
+- insert all vertices into PQ in order of distance from our current tree (our start vertex is 0
+while everything else is infinite)
+- repeat: remove closest vertex v from PQ, and relax all edges pointing from v
+- it's like dijkstra's, but rather than relaxing according to distance from source, we're relaxing
+according to distance from our current vertex (and thus our current MST under construction)
+
+KRUSKAL'S ALGORITHM
+- sort all edges by weight
+- go through edges and add each one as long as it doesn't cause a cycle
+Implementation:
+- add all edges to priority queue in order of weight
+- we can determine if there is a cycle by using a weighted quick union object of vertices
+- repeat: remove smallest weight edge. Check if its vertices are already connected in our WQU
+    - if not, union them and add the edge to our MST
+
+- works due to same cut principle, if we consider our cut to be the tree so far vs. everything else
 
  */
 
