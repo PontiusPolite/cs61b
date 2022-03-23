@@ -1213,5 +1213,63 @@ Implementation:
 
  */
 
+/*
+LECTURE 25: RANGE SEARCHING AND MULTI-DIMENSIONAL DATA
+
+- our previous data structures are very fast to insert, remove, and delete, but relied
+on data being comparable
+- suppose we have 2-dimensional data, like x and y coordinates - we would need a BST to
+track each. While some operations would work, others like nearest(x) would not be fun
+
+QUADTREE
+- In a QuadTree, every node has four children
+    - Top left, aka northwest
+    - Top right, aka northeast
+    - Bottom right, aka southeast
+    - Bottom left, aka southwest
+- Quadtrees are a form of spatial partitioning:
+    - each node owns 4 subspaces, and those are divided into their own subspaces with other points
+        - areas with more points are more finely divided
+- With 3D data, we could use an Octree
+
+K-D TREE:
+- generalized to arbitrary dimensional data (k dimensions)
+- Example in 2-d:
+    - root partitions left and right
+    - depth 1 nodes partition down and up
+    - depth 2 nodes partition left and right
+K-D Tree Traversal:
+- suppose we want to find the nearest(x)
+- you should always consider the best space first, that is, the best child
+- keep track of the best distance so far, whatever that metric might be
+- difficult to explain without a pic, but see the pseudocode below and vid 7 of lecture
+- we can check if there's a possible closer point on the bad side. If not, we don't consider it.
+
+Nearest Pseudocode
+nearest(Node n, Point goal, Node best):
+- if n is null, return best
+- if n.distance(goal) < best.distance(goal), best = n
+- if goal < n (according to n's comparator):
+    - goodSide = n.leftChild  // leftChild could also be directionally down, and right could be
+    - badSide = n.rightChild  // directionally up
+- else:
+    - goodSide = n.rightChild
+    - badSide = n.leftChild
+- best = nearest(goodSide, goal, best)
+- if badSide could still have something useful: // see lecture for purple vs. green line approach
+    - best = nearest(badSide, goal, best)
+- return best
+
+UNIFORM PARTITIONING
+- we could partition the space of data into buckets of points
+- finding points that fall into a range would mean only considering a few buckets (rectangles on grid)
+
+Uniform partitioning: analogous to hashing
+Quadtree: generalized 2D BST where each node owns 4 subspaces
+K-d tree: generalized k-d BST where each node owns 2 subspaces
+
+Spacial partitioning allows for pruning of the search space.
+
+ */
 
 }
