@@ -1,0 +1,4 @@
+
+- can't find algs4-source.jar in libraries. Is this why lab6 didn't work?
+
+- diagram link: https://sp21.datastructur.es/materials/proj/proj2/image/commits-and-blobs.png
