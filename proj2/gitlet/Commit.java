@@ -1,8 +1,9 @@
 package gitlet;
 
-// TODO: any imports you need here
-
-import java.util.Date; // TODO: You'll likely use this in this class
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /** Represents a gitlet commit object.
  *  TODO: It's a good idea to give a description here of what else this Class
@@ -10,7 +11,7 @@ import java.util.Date; // TODO: You'll likely use this in this class
  *
  *  @author TODO
  */
-public class Commit {
+public class Commit implements Serializable {
     /**
      * TODO: add instance variables here.
      *
@@ -22,5 +23,37 @@ public class Commit {
     /** The message of this Commit. */
     private String message;
 
-    /* TODO: fill in the rest of this class. */
+    /** The date and time this Commit was created. */
+    private Date timestamp;
+
+    /** The parent of this Commit, null if this is the initial Commit. */
+    private Commit parent;
+
+    /** A mapping of filenames and blobs that the commit points to. */
+    private Map<String, Blob> blobs;
+
+    /** Creates a new commit with no parent and the init message. */
+    public Commit() {
+        parent = null;
+        timestamp = new Date();
+        message = "initial commit";
+        blobs = new HashMap<>();
+    }
+
+    /** Creates a new commit with the specified parent and message. */
+    public Commit(Commit parent, String message) {
+        this.parent = parent;
+        timestamp = new Date();
+        this.message = message;
+        blobs = new HashMap<>();
+    }
+
+    /** Returns the sha1 hash that will serve as this Commit's ID. */
+    public String getID() {
+        // TODO
+        return null;
+    }
+
+    public
+
 }

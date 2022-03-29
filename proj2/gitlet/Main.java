@@ -17,6 +17,11 @@ public class Main {
         switch(firstArg) {
             case "init":
                 // TODO: handle the `init` command
+                if (!validateNumberOfArgs(args, 1)){
+                    return;
+                }
+                Repository.initRepo();
+
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
@@ -59,4 +64,21 @@ public class Main {
                 break;
         }
     }
+
+    /**
+     * Checks the number of input arguments with the expected number, and returns false and prints
+     * message if they are not equal.
+     *
+     * @param args Input arguments from command line
+     * @param n Expected number of arguments
+     * @return A boolean that is false if the validation fails
+     */
+    private static boolean validateNumberOfArgs(String[] args, int n) {
+        if (args.length != n) {
+            System.out.println("Incorrect operands.");
+            return false;
+        }
+        return true;
+    }
+
 }
