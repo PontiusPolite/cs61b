@@ -2,3 +2,22 @@
 - can't find algs4-source.jar in libraries. Is this why lab6 didn't work?
 
 - diagram link: https://sp21.datastructur.es/materials/proj/proj2/image/commits-and-blobs.png
+
+- start with init, status?
+
+Initializing creates a .gitlet folder in current directory
+    - also adds initial commit
+If .gitlet is not present, it's not a gitlet repo
+
+
+Store a file called .gitlet/pointers that contains a map from branch names to commits
+    - also contains the HEAD pointer
+
+
+Commits are stored in the .gitlet/commits folder
+    - the file name of the commit is the hash
+    - the commit is an object that points to a parent, has metadata, and points to one or more blobs
+
+Blobs are stored in the .gitlet/blobs folder
+    - blobs contain a file's contents
+    - filename of the blob is the hash
