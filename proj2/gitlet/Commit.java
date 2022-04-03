@@ -2,9 +2,7 @@ package gitlet;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static gitlet.Utils.*;
 import static gitlet.Utils.readObject;
@@ -16,49 +14,51 @@ import static gitlet.Utils.readObject;
  *  @author TODO
  */
 public class Commit implements Serializable {
-    /**
-     * TODO: add instance variables here.
-     *
-     * List all instance variables of the Commit class here with a useful
-     * comment above them describing what that variable represents and how that
-     * variable is used. We've provided one example for `message`.
-     */
 
     /** The message of this Commit. */
-    private String message;
+    private final String message;
 
     /** The date and time this Commit was created. */
-    private Date timestamp;
+    private final Date timestamp;
 
     /** The parent of this Commit, null if this is the initial Commit. */
-    private Commit parent;
+    private final String parent;
 
     /** A mapping of filenames and blobs that the commit points to. */
-    private Map<String, Blob> blobs;
+    private final String[] blobs;
 
-    private String ID;
+    /** The 40 character sha1 hash of this Commit's data. */
+    private final String ID;
 
     /** Creates a new commit with no parent and the init message. */
     public Commit() {
-        parent = null;
+        parent = "none";
         timestamp = new Date(0);
         message = "initial commit";
-        blobs = new HashMap<>();
-        // TODO: make ID the sha1 hash of everything
-        ID = "test-commit-please-ignore";
+        blobs = new String[0];
+        ID = generateID();
     }
 
     /** Creates a new commit with the specified parent and message. */
-    public Commit(Commit parent, String message) {
+    public Commit(String parent, String message, String[] blobs) {
         this.parent = parent;
-        timestamp = new Date(0);
+        timestamp = new Date();
         this.message = message;
-        blobs = new HashMap<>();
-        // TODO: make ID the sha1 hash of everything
-        ID = "another-test-commit";
+        this.blobs = blobs;
+        ID = generateID();
     }
 
-    /** Returns the sha1 hash that will serve as this Commit's ID. */
+    /** Generates this Commit's ID by hashing its attribute values. */
+    private String generateID() {
+        List<Object> hashBrowns = new ArrayList<>();
+        hashBrowns.add(parent);
+        hashBrowns.add(timestamp.toString());
+        hashBrowns.add(message);
+        hashBrowns.addAll(Arrays.asList(blobs));
+        return sha1(hashBrowns);
+    }
+
+    /** Returns this Commit's ID. */
     public String getID() {
         return ID;
     }

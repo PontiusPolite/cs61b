@@ -31,6 +31,8 @@ public class Repository {
     /** The location of our blobs directory, which stores the snapshots of our files pointed to by commits,
      *  named by hash. */
     public static final File BLOBS_DIR = join(CWD, ".gitlet", "blobs");
+    /** The location of our blobs that are in the staging area, ready to be committed. */
+    public static final File STAGE_DIR = join(CWD, ".gitlet", "stage");
 
     public static void initRepo() {
         if (GITLET_DIR.exists()) {
@@ -40,18 +42,17 @@ public class Repository {
         initDirectoriesAndFiles();
         Commit initCommit = new Commit();
         initCommit.saveCommit();
+        String i = initCommit.getID();
         setRef("HEAD", initCommit.getID());
         setRef("master", initCommit.getID());
 
-        Commit c = Commit.readCommitFromFile("test-commit-please-ignore");
+        Commit c = Commit.readCommitFromFile(i);
         System.out.println(c);
         /**
          * When adding a new commit, we need to:
-         * - create the commit object
+         * - create the commit object with the blobs in stage
          * - save the commit object
-         * - read the pointers file
-         * - update the correct pointers branch and HEAD
-         * - save the pointers file
+         * - update the HEAD file and appropriate branch file
          */
     }
 
@@ -62,6 +63,7 @@ public class Repository {
         createNewRefsFile("HEAD");
         createNewRefsFile("master");
         BLOBS_DIR.mkdir();
+        STAGE_DIR.mkdir();
     }
 
     // TODO: might need to append .txt to fileName
