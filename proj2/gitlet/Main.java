@@ -18,13 +18,14 @@ public class Main {
         String firstArg = args[0];
         switch(firstArg) {
             case "init":
-                // TODO: handle the `init` command
                 if (validateNumberOfArgs(args, 1)){
                     Repository.initRepo();
                 }
                 break;
             case "add":
-                // TODO: handle the `add [filename]` command
+                if (validateNumberOfArgs(args, 2)){
+                    Repository.stageFile(args[1]);
+                }
                 break;
             case "commit":
                 // TODO

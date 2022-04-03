@@ -7,45 +7,31 @@
 - start with init, status?
 
 Initializing creates a .gitlet folder in current directory
-    - also adds initial commit
+- also adds initial commit
 If .gitlet is not present, it's not a gitlet repo
 
-
-Store a file called .gitlet/pointers that contains a map from branch names to commits
-    - also contains the HEAD pointer
-
-
-Commits are stored in the .gitlet/commits folder
-    - the file name of the commit is the hash
-    - the commit is an object that points to a parent, has metadata, and points to one or more blobs
-
-Blobs are stored in the .gitlet/blobs folder
-    - blobs contain a file's contents
-    - filename of the blob is the hash
-
-Should the commit parent reference the actual previous commit? Or should it only
-be a reference to the ID?
-
-OK, lets make a CommitTree class. Within this is a CommitNode subclass.
-The CommitNode has a Commit and a prev pointer. This solves both problems with the above:
-    - each commit object will only store a reference to the parent's ID instead of the
-    parent commit itself to prevent the size getting too large.
-    - The CommitTree will have an actual linked structure that will allow us to traverse commits
-    without having to read a file n times. It will also house our pointers/branches.
-
-
-The Commit ID is only generated when the commit is saved. From that point it's set in stone.
-
+FILE STRUCTURE:
 .gitlet
     refs
         HEAD - each of these files just contains the commitID as a string
         master
-        branch1
         branch2
+        branch3
     commits
     blobs
     stage
 
+Commits are stored in the .gitlet/commits folder
+- the file name of the commit is the hash
+- the commit is an object that points to a parent, has metadata, and points to zero or more blobs
 
+Blobs are stored in the .gitlet/blobs folder
+- blobs contain a file's contents as a text string
+- filename of the blob is the hash
+
+When adding a new commit, we need to:
+- create the commit object with the blobs in stage
+- save the commit object
+- update the HEAD file and appropriate branch file
 
 

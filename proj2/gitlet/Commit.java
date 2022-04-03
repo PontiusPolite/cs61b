@@ -24,7 +24,7 @@ public class Commit implements Serializable {
     /** The parent of this Commit, null if this is the initial Commit. */
     private final String parent;
 
-    /** A mapping of filenames and blobs that the commit points to. */
+    /** An array of blob IDs that this commit points to. */
     private final String[] blobs;
 
     /** The 40 character sha1 hash of this Commit's data. */

@@ -1,6 +1,8 @@
 package gitlet;
 
 import java.io.File;
+import java.util.List;
+
 import static gitlet.Utils.*;
 
 // TODO: any imports you need here
@@ -42,20 +44,11 @@ public class Repository {
         initDirectoriesAndFiles();
         Commit initCommit = new Commit();
         initCommit.saveCommit();
-        String i = initCommit.getID();
         setRef("HEAD", initCommit.getID());
         setRef("master", initCommit.getID());
-
-        Commit c = Commit.readCommitFromFile(i);
-        System.out.println(c);
-        /**
-         * When adding a new commit, we need to:
-         * - create the commit object with the blobs in stage
-         * - save the commit object
-         * - update the HEAD file and appropriate branch file
-         */
     }
 
+    /** Helper method to initRepo() that generates necessary directories and files. */
     private static void initDirectoriesAndFiles() {
         GITLET_DIR.mkdir();
         COMMITS_DIR.mkdir();
@@ -66,7 +59,26 @@ public class Repository {
         STAGE_DIR.mkdir();
     }
 
-    // TODO: might need to append .txt to fileName
+    /** Adds the specified file in our repository to the staging area .gitlet/stage. */
+    public static void stageFile(String fileName) {
+        File fileToStage = new File(fileName);
+        if (!fileToStage.exists()) {
+            message("File does not exist.");
+            return;
+        }
+        byte[] blobContents = readContents(fileToStage);
+        String blobName = sha1(List.of(blobContents));
+        File blobToStage = join(STAGE_DIR, blobName);
+        try {
+            blobToStage.createNewFile();
+            writeContents(blobToStage, List.of(blobContents));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /** Creates a blank file in .gitlet/refs. */
     private static void createNewRefsFile(String fileName) {
         try {
             join(REFS_DIR, fileName).createNewFile();
