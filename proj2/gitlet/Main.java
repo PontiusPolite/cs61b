@@ -1,5 +1,7 @@
 package gitlet;
 
+import static gitlet.Utils.*;
+
 /** Driver class for Gitlet, a subset of the Git version-control system.
  *  @author Carson Crow
  */
@@ -17,11 +19,9 @@ public class Main {
         switch(firstArg) {
             case "init":
                 // TODO: handle the `init` command
-                if (!validateNumberOfArgs(args, 1)){
-                    return;
+                if (validateNumberOfArgs(args, 1)){
+                    Repository.initRepo();
                 }
-                Repository.initRepo();
-
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
@@ -75,7 +75,7 @@ public class Main {
      */
     private static boolean validateNumberOfArgs(String[] args, int n) {
         if (args.length != n) {
-            System.out.println("Incorrect operands.");
+            message("Incorrect operands.");
             return false;
         }
         return true;

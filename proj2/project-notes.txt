@@ -1,4 +1,5 @@
 
+
 - can't find algs4-source.jar in libraries. Is this why lab6 didn't work?
 
 - diagram link: https://sp21.datastructur.es/materials/proj/proj2/image/commits-and-blobs.png
@@ -21,3 +22,30 @@ Commits are stored in the .gitlet/commits folder
 Blobs are stored in the .gitlet/blobs folder
     - blobs contain a file's contents
     - filename of the blob is the hash
+
+Should the commit parent reference the actual previous commit? Or should it only
+be a reference to the ID?
+
+OK, lets make a CommitTree class. Within this is a CommitNode subclass.
+The CommitNode has a Commit and a prev pointer. This solves both problems with the above:
+    - each commit object will only store a reference to the parent's ID instead of the
+    parent commit itself to prevent the size getting too large.
+    - The CommitTree will have an actual linked structure that will allow us to traverse commits
+    without having to read a file n times. It will also house our pointers/branches.
+
+
+The Commit ID is only generated when the commit is saved. From that point it's set in stone.
+
+.gitlet
+    refs
+        HEAD - each of these files just contains the commitID as a string
+        master
+        branch1
+        branch2
+    commits
+    blobs
+    stage
+
+
+
+
