@@ -45,8 +45,8 @@ public class Repository {
         initDirectories();
         Commit initCommit = new Commit();
         initCommit.saveCommit();
-        createNewRefsFile("HEAD", initCommit.getID());
-        createNewRefsFile("master", initCommit.getID());
+        setRef("HEAD", initCommit.getID());
+        setRef("master", initCommit.getID());
     }
 
     /** Helper method to initRepo() that generates necessary directories. */
@@ -65,10 +65,12 @@ public class Repository {
             message("File does not exist.");
             return;
         }
-        String blobContents = readContentsAsString(fileToStage);
-        String blobName = sha1(List.of(blobContents));
-        File blobToStage = join(STAGE_DIR, blobName);
-        createFileWithContents(blobToStage, blobContents);
+
+        // TODO: use the below for blobbing?
+//        String blobContents = readContentsAsString(fileToStage);
+//        String blobName = sha1(List.of(blobContents));
+//        File blobToStage = join(STAGE_DIR, blobName);
+        createFileWithContents(join(STAGE_DIR, fileName), readContentsAsString(fileToStage));
     }
 
     /** Helper method that creates the file f and writes contents to it. */
@@ -81,34 +83,23 @@ public class Repository {
         }
     }
 
-
-    /** Creates a blank file in .gitlet/refs. */
-    private static void createNewRefsFile(String fileName) {
-        try {
-            join(REFS_DIR, fileName).createNewFile();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /** Creates a new file in .gitlet/refs that contains the given commitID. */
-    private static void createNewRefsFile(String fileName, String commitID) {
-        try {
-            File f = join(REFS_DIR, fileName);
-            f.createNewFile();
-            writeContents(f, commitID);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /** Returns the commitID contained in .gitlet/refs/fileName. */
     private static String getRef(String fileName) {
         return readContentsAsString(join(REFS_DIR, fileName));
     }
 
-    /** Sets the contents of .gitlet/refs/fileName to be commitID string. */
+    /** Creates a file at .gitlet/refs/fileName if it doesn't already exist, and sets its
+     * contents to be commitID string. */
     private static void setRef(String fileName, String commitID) {
+        File f = join(REFS_DIR, fileName);
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+                writeContents(f, commitID);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
         writeContents(join(REFS_DIR, fileName), commitID);
     }
 
