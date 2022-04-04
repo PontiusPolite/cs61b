@@ -1,6 +1,7 @@
 package gitlet;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static gitlet.Utils.*;
@@ -41,20 +42,18 @@ public class Repository {
             message("A Gitlet version-control system already exists in the current directory.");
             return;
         }
-        initDirectoriesAndFiles();
+        initDirectories();
         Commit initCommit = new Commit();
         initCommit.saveCommit();
-        setRef("HEAD", initCommit.getID());
-        setRef("master", initCommit.getID());
+        createNewRefsFile("HEAD", initCommit.getID());
+        createNewRefsFile("master", initCommit.getID());
     }
 
-    /** Helper method to initRepo() that generates necessary directories and files. */
-    private static void initDirectoriesAndFiles() {
+    /** Helper method to initRepo() that generates necessary directories. */
+    private static void initDirectories() {
         GITLET_DIR.mkdir();
         COMMITS_DIR.mkdir();
         REFS_DIR.mkdir();
-        createNewRefsFile("HEAD");
-        createNewRefsFile("master");
         BLOBS_DIR.mkdir();
         STAGE_DIR.mkdir();
     }
@@ -66,12 +65,17 @@ public class Repository {
             message("File does not exist.");
             return;
         }
-        byte[] blobContents = readContents(fileToStage);
+        String blobContents = readContentsAsString(fileToStage);
         String blobName = sha1(List.of(blobContents));
         File blobToStage = join(STAGE_DIR, blobName);
+        createFileWithContents(blobToStage, blobContents);
+    }
+
+    /** Helper method that creates the file f and writes contents to it. */
+    private static void createFileWithContents(File f, String contents) {
         try {
-            blobToStage.createNewFile();
-            writeContents(blobToStage, List.of(blobContents));
+            f.createNewFile();
+            writeContents(f, contents);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -82,6 +86,17 @@ public class Repository {
     private static void createNewRefsFile(String fileName) {
         try {
             join(REFS_DIR, fileName).createNewFile();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** Creates a new file in .gitlet/refs that contains the given commitID. */
+    private static void createNewRefsFile(String fileName, String commitID) {
+        try {
+            File f = join(REFS_DIR, fileName);
+            f.createNewFile();
+            writeContents(f, commitID);
         } catch(Exception e) {
             e.printStackTrace();
         }
