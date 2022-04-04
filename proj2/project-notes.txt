@@ -34,4 +34,7 @@ When adding a new commit, we need to:
 - save the commit object
 - update the HEAD file and appropriate branch file
 
-
+// TODO: use the below for blobbing?
+//        String blobContents = readContentsAsString(fileToStage);
+//        String blobName = sha1(List.of(blobContents));
+//        File blobToStage = join(STAGE_DIR, blobName);

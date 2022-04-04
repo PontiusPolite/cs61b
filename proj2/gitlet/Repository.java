@@ -74,29 +74,47 @@ public class Repository {
      * blobs with the given commitMessage.
      */
     public static void commitStagedFiles(String commitMessage) {
+        if (commitMessage.isBlank()) {
+            message("Please enter a commit message.");
+            return;
+        }
+
         String lastCommitID = getRef("HEAD");
         Commit lastCommit = readCommitFromFile(lastCommitID);
+
         List<String> stagedFileNames = plainFilenamesIn(STAGE_DIR);
+        if (stagedFileNames == null || stagedFileNames.size() == 0) {
+            message("No changes added to the commit.");
+            return;
+        }
+
         List<String> newBlobs = new ArrayList<>();
         for (String name : stagedFileNames) {
             newBlobs.add(createBlob(name));
         }
-        // Combine new blob IDs to commit with parent blob IDs, don't include duplicates
+        // Combine new blob IDs with parent blob IDs, don't include duplicates
         for (String parentBlob : lastCommit.getBlobs()) {
             if (!newBlobs.contains(parentBlob)) {
                 newBlobs.add(parentBlob);
             }
         }
-        //Commit newCommit = new Commit(lastCommitID, )
+        Commit newCommit = new Commit(lastCommitID, commitMessage, newBlobs);
+        newCommit.saveCommit();
+        setRef("HEAD", newCommit.getID());
+        // TODO: change the current branch ref file pointer. How to keep track of current branch?
+        clearStage();
+    }
 
-        /* TODO:
-        - create blobs from staged files and move them to blobs folder
-        - create a new commit
-            - blobs equal to combined parent blobs and new blobs
-            - message
-            - parent
-        - set head pointer
-         */
+    /** Deletes all files in .gitlet/stage. */
+    private static void clearStage() {
+        List<String> stagedFileNames = plainFilenamesIn(STAGE_DIR);
+        assert stagedFileNames != null;
+        for (String name : stagedFileNames) {
+            File f = join(STAGE_DIR, name);
+            if (!f.isDirectory()) {
+                f.delete();
+            }
+        }
     }
 
     /** Creates a blob in .gitlet/blobs with the contents of .gitlet/stage/fileName and named by
