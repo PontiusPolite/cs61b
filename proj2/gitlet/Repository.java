@@ -2,6 +2,8 @@ package gitlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import static gitlet.Utils.*;
@@ -65,12 +67,51 @@ public class Repository {
             message("File does not exist.");
             return;
         }
-
-        // TODO: use the below for blobbing?
-//        String blobContents = readContentsAsString(fileToStage);
-//        String blobName = sha1(List.of(blobContents));
-//        File blobToStage = join(STAGE_DIR, blobName);
         createFileWithContents(join(STAGE_DIR, fileName), readContentsAsString(fileToStage));
+    }
+
+    /** Moves the files in .gitlet/stage to .gitlet/blobs, and creates a new Commit pointing to these
+     * blobs with the given commitMessage.
+     */
+    public static void commitStagedFiles(String commitMessage) {
+        String lastCommitID = getRef("HEAD");
+        Commit lastCommit = readCommitFromFile(lastCommitID);
+        List<String> stagedFileNames = plainFilenamesIn(STAGE_DIR);
+        List<String> newBlobs = new ArrayList<>();
+        for (String name : stagedFileNames) {
+            newBlobs.add(createBlob(name));
+        }
+        // Combine new blob IDs to commit with parent blob IDs, don't include duplicates
+        for (String parentBlob : lastCommit.getBlobs()) {
+            if (!newBlobs.contains(parentBlob)) {
+                newBlobs.add(parentBlob);
+            }
+        }
+        //Commit newCommit = new Commit(lastCommitID, )
+
+        /* TODO:
+        - create blobs from staged files and move them to blobs folder
+        - create a new commit
+            - blobs equal to combined parent blobs and new blobs
+            - message
+            - parent
+        - set head pointer
+         */
+    }
+
+    /** Creates a blob in .gitlet/blobs with the contents of .gitlet/stage/fileName and named by
+     * the sha1 hash of the file, removes fileName from .gitlet/stage, and returns the blob name.
+     */
+    private static String createBlob(String fileName) {
+        File stagedFile = join(STAGE_DIR, fileName);
+        String blobContents = readContentsAsString(stagedFile);
+        String blobName = sha1(blobContents);
+        File blob = join(BLOBS_DIR, blobName);
+        if (blob.exists()) {
+            return blobName;
+        }
+        createFileWithContents(blob, blobContents);
+        return blobName;
     }
 
     /** Helper method that creates the file f and writes contents to it. */
@@ -101,6 +142,14 @@ public class Repository {
             }
         }
         writeContents(join(REFS_DIR, fileName), commitID);
+    }
+
+    /** Returns the Commit object stored in the file .gitlet/commits/commitID. */
+    private static Commit readCommitFromFile(String commitID) {
+        if (!join(Repository.COMMITS_DIR, commitID).exists()) {
+            throw error("Cannot read commit, no such commitID in .gitlet/commits");
+        }
+        return readObject(join(Repository.COMMITS_DIR, commitID), Commit.class);
     }
 
 }

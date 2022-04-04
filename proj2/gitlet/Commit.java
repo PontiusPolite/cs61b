@@ -25,7 +25,7 @@ public class Commit implements Serializable {
     private final String parent;
 
     /** An array of blob IDs that this commit points to. */
-    private final String[] blobs;
+    private final List<String> blobs;
 
     /** The 40 character sha1 hash of this Commit's data. */
     private final String ID;
@@ -35,12 +35,12 @@ public class Commit implements Serializable {
         parent = "none";
         timestamp = new Date(0);
         message = "initial commit";
-        blobs = new String[0];
+        blobs = new ArrayList<>();
         ID = generateID();
     }
 
     /** Creates a new commit with the specified parent and message. */
-    public Commit(String parent, String message, String[] blobs) {
+    public Commit(String parent, String message, List<String> blobs) {
         this.parent = parent;
         timestamp = new Date();
         this.message = message;
@@ -54,7 +54,7 @@ public class Commit implements Serializable {
         hashBrowns.add(parent);
         hashBrowns.add(timestamp.toString());
         hashBrowns.add(message);
-        hashBrowns.addAll(Arrays.asList(blobs));
+        hashBrowns.addAll(blobs);
         return sha1(hashBrowns);
     }
 
@@ -63,16 +63,13 @@ public class Commit implements Serializable {
         return ID;
     }
 
+    public List<String> getBlobs() {
+        return blobs;
+    }
+
     public void saveCommit() {
         File new_commit = join(Repository.COMMITS_DIR, this.ID);
         writeObject(new_commit, this);
-    }
-
-    public static Commit readCommitFromFile(String commitID) {
-        if (!join(Repository.COMMITS_DIR, commitID).exists()) {
-            throw error("Cannot read commit, no such commitID in .gitlet/commits");
-        }
-        return readObject(join(Repository.COMMITS_DIR, commitID), Commit.class);
     }
 
     public String toString() {

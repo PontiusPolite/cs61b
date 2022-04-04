@@ -28,7 +28,9 @@ public class Main {
                 }
                 break;
             case "commit":
-                // TODO
+                if (validateNumberOfArgs(args, 2)){
+                    Repository.commitStagedFiles(args[1]);
+                }
                 break;
             case "rm":
                 // TODO
