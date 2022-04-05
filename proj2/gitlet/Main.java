@@ -18,33 +18,39 @@ public class Main {
         String firstArg = args[0];
         switch(firstArg) {
             case "init":
-                if (validateNumberOfArgs(args, 1, 1)){
+                if (validateNumberOfArgs(args, 1)){
                     Repository.initRepo();
                 }
                 break;
             case "add":
-                if (validateNumberOfArgs(args, 2, 2)){
+                if (validateNumberOfArgs(args, 2)){
                     Repository.stageFile(args[1]);
                 }
                 break;
             case "commit":
-                if (validateNumberOfArgs(args, 2, 2)){
+                if (validateNumberOfArgs(args, 2)){
                     Repository.commitStagedFiles(args[1]);
                 }
                 break;
             case "rm":
-                if (validateNumberOfArgs(args, 2, 2)) {
+                if (validateNumberOfArgs(args, 2)) {
                     Repository.clearStage(args[1]);
                 }
                 break;
             case "log":
-                // TODO
+                if (validateNumberOfArgs(args, 1)) {
+                    Repository.printHeadLog();
+                }
                 break;
             case "global-log":
-                // TODO
+                if (validateNumberOfArgs(args, 1)) {
+                    Repository.printGlobalLog();
+                }
                 break;
             case "find":
-                // TODO
+                if (validateNumberOfArgs(args, 2)) {
+                    Repository.findMessage(args[1]);
+                }
                 break;
             case "status":
                 // TODO
@@ -68,6 +74,18 @@ public class Main {
                 System.out.println("No command with that name exists.");
                 break;
         }
+    }
+
+    /**
+     * Checks that the number of args equals expected; if not, prints a message
+     * and returns false.
+     */
+    private static boolean validateNumberOfArgs(String[] args, int expected) {
+        if (args.length != expected) {
+            message("Incorrect operands.");
+            return false;
+        }
+        return true;
     }
 
     /**

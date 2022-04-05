@@ -5,13 +5,10 @@ import java.io.Serializable;
 import java.util.*;
 
 import static gitlet.Utils.*;
-import static gitlet.Utils.readObject;
 
-/** Represents a gitlet commit object.
- *  TODO: It's a good idea to give a description here of what else this Class
- *  does at a high level.
+/** Represents a gitlet commit object. Once created, the commit data cannot be changed.
  *
- *  @author TODO
+ *  @author Carson Crow
  */
 public class Commit implements Serializable {
 
@@ -21,8 +18,9 @@ public class Commit implements Serializable {
     /** The date and time this Commit was created. */
     private final Date timestamp;
 
-    /** The parent of this Commit, null if this is the initial Commit. */
-    private final String parent;
+    /** The parent IDs of this Commit, where the ID at index 0 is the historical parent, or an
+     * empty ArrayList if this is the initial Commit. */
+    private final List<String> parents;
 
     /** An array of blob IDs that this commit points to. */
     private final List<String> blobs;
@@ -32,16 +30,30 @@ public class Commit implements Serializable {
 
     /** Creates a new commit with no parent and the init message. */
     public Commit() {
-        parent = "none";
+        parents = new ArrayList<>();
         timestamp = new Date(0);
         message = "initial commit";
         blobs = new ArrayList<>();
         ID = generateID();
     }
 
+    public List<String> getParents() {
+        return parents;
+    }
+
     /** Creates a new commit with the specified parent and message. */
     public Commit(String parent, String message, List<String> blobs) {
-        this.parent = parent;
+        parents = new ArrayList<>();
+        parents.add(parent);
+        timestamp = new Date();
+        this.message = message;
+        this.blobs = blobs;
+        ID = generateID();
+    }
+
+    /** Creates a new commit with multiple parents. */
+    public Commit(List<String> parents, String message, List<String> blobs) {
+        this.parents = parents;
         timestamp = new Date();
         this.message = message;
         this.blobs = blobs;
@@ -50,8 +62,7 @@ public class Commit implements Serializable {
 
     /** Generates this Commit's ID by hashing its attribute values. */
     private String generateID() {
-        List<Object> hashBrowns = new ArrayList<>();
-        hashBrowns.add(parent);
+        List<Object> hashBrowns = new ArrayList<>(parents);
         hashBrowns.add(timestamp.toString());
         hashBrowns.add(message);
         hashBrowns.addAll(blobs);
@@ -66,6 +77,13 @@ public class Commit implements Serializable {
     public List<String> getBlobs() {
         return blobs;
     }
+    public String getMessage() {
+        return message;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
 
     public void saveCommit() {
         File new_commit = join(Repository.COMMITS_DIR, this.ID);
@@ -73,9 +91,15 @@ public class Commit implements Serializable {
     }
 
     public String toString() {
-        return "commit " + this.ID + "\n" +
-                "Date: " + this.timestamp + "\n" +
-                this.message;
+        String result = "===" + "\n" + "commit " + ID + "\n";
+        if (parents.size() > 1) {
+            result += "Merge:";
+            for (String p : parents) {
+                result += " " + p.substring(0, 7);
+            }
+        }
+        result += "Date: " + timestamp + "\n" + message + "\n";
+        return result;
     }
 
 

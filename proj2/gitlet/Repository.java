@@ -49,6 +49,7 @@ public class Repository {
         initCommit.saveCommit();
         setRef("HEAD", initCommit.getID());
         setRef("master", initCommit.getID());
+        setRef("current", "master");
     }
 
     /** Helper method to initRepo() that generates necessary directories. */
@@ -101,20 +102,9 @@ public class Repository {
         Commit newCommit = new Commit(lastCommitID, commitMessage, newBlobs);
         newCommit.saveCommit();
         setRef("HEAD", newCommit.getID());
-        // TODO: change the current branch ref file pointer. How to keep track of current branch?
+        String currentBranch = getRef("current");
+        setRef(currentBranch, newCommit.getID());
         clearStage();
-    }
-
-    /** Deletes all files in .gitlet/stage. */
-    private static void clearStage() {
-        List<String> stagedFileNames = plainFilenamesIn(STAGE_DIR);
-        assert stagedFileNames != null;
-        for (String name : stagedFileNames) {
-            File f = join(STAGE_DIR, name);
-            if (!f.isDirectory()) {
-                f.delete();
-            }
-        }
     }
 
     /** Deletes the specified file from .gitlet/stage. */
@@ -126,6 +116,53 @@ public class Repository {
         }
         if (!f.isDirectory()) {
             f.delete();
+        }
+    }
+
+    /** Prints the history of the Commit pointed to by HEAD. */
+    public static void printHeadLog() {
+        Commit head = readCommitFromFile(getRef("HEAD"));
+        while (!head.getParents().isEmpty()) {
+            System.out.println(head);
+            head = readCommitFromFile(head.getParents().get(0));
+        }
+        System.out.println(head);
+    }
+
+    /** Prints information for all commits in .gitlet/commits. */
+    public static void printGlobalLog() {
+        List<String> commits = plainFilenamesIn(COMMITS_DIR);
+        assert commits != null;
+        for (String ID : commits) {
+            System.out.println(readCommitFromFile(ID));
+        }
+    }
+
+    public static void findMessage(String message) {
+        List<String> commits = plainFilenamesIn(COMMITS_DIR);
+        assert commits != null;
+        boolean messageNotFound = true;
+        for (String ID : commits) {
+            Commit c = readCommitFromFile(ID);
+            if (c.getMessage().equals(message)) {
+                messageNotFound = false;
+                System.out.println(ID);
+            }
+        }
+        if (messageNotFound) {
+            System.out.println("Found no commit with that message.");
+        }
+    }
+
+    /** Deletes all files in .gitlet/stage. */
+    private static void clearStage() {
+        List<String> stagedFileNames = plainFilenamesIn(STAGE_DIR);
+        assert stagedFileNames != null;
+        for (String name : stagedFileNames) {
+            File f = join(STAGE_DIR, name);
+            if (!f.isDirectory()) {
+                f.delete();
+            }
         }
     }
 
