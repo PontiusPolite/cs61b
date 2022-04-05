@@ -18,22 +18,24 @@ public class Main {
         String firstArg = args[0];
         switch(firstArg) {
             case "init":
-                if (validateNumberOfArgs(args, 1)){
+                if (validateNumberOfArgs(args, 1, 1)){
                     Repository.initRepo();
                 }
                 break;
             case "add":
-                if (validateNumberOfArgs(args, 2)){
+                if (validateNumberOfArgs(args, 2, 2)){
                     Repository.stageFile(args[1]);
                 }
                 break;
             case "commit":
-                if (validateNumberOfArgs(args, 2)){
+                if (validateNumberOfArgs(args, 2, 2)){
                     Repository.commitStagedFiles(args[1]);
                 }
                 break;
             case "rm":
-                // TODO
+                if (validateNumberOfArgs(args, 2, 2)) {
+                    Repository.clearStage(args[1]);
+                }
                 break;
             case "log":
                 // TODO
@@ -69,15 +71,11 @@ public class Main {
     }
 
     /**
-     * Checks the number of input arguments with the expected number, and returns false and prints
-     * message if they are not equal.
-     *
-     * @param args Input arguments from command line
-     * @param n Expected number of arguments
-     * @return A boolean that is false if the validation fails
+     * Checks that the number of args is between min and max (inclusive); if not, prints a message
+     * and returns false.
      */
-    private static boolean validateNumberOfArgs(String[] args, int n) {
-        if (args.length != n) {
+    private static boolean validateNumberOfArgs(String[] args, int min, int max) {
+        if (args.length < min || args.length > max) {
             message("Incorrect operands.");
             return false;
         }

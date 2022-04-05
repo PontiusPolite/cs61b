@@ -117,6 +117,18 @@ public class Repository {
         }
     }
 
+    /** Deletes the specified file from .gitlet/stage. */
+    public static void clearStage(String fileName) {
+        File f = join(STAGE_DIR, fileName);
+        if (!f.exists()) {
+            message("No reason to remove the file.");
+            return;
+        }
+        if (!f.isDirectory()) {
+            f.delete();
+        }
+    }
+
     /** Creates a blob in .gitlet/blobs with the contents of .gitlet/stage/fileName and named by
      * the sha1 hash of the file, removes fileName from .gitlet/stage, and returns the blob name.
      */
