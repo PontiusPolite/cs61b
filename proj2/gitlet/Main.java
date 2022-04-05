@@ -49,11 +49,13 @@ public class Main {
                 break;
             case "find":
                 if (validateNumberOfArgs(args, 2)) {
-                    Repository.findMessage(args[1]);
+                    Repository.printCommitsWithMessage(args[1]);
                 }
                 break;
             case "status":
-                // TODO
+                if (validateNumberOfArgs(args, 1)) {
+                    Repository.printStatus();
+                }
                 break;
             case "checkout":
                 // TODO

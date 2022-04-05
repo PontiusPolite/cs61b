@@ -86,8 +86,8 @@ public class Commit implements Serializable {
     }
 
     public void saveCommit() {
-        File new_commit = join(Repository.COMMITS_DIR, this.ID);
-        writeObject(new_commit, this);
+        File f = join(Repository.COMMITS_DIR, this.ID);
+        writeObject(f, this);
     }
 
     public String toString() {

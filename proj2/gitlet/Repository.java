@@ -80,30 +80,35 @@ public class Repository {
             return;
         }
 
-        String lastCommitID = getRef("HEAD");
-        Commit lastCommit = readCommitFromFile(lastCommitID);
-
+        // Check that there are files staged for committing
         List<String> stagedFileNames = plainFilenamesIn(STAGE_DIR);
         if (stagedFileNames == null || stagedFileNames.size() == 0) {
             message("No changes added to the commit.");
             return;
         }
 
-        List<String> newBlobs = new ArrayList<>();
-        for (String name : stagedFileNames) {
-            newBlobs.add(createBlob(name));
+        // Create list of Blob objects from staged files
+        List<Blob> stagedBlobs = new ArrayList<>();
+        for (String fileName : stagedFileNames) {
+            Blob b = new Blob(fileName, readContentsAsString(join(STAGE_DIR, fileName)));
+            stagedBlobs.add(b);
         }
-        // Combine new blob IDs with parent blob IDs, don't include duplicates
-        for (String parentBlob : lastCommit.getBlobs()) {
-            if (!newBlobs.contains(parentBlob)) {
-                newBlobs.add(parentBlob);
+
+        // Add staged Blobs to .gitlet/blobs folder, keep track of ones that don't already exist
+        List<String> newBlobIDs = new ArrayList<>();
+        for (Blob b : stagedBlobs) {
+            File newBlobFile = join(BLOBS_DIR, b.getID());
+            if (!newBlobFile.exists()) {
+                newBlobIDs.add(b.getID());
+                b.saveBlob();
             }
         }
-        Commit newCommit = new Commit(lastCommitID, commitMessage, newBlobs);
+
+        // Create and save the new commit, and set reference files accordingly
+        Commit newCommit = new Commit(getRef("HEAD"), commitMessage, newBlobIDs);
         newCommit.saveCommit();
         setRef("HEAD", newCommit.getID());
-        String currentBranch = getRef("current");
-        setRef(currentBranch, newCommit.getID());
+        setRef(getRef("current"), newCommit.getID());
         clearStage();
     }
 
@@ -138,7 +143,8 @@ public class Repository {
         }
     }
 
-    public static void findMessage(String message) {
+    /** Finds all commits with the given message and prints their IDs. */
+    public static void printCommitsWithMessage(String message) {
         List<String> commits = plainFilenamesIn(COMMITS_DIR);
         assert commits != null;
         boolean messageNotFound = true;
@@ -152,6 +158,18 @@ public class Repository {
         if (messageNotFound) {
             System.out.println("Found no commit with that message.");
         }
+    }
+
+    public static void printStatus() {
+        System.out.println("=== Branches ===");
+
+        System.out.println("=== Staged Files ===");
+
+        System.out.println("=== Removed Files ===");
+
+        System.out.println("=== Modifications Not Staged For Commit ===");
+
+        System.out.println("=== Untracked Files ===");
     }
 
     /** Deletes all files in .gitlet/stage. */
@@ -211,12 +229,20 @@ public class Repository {
         writeContents(join(REFS_DIR, fileName), commitID);
     }
 
-    /** Returns the Commit object stored in the file .gitlet/commits/commitID. */
+    /** Returns the Commit object stored in the file .gitlet/commits. */
     private static Commit readCommitFromFile(String commitID) {
         if (!join(Repository.COMMITS_DIR, commitID).exists()) {
             throw error("Cannot read commit, no such commitID in .gitlet/commits");
         }
         return readObject(join(Repository.COMMITS_DIR, commitID), Commit.class);
+    }
+
+    /** Returns the Blob object stored in the file .gitlet/blobs. */
+    private static Blob readBlobFromFile(String blobID) {
+        if (!join(Repository.BLOBS_DIR, blobID).exists()) {
+            throw error("Cannot read blob, no such blobID in .gitlet/blobs");
+        }
+        return readObject(join(Repository.BLOBS_DIR, blobID), Blob.class);
     }
 
 }
