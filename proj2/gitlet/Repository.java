@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static gitlet.Utils.*;
@@ -161,15 +162,33 @@ public class Repository {
     }
 
     public static void printStatus() {
-        System.out.println("=== Branches ===");
+        System.out.println("\n=== Branches ===");
+        String currentBranch = getRef("current");
+        List<String> branches = plainFilenamesIn(REFS_DIR);
+        assert branches != null;
+        Collections.sort(branches);
+        for (String branch : branches) {
+            if (!branch.equals("current") && !branch.equals("HEAD")) {
+                if (branch.equals(currentBranch)) {
+                    branch = "*" + branch;
+                }
+                System.out.println(branch);
+            }
+        }
 
-        System.out.println("=== Staged Files ===");
+        System.out.println("\n=== Staged Files ===");
+        List<String> stagedFiles = plainFilenamesIn(STAGE_DIR);
+        assert stagedFiles != null;
+        Collections.sort(stagedFiles);
+        for (String file : stagedFiles) {
+            System.out.println(file);
+        }
 
-        System.out.println("=== Removed Files ===");
+        System.out.println("\n=== Removed Files ===");
 
-        System.out.println("=== Modifications Not Staged For Commit ===");
+        System.out.println("\n=== Modifications Not Staged For Commit ===");
 
-        System.out.println("=== Untracked Files ===");
+        System.out.println("\n=== Untracked Files ===");
     }
 
     /** Deletes all files in .gitlet/stage. */
@@ -182,21 +201,6 @@ public class Repository {
                 f.delete();
             }
         }
-    }
-
-    /** Creates a blob in .gitlet/blobs with the contents of .gitlet/stage/fileName and named by
-     * the sha1 hash of the file, removes fileName from .gitlet/stage, and returns the blob name.
-     */
-    private static String createBlob(String fileName) {
-        File stagedFile = join(STAGE_DIR, fileName);
-        String blobContents = readContentsAsString(stagedFile);
-        String blobName = sha1(blobContents);
-        File blob = join(BLOBS_DIR, blobName);
-        if (blob.exists()) {
-            return blobName;
-        }
-        createFileWithContents(blob, blobContents);
-        return blobName;
     }
 
     /** Helper method that creates the file f and writes contents to it. */
