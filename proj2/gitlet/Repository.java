@@ -1,8 +1,6 @@
 package gitlet;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,13 +16,6 @@ import static gitlet.Utils.*;
  *  @author Carson Crow
  */
 public class Repository {
-    /**
-     * TODO: add instance variables here.
-     *
-     * List all instance variables of the Repository class here with a useful
-     * comment above them describing what that variable represents and how that
-     * variable is used. We've provided two examples for you.
-     */
 
     /** The current working directory. */
     public static final File CWD = new File(System.getProperty("user.dir"));
@@ -37,8 +28,10 @@ public class Repository {
     /** The location of our blobs directory, which stores the snapshots of our files pointed to by commits,
      *  named by hash. */
     public static final File BLOBS_DIR = join(CWD, ".gitlet", "blobs");
+
     /** The location of our blobs that are in the staging area, ready to be committed. */
-    public static final File STAGE_DIR = join(CWD, ".gitlet", "stage");
+    public static final File ADD_STAGE_DIR = join(CWD, ".gitlet", "add-stage");
+    public static final File RM_STAGE_DIR = join(CWD, ".gitlet", "rm-stage");
 
     public static void initRepo() {
         if (GITLET_DIR.exists()) {
@@ -59,17 +52,38 @@ public class Repository {
         COMMITS_DIR.mkdir();
         REFS_DIR.mkdir();
         BLOBS_DIR.mkdir();
-        STAGE_DIR.mkdir();
+        ADD_STAGE_DIR.mkdir();
+        RM_STAGE_DIR.mkdir();
     }
 
     /** Adds the specified file in our repository to the staging area .gitlet/stage. */
-    public static void stageFile(String fileName) {
+    public static void stageFileForAddition(String fileName) {
         File fileToStage = new File(fileName);
         if (!fileToStage.exists()) {
             message("File does not exist.");
             return;
         }
-        createFileWithContents(join(STAGE_DIR, fileName), readContentsAsString(fileToStage));
+        createFileWithContents(join(ADD_STAGE_DIR, fileName), readContentsAsString(fileToStage));
+    }
+
+    public static void stageFileForRemoval(String fileName) {
+        // Remove file from .gitlet/add-stage
+        File f = join(ADD_STAGE_DIR, fileName);
+        boolean stagedForAddition = false;
+        if (f.exists()) {
+            stagedForAddition = true;
+            if (!f.isDirectory()) {
+                f.delete();
+            }
+        }
+
+
+        File fileToStage = new File(fileName);
+        if (!fileToStage.exists()) {
+            message("File does not exist.");
+            return;
+        }
+        createFileWithContents(join(RM_STAGE_DIR, fileName), readContentsAsString(fileToStage));
     }
 
     /** Moves the files in .gitlet/stage to .gitlet/blobs, and creates a new Commit pointing to these
@@ -82,7 +96,7 @@ public class Repository {
         }
 
         // Check that there are files staged for committing
-        List<String> stagedFileNames = plainFilenamesIn(STAGE_DIR);
+        List<String> stagedFileNames = plainFilenamesIn(ADD_STAGE_DIR);
         if (stagedFileNames == null || stagedFileNames.size() == 0) {
             message("No changes added to the commit.");
             return;
@@ -91,7 +105,7 @@ public class Repository {
         // Create list of Blob objects from staged files
         List<Blob> stagedBlobs = new ArrayList<>();
         for (String fileName : stagedFileNames) {
-            Blob b = new Blob(fileName, readContentsAsString(join(STAGE_DIR, fileName)));
+            Blob b = new Blob(fileName, readContentsAsString(join(ADD_STAGE_DIR, fileName)));
             stagedBlobs.add(b);
         }
 
@@ -110,12 +124,12 @@ public class Repository {
         newCommit.saveCommit();
         setRef("HEAD", newCommit.getID());
         setRef(getRef("current"), newCommit.getID());
-        clearStage();
+        clearAddStage();
     }
 
     /** Deletes the specified file from .gitlet/stage. */
-    public static void clearStage(String fileName) {
-        File f = join(STAGE_DIR, fileName);
+    public static void clearAddStage(String fileName) {
+        File f = join(ADD_STAGE_DIR, fileName);
         if (!f.exists()) {
             message("No reason to remove the file.");
             return;
@@ -177,7 +191,7 @@ public class Repository {
         }
 
         System.out.println("\n=== Staged Files ===");
-        List<String> stagedFiles = plainFilenamesIn(STAGE_DIR);
+        List<String> stagedFiles = plainFilenamesIn(ADD_STAGE_DIR);
         assert stagedFiles != null;
         Collections.sort(stagedFiles);
         for (String file : stagedFiles) {
@@ -191,12 +205,12 @@ public class Repository {
         System.out.println("\n=== Untracked Files ===");
     }
 
-    /** Deletes all files in .gitlet/stage. */
-    private static void clearStage() {
-        List<String> stagedFileNames = plainFilenamesIn(STAGE_DIR);
+    /** Deletes all files in .gitlet/add-stage. */
+    private static void clearAddStage() {
+        List<String> stagedFileNames = plainFilenamesIn(ADD_STAGE_DIR);
         assert stagedFileNames != null;
         for (String name : stagedFileNames) {
-            File f = join(STAGE_DIR, name);
+            File f = join(ADD_STAGE_DIR, name);
             if (!f.isDirectory()) {
                 f.delete();
             }

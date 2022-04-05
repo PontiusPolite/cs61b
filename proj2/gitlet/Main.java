@@ -24,7 +24,7 @@ public class Main {
                 break;
             case "add":
                 if (validateNumberOfArgs(args, 2)){
-                    Repository.stageFile(args[1]);
+                    Repository.stageFileForAddition(args[1]);
                 }
                 break;
             case "commit":
@@ -34,7 +34,7 @@ public class Main {
                 break;
             case "rm":
                 if (validateNumberOfArgs(args, 2)) {
-                    Repository.clearStage(args[1]);
+                    Repository.stageFileForRemoval(args[1]);
                 }
                 break;
             case "log":
