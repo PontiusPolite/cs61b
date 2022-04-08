@@ -1,5 +1,5 @@
 
-/* CS61B Data Structures and Algorithms */
+/* === CS61B DATA STRUCTURES AND ALGORITHMS === */
 
 /*
 BASICS
@@ -98,8 +98,7 @@ Test-Driven Development (TDD)
 - Some critics will say this leads to unintended project complexity, with lots of dependencies.
     - You may want to build a quick, messy prototype to paint a clearer picture of what you need.
 
-- TDD is an extreme departure from naive workflow, so for this class we can be somewhere
-in between the two.
+- TDD is an extreme departure from naive workflow, so for this class we can be somewhere in between the two.
 */
 
 /*
@@ -114,19 +113,16 @@ MEMORY
 - When you instantiate an object, Java creates a table in memory for each instance variable
     - These are assigned default values, until the constructor changes those values
     - The 'new' keyword returns the location that the new object was placed in
-- When you declare a reference variable, Java always allocates 64 bits (the size
-of the location address)
+- When you declare a reference variable, Java always allocates 64 bits (the size of the location address)
 
 THE GOLDEN RULE OF EQUALS:
 - Saying y = x copies the bits at location x into location y
     - They both don't point to the same box
-- Saying obj1 = obj2 copies the bits that are the location in memory, so they both
-point to the same location
+- Saying obj1 = obj2 copies the bits that are the location in memory, so they both point to the same location
 
 PARAMETER PASSING:
 - When you pass a variable into a function, the bits are copied as the new parameter
-- So, passing a reference variable and manipulating it will also manipulate it 
-outside the frame of the function
+- So, passing a reference variable and manipulating it will also manipulate it  outside the frame of the function
 */
 
 /*
@@ -134,8 +130,7 @@ LECTURE 5: SLLISTS, NESTED CLASSES, SENTINEL NODES
 
 LISTS
 - See IntList class for an example of a recursive list data structure
-- We use StuffNode and then SLList (Single Linked List) as an intermediary, so that we don't
-have this naked recursive data (might be harder for someone to understand)
+- We use StuffNode and then SLList (Single Linked List) as an intermediary, so that we don't have this naked recursive data (might be harder for someone to understand)
 
 PRIVATE KEYWORD
 - We can use the private keyword to prevent using class members from outside
@@ -145,8 +140,7 @@ the class
 - If you make something public, the expectation is you will never remove it
 
 NESTED CLASSES
-- We can put the IntNode class inside SLList, since it is obviously subordinate
-to it
+- We can put the IntNode class inside SLList, since it is obviously subordinate to it
 
 
 ARRAYS
@@ -207,8 +201,7 @@ Speed Analysis:
     - This is a geometric resizing, which works much better
 - ALists often have a usage ratio R = size / items.length, to make them efficient in space as well
 
-- We also want to null out deleted objects, which makes sure the memory that object occupied
-is recovered
+- We also want to null out deleted objects, which makes sure the memory that object occupied is recovered
  */
 
 
@@ -243,8 +236,7 @@ DEFAULT KEYWORD
 STATIC VS DYNAMIC TYPE
 - The static type is determined by the variable declaration (compile-time type)
 - the dynamic type is specified at instantiation (run-time type)
-- Suppose we have an object with compile-time type X and run-time type Y. If Y overrides a method,
-Y's method is used instead.
+- Suppose we have an object with compile-time type X and run-time type Y. If Y overrides a method, Y's method is used instead.
 
 JAVA LIST
 - When writing actual code, we use java's built-in java.util.List and java.util.ArrayList
@@ -273,10 +265,8 @@ IMPLEMENTATION INHERITANCE
 
 - Implementation Inheritance can break our understanding of abstraction
     - suppose you have a superclass with methods f and g, and f calls g
-    - if you are the user behind the layer of abstraction, you might not know f calls g. You just
-    know the description and results of calling f and g
-    - if you write a subclass that extends this superclass, and write an override of g that calls
-    super.f (or doesn't implement any override of f), then you've created an infinite loop
+    - if you are the user behind the layer of abstraction, you might not know f calls g. You just know the description and results of calling f and g
+    - if you write a subclass that extends this superclass, and write an override of g that calls super.f (or doesn't implement any override of f), then you've created an infinite loop
     - For this reason, it's sometimes something to avoid
 
 CASTING
@@ -290,9 +280,7 @@ HIGHER ORDER FUNCTIONS
     - there isn't a 'function' type
     - This is allowed after Java 7
 - See IntUnaryInterface / TenX / HoFDemo for example
-- We take advantage of the fact that we can pass in an instance of the interface
-into the function, which itself has an 'apply' method. That apply method can be specified
-in any subclasses of that interface. So, f(f(x)) will be f.apply(f.apply(x)).
+- We take advantage of the fact that we can pass in an instance of the interface into the function, which itself has an 'apply' method. That apply method can be specified in any subclasses of that interface. So, f(f(x)) will be f.apply(f.apply(x)).
 
  */
 
@@ -338,8 +326,7 @@ ENHANCED FOR LOOP
     - The class also needs to implement Iterable<T>
 
 OBJECT METHODS: toString() and equals()
-- The implementation of toString() in the Object class is the object name, an @ sign, and its
-memory location
+- The implementation of toString() in the Object class is the object name, an @ sign, and its memory location
 - STRINGBUILDER: see ArraySet.toString() for example
 
  */
@@ -414,8 +401,7 @@ GIT
 
 - Git uses the git-SHA1 hash to label versions of files
     - The first two digits of the hash are used to label a folder in the .git directory
-    - The rest is used to label a file in that folder which contains the compressed contents of
-    the commit
+    - The rest is used to label a file in that folder which contains the compressed contents of the commit
 - Commits
     - A commit has an author, a date, a commitMessage, and a parentID
 
@@ -431,10 +417,8 @@ LECTURE 13: ASYMPTOTICS I
 
 Techniques for Measuring Computational Cost:
 - Timing: easy to measure, but may result in lots of time waiting
-- Count Operations: machine independent, scalable, but hard to compute and doesn't necessarily
-measure time
-- Count Operations in terms of input size N: tells you how algorithm scales, but even more tedious
-to compute
+- Count Operations: machine independent, scalable, but hard to compute and doesn't necessarily measure time
+- Count Operations in terms of input size N: tells you how algorithm scales, but even more tedious to compute
 
 ASYMPTOTIC BEHAVIOR
 - in most cases, we only care about what happens for very large N
@@ -472,16 +456,14 @@ Now we need a way to keep track of these sets:
         SETS                        ARRAY
 {0, 1, 2, 4}, {3, 5}, {6} -> [4, 4, 4, 5, 4, 5, 6]    0 belongs to 4, 1 belongs to 4, etc.
     set4       set5  set6     0  1  2  3  4  5  6
-    - With this approach, isConnected is constant, but connect is still linear since you have
-to add items to the array.
+    - With this approach, isConnected is constant, but connect is still linear since you have to add items to the array.
 
 - Quick Union: assign each item a parent instead of an id. So our new array looks like:
 values: [-1, 0, 1, -1, 0, 3, -1]
 indexes:  0  1  2   3  4  5   6
     - if an item has no parent, it is assigned -1
     - starts to look like a tree ;)
-    - Suppose we want to connect 5 to 2. We find the root of 5, and connect that to the
-     root of 2.
+    - Suppose we want to connect 5 to 2. We find the root of 5, and connect that to the root of 2.
         - This can become expensive though if the tree is really tall
         - Finding the root is Q(N)
         - see QuickUnionDS for an implementation
@@ -495,8 +477,7 @@ indexes:  0  1  2   3  4  5   6
         - think about how the tree grows as quickly as possible
 
 PATH COMPRESSION
-- What if, when we determine the root, we set the parent of all items on the path we take to
-the root
+- What if, when we determine the root, we set the parent of all items on the path we take to the root
     - Helps widen our tree and remove height
     - Form of memoization, caching
     - Results in operations that are close to amortized constant time
@@ -529,8 +510,7 @@ EXAMPLES:
     - Choosing == as our operation,
     - Worst case number of == operations: N(N-1)/2
     - Since == is Q(N), the whole method is Q(N^2)
-    - We can draw a grid with side lengths i and j, and color in the section that == will happen
-    for a geometric understanding
+    - We can draw a grid with side lengths i and j, and color in the section that == will happen for a geometric understanding
      */
 
     /** Example of nested loops that isn't Q(N^2). */
@@ -575,10 +555,8 @@ Binary Search Example
 - We have an array of sorted items, and a key we want to find. Start with low, high and mid
 pointers (mid pointer goes to middle rounded down)
 - Compare key against mid pointer
-    - Too small, move to left side. Adjust high pointer to be one below the previous mid,
-    and move mid to the middle of our selection
-    - Too big, move to right side. Adjust low pointer to be one above previous mid, and move
-    mid to middle of new selection
+    - Too small, move to left side. Adjust high pointer to be one below the previous mid, and move mid to the middle of our selection
+    - Too big, move to right side. Adjust low pointer to be one above previous mid, and move mid to middle of new selection
     - Equal, found
 - The number of entries still left to search is N = high - low + 1
 - Quite tricky to implement
@@ -597,13 +575,10 @@ Selection Sort (Prelude to Merge Sort)
 - sort the remaining items
 - This is Q(N^2)
 
-- Arbitrary Unit of Time: we can just say an operation takes a certain amount of AU
-units of time. For selection sort, we might say for N = 6 it takes 36 AU, then for N = 64,
-it takes 2048 AU.
+- Arbitrary Unit of Time: we can just say an operation takes a certain amount of AU units of time. For selection sort, we might say for N = 6 it takes 36 AU, then for N = 64, it takes 2048 AU.
 
 Array Merging:
-- We can glue two sorted arrays together by comparing the first items, and taking the smallest one,
-then repeating on the rest
+- We can glue two sorted arrays together by comparing the first items, and taking the smallest one, then repeating on the rest
 - This will combine the two sorted arrays into one big sorted array.
 - Q(N) runtime for N total elements
 - Merging is faster than selection sort, and because sorting is N^2, it's beneficial to
@@ -685,8 +660,7 @@ MAPS EXAMPLE (same as dictionary in python):
 BINARY SEARCH TREES
 - a tree is a collection of nodes and edges, such that between any two nodes there is only one path
 - a rooted tree is a tree where we just call one node the root
-    - every node N except the root has one parent, defined as the first node on the path from
-    N to the root
+    - every node N except the root has one parent, defined as the first node on the path from N to the root
     - a node with no child is a leaf
 - in a rooted binary tree, every node has either 0, 1, or 2 children
 
@@ -738,11 +712,8 @@ B-TREES
 - avoid adding new leaves by 'overstuffing' the leaf nodes, such that they become lists
     - set a limit for the number of items in each node
     - if we go above that limit, pass one of the middle items to the parent node
-        - split the node down the middle, so that now the parent has pointers to each from the
-        middle of its item list
-            - this is to stay logically consistent: suppose we're searching for 16 and
-            reach a leaf with items [12, 14, 20]. We know to check if there's a tree pointer
-            between 14 and 20. If not, we add it to the items, which then need to be split, etc.
+        - split the node down the middle, so that now the parent has pointers to each from the middle of its item list
+            - this is to stay logically consistent: suppose we're searching for 16 and reach a leaf with items [12, 14, 20]. We know to check if there's a tree pointer between 14 and 20. If not, we add it to the items, which then need to be split, etc.
 
 - adding items to a node that isn't a leaf can start a chain reaction
 - what if the root is too full?
@@ -775,8 +746,7 @@ BST Structure and Tree Rotation:
 - we can 'rotate' between different BSTs
     - let P be the right child of R. To rotate R to the left, make R the new left child of P.
     - Now P might have 3 children. Take the middle child k, and make it the right child of R.
-        - we can also think of this as merging P with R, then R goes down to the left and carries
-        k with it as its right child
+        - we can also think of this as merging P with R, then R goes down to the left and carries k with it as its right child
     - So now by rotating to the right, G has become the right child of its former left child x.
 
 Red Black Tree:
@@ -798,8 +768,7 @@ Implementation:
 - we insert as usual into a BST, then use rotations to maintain the 1-1 mapping with a LLRB
     - this avoids the problems of implementing a 2-3 B Tree
 Insertion Color:
-- new values are always added using a red link, since in we always insert new values into
-a leaf node in a 2-3 tree
+- new values are always added using a red link, since in we always insert new values int a leaf node in a 2-3 tree
 Inserting to the right:
 - if when we insert an item that goes on the right, we need to rotate the parent to the left
 - this keeps the red link on the left
@@ -825,8 +794,7 @@ Problems:
 - very memory wasteful, need 2 billion booleans for just positive ints
 - need to generalize beyond integers
 
-To solve the generalization problem, we can come up with a function that converts data to
-an integer index. However, we need to avoid collisions.
+To solve the generalization problem, we can come up with a function that converts data to an integer index. However, we need to avoid collisions.
 
 STRING EXAMPLE:
 For strings, we can convert them into a base 27 number:
@@ -900,8 +868,7 @@ HEAPS
 OPERATIONS WITH HEAP:
 - getSmallest(): always at root
 - add(): temporarily add item to bottom of heap. Then 'swim' it up until it's in the correct spot.
-- removeSmallest(): swap the last item in the heap into the root. Then sink that new root, swapping with
- the smaller child, until it's in the right place.
+- removeSmallest(): swap the last item in the heap into the root. Then sink that new root, swapping with the smaller child, until it's in the right place.
 
 TREE REPRESENTATIONS OF HEAP:
 - could have attributes of key and left_child, right_child
@@ -911,8 +878,7 @@ its sibling and its child
 
 - we could store our keys in an array, and our parents in an array as well, much like the
 Disjoint Sets data structure, where the parent of keys[i] is at index parents[i]
-    - if we assume the tree is complete, then the parents array is actually redundant. It will
-    always look like: [-1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, ...]
+    - if we assume the tree is complete, then the parents array is actually redundant. It will always look like: [-1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, ...]
     - so we only need a Key[] array
     - the parent() method: takes index k and returns its parent index
         public int parent(k) {
@@ -995,8 +961,7 @@ In this class, we'll assume we're always talking about simple graphs unless spec
 
 Terminology:
 - Directed: each edge has a direction
-- Cyclic: multiple paths between nodes (note that a non-cyclic graph isn't necessarily a tree,
-it can have disconnected nodes)
+- Cyclic: multiple paths between nodes (note that a non-cyclic graph isn't necessarily a tree, it can have disconnected nodes)
 - Graph:
     - set of vertices
     - set of edges (pairs of vertices)
@@ -1016,8 +981,7 @@ S-T CONNECTIVITY
      - does s == t? if so return true
      - otherwise, if connected(v, t) for any unmarked neighbor v of s, return true
      - return false
-- the above is an example of depth first traversal: we explore the entire neighbor's subgraph
-before moving to the next neighbor
+- the above is an example of depth first traversal: we explore the entire neighbor's subgraph before moving to the next neighbor
 
 DEPTH-FIRST PATHS:
 dfs(v) {
@@ -1087,8 +1051,7 @@ BFS vs DFS for path finding:
 - both will find same path, but BFS always gives back the shortest paths
 - DFS is worse for spindly graphs, very deep call stack
 - BFS is worse for bushy graphs for memory
-- say we're finding a street route - we need to account for the length of the street, what
-we can refer to 'edge weight'
+- say we're finding a street route - we need to account for the length of the street, what we can refer to 'edge weight'
 
 - the solution of shortest paths from a given source is always a tree
     - it won't contain any cycles, unless there's a negative weight for some edge!
@@ -1096,11 +1059,8 @@ we can refer to 'edge weight'
 Bad Algorithm:
 - mark every node as having infinite distance initially, our start has 0.
 - perform a depth first search. When you visit v:
-    - for each edge from v to w, add edge to our shortest path tree only if that edge yields
-    a better distance. This process is called relaxation, that is, only using the edge that
-    yields a better distance to the neighbor node.
-    - the problem is if we mark a node trying one path, we need to unmark it for doing
-    some other path that could touch it. This is do-able but slow.
+    - for each edge from v to w, add edge to our shortest path tree only if that edge yields a better distance. This process is called relaxation, that is, only using the edge that yields a better distance to the neighbor node.
+    - the problem is if we mark a node trying one path, we need to unmark it for doing some other path that could touch it. This is do-able but slow.
 
 DIJKSTRA's ALGORITHM
 - perform a best first search (closest first). When you visit v:
@@ -1108,8 +1068,7 @@ DIJKSTRA's ALGORITHM
 
 Implementation:
 - insert all vertices into a fringe PQ, storing vertices in order from distance from source.
-    - they all start out as infinity, but we do a change priority operation when we update
-     a distance
+    - they all start out as infinity, but we do a change priority operation when we update a distance
 - repeat: remove closest vertex v from PQ and relax all edges pointing from v
 
 Dijkstra's Pseudocode:
@@ -1132,9 +1091,7 @@ Key Invariants:
 
 Why does it work?:
 - assume there are no negative edges
-- at start, distTo[source] = 0, which is optimal. After relaxing all edges from source, let vertex
-v1 be the vertex with minimum weight. Thus distTo[v1] is optimal, since any other path would require
-another edge. By induction, this holds true for all vertices after dequeueing.
+- at start, distTo[source] = 0, which is optimal. After relaxing all edges from source, let vertex v1 be the vertex with minimum weight. Thus distTo[v1] is optimal, since any other path would require another edge. By induction, this holds true for all vertices after dequeueing.
 
 DIJKSTRA'S RUNTIME:
 PQ Operation count:
@@ -1169,8 +1126,7 @@ SPANNING TREES
 - if there are V vertices, there will be V-1 edges in the ST
 
 - a MINIMUM spanning tree is one with total minimum edge weight
-- SPT depends on the start vertex, but for an MST there is no source. It is a global property
-of the entire graph.
+- SPT depends on the start vertex, but for an MST there is no source. It is a global property of the entire graph.
 
 The Cut Property:
 - a cut is an assignment of a graph's node to two non-empty sets (think two different colors)
@@ -1188,8 +1144,7 @@ PRIM'S ALGORITHM
     - add shortest edge that has one node to the MST under construction
     - now we consider everything in our MST (two nodes rn) as one set in our cut
     - use cut property to add a new edge
-        - the cut property assumed all edges are unique, but if we have a duplicate edge we just
-        select one of them
+        - the cut property assumed all edges are unique, but if we have a duplicate edge we just select one of them
     - repeat until V-1 edges
 - this is a conceptual, inefficient version - we can use a fringe PQ to speed things up
 
@@ -1271,5 +1226,72 @@ K-d tree: generalized k-d BST where each node owns 2 subspaces
 Spacial partitioning allows for pruning of the search space.
 
  */
+
+/*
+LECTURE 26: PREFIX OPERATIONS AND TRIES
+
+TRIES
+
+The sets we've made are great:
+Balanced Search Tree: contains(x) is logN and add(x) is logN
+Resizing Separate Chaining Hash Table: contains(x) is constant and add(x) is constant 
+
+Supose we know that our keys are always strings:
+- can use a Trie data structure
+    - store each letter of the string as a node in a tree
+    - great performance for get and add, as well as special string ops
+
+This is the Trie for 'sam', 'sad', 'sap', and 'a':
+         0
+        / \
+       a   s
+            \
+             a--
+            / \ \
+           d   m p
+When then mark the nodes that denote the end of the word, so the left a, d, m and p.
+These final letters can map to a value. 
+
+Trie is terrible short name for Retrieval Tree. 
+
+See vid for implementation and instance variables: https://www.youtube.com/watch?v=DqfZ4BEVDgk&list=PL8FaHk7qbOD7eyAcACitG8neRNL2rsvng&index=3
+
+Runtime: contains(x) and add(x) are constant, because the worst case number of links is the length of the longest key.
+
+Tracking Children in a Trie:
+We can use a DataIndexedCharMap (array with 128 slots, each referring to ascii char value), but this is very memory hungry since there will be a bunch of nulls. 
+Can also use a hash table or a binary search tree:
+- thus we have data abstraction: we just need a map<child, node> implementation to keep track of children
+- these are technically slower than the char map (still constant), but less memory hogging
+
+TRIE STRING OPERATIONS
+- examples: keysWithPrefix("sa"), longestPrefixOf("sa')
+
+collect(): returns a list of all keys in the Trie.
+    > create empty list x
+    > for character c in root.next.keys():
+        > colHelp("c", x, root.next.get(c))
+    > return x
+
+colHelp(String s, List<String> x, Node n):
+    > if n.isKey, then x.add(s)
+    > for character c in n.next.keys():
+        > call colHelp(s + c, x, n.next.get(c))
+
+- keysWithPrefix(x) is similar to collect, but with a specific starting node besides the root
+
+AUTOCOMPLETE
+- We can use a Trie based map from strings to values - the value is how important the word is to our autocomplete
+- If the user types s, we call keysWithPrefix('s')
+- However, it's inefficient to retrieve everything prefixed by s and only display 10 results.
+
+- To solve this, each node can store its own value along with the value of the best substring below it.
+    - The search will consider nodes in the order of 'best'
+    - We can stop when all three matches are better than the best remaining
+    - hint: use a PQ
+    
+
+*/
+
 
 }
