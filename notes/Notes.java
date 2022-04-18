@@ -1289,7 +1289,35 @@ AUTOCOMPLETE
     - The search will consider nodes in the order of 'best'
     - We can stop when all three matches are better than the best remaining
     - hint: use a PQ
-    
+*/
+
+/* 
+LECTURE 27: SOFTWARE ENGINEERING I
+
+- Much of 61A and 61B have been deeling with small scale - fill in this function, write this class according to our spec, etc. Gitlet has been the first foray in to large scale. 
+- check out "A Philosophy of Software Design" by Ousterhout for deeper look
+
+What is complexity? 
+- complexity is anything related to the structure that makes it harder to understand and modify
+    - in a complex system, it takes a lot of effort to make small improvements
+
+How do we manage complexity? 
+- make code simpler and more obvious
+    - eliminate special cases, e.g. why we used sentinel nodes
+- encapsulation into modules
+    - in modular design, creators of one "module" can use other modules without knowing how 
+    they work
+
+Symptoms of Complexity:
+- change amplification: a simple change requires modification in many places
+- cognitive load: how much you need to know in order to make a change
+    - more lines of code can actually decrease cognitive load if you're making things more readable
+- unknown unknowns: the worst complecity. Occurs when it's not even clear what you're supposed to modify to make a change
+
+Tactical programming: your main focus is just getting something working
+    - however, if you're not thinking about the overall design, you start introducting lots of small complexities as you go
+Strategic programming: the most important thing is the long term structure
+    - adding complexities for short term time games is unacceptable
 
 */
 
