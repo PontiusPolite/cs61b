@@ -1324,8 +1324,77 @@ Strategic programming: the most important thing is the long term structure
 /*
 LECTURE 28: REDUCTIONS AND DECOMPOSITIONS
 
+TOPOLOGICAL ORDER:
+- suppose we have a directed acyclic graph (DAG) 
+- if V1 points to V2, then V2 is 'dependent' on V1
+- a topological order will list all vertices such that the depender comes after the dependee
+For: 
+   1 --> 2 
+       /  \
+   3 ->    --> 4
+   Order could be 1, 3, 2, 4
+
+Topological Sorting:
+- run depth first search on all nodes with in-degree 0
+    - keep track of marked nodes between searches
+    - make a list of nodes by post-order visit
+    - reverse the list
+- this gives you a valid topological order
+
+- We can use topological sorting to find the shortest path tree in a DAG with negative edge weights, where Dijkstra's failed because it didn't consider dependencies
+- Visit vertices in topo order: when we visit a vertex, relax all of its outgoing edges
+
+LONGEST PATHS PROBLEM
+- best known algo is exponential for simple graphs
+- with a DAG, we can just flip the sign of everything, run our DAG SPT algo, and flip signs back
+
+REDUCTIONS
+- we can split up our DAG-LPT into multiple algo steps: pre-process (flipping weight signs), DAG-SPT (doing or shortest paths algo), post-process (flipping signs back).
+
+Formal: If any subroutine for task Q can be used to solve P, we say P reduces to Q. 
 
 */
 
+
+/*
+LECTURE 29: BASIC SORTS
+
+An ordering relation < for keys a, b and c has the following properties:
+- Law of Trichotomy: exactly one of a < b, a = b, b < a is true
+- Law of Transitivity: if a < b and b < c, a < c
+
+An 'inversion' is a pair of elements that are out of order with respect to <.
+
+Selection sort: we've done this, ctrl f
+
+Naive Heapsort:
+- put all items into a max-heap, and create an output array
+- repeat N times:
+    - delete largest item from the max heap
+    - put largest item at the end of output array
+    - O(NlogN)
+
+In-Place Heapsort:
+- you can 'heapify' your input array rather than creating a new max heap
+    - sink nodes in reverse level order (starting from end of array)
+    - O(NlogN), but uses less memory (O(N) space complexity)
+
+Top-down Merge Sort: see previous notes on this
+- no good in place merge sort
+- space complexity is O(N)
+
+Insertion Sort:
+- start with empty output array
+- for each item from input, insert into output at right point
+
+In-place Insertion Sort:
+- repeat for i = 0 to N - 1:
+    - designate item i as the traveling item
+    - swap item backwards until traveller is in the right place among all previously examined items
+- O(N^2) and constant space complexity
+- but Q(N) in the best case
+   
+
+*/
 
 }
