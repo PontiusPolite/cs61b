@@ -1369,7 +1369,7 @@ Selection sort: we've done this, ctrl f
 
 Naive Heapsort:
 - put all items into a max-heap, and create an output array
-- repeat N times:
+- repeat N times:   
     - delete largest item from the max heap
     - put largest item at the end of output array
     - O(NlogN)
@@ -1394,7 +1394,43 @@ In-place Insertion Sort:
 - O(N^2) and constant space complexity
 - but Q(N) in the best case
    
+*/
 
+/*
+LECTURE 30: QUICK SORT
+
+- If you sort an array, then move one item (one inversion), which sort will be the fastest to re-sort that array?
+    - Insertion sort would only be Q(N)
+    - One inversion means only one swap for insertion sort
+        - Runtime is Q(N + K) for K inversions
+- Insertion sort is better for smaller arrays (around length <15) since heap and merge spend too much time dividing up at first 
+
+- Partition: take an element of the array x = a[i], call it the pivot
+    - rearrange the array such that every item to the left of x is <= x, and to the right
+    of x is >= x
+    - multiple ways to do this, but the easiest it to make a new empty output array. Then scan through the input array, adding smaller items to output, then add pivot, then scan through input and add larger items.
+
+Partition Sort, aka Quick Sort:
+- Partition on leftmost item
+    - this pivot item is now in the correct place
+- Quick sort the left half
+- Quick sort the right half
+
+Time Analysis
+- Quick Sort is empirically the fastest, but the runtime depends on where the pivot ends up
+    - best case is when every pivot ends up in the middle
+        - this would be Q(NlogN) since N partition time for logN levels, although technically this doesn't consider that we're 'losing' one item at each level of work
+    - worst case is pivot always landing at the beginning or end
+        - then it's Q(N^2)
+    - Merge sort is always Q(NlogN), but quick sort is still faster on average
+        - Suppose the pivot always ends up at least 10% away from an edge
+            - even in this case, the height of our recursive 'partition tree' is still NlogN, the log just has a larger base. 
+            - in this way, quick sort is a BST sort: it's like we're inserting into a BST where the root of each subtree is our pivot
+                - creating a random BST is O(NlogN)
+
+Avoiding Worst Case Behavior
+- always use median as pivot
+- shuffle array before quicksorting
 */
 
 }
