@@ -1152,8 +1152,7 @@ PRIM's IMPLEMENTATION WITH PQ
 - insert all vertices into PQ in order of distance from our current tree (our start vertex is 0
 while everything else is infinite)
 - repeat: remove closest vertex v from PQ, and relax all edges pointing from v
-- it's like dijkstra's, but rather than relaxing according to distance from source, we're relaxing
-according to distance from our current vertex (and thus our current MST under construction)
+- it's like dijkstra's, but rather than relaxing according to distance from source, we're relaxing according to distance from our current vertex (and thus our current MST under construction)
 
 KRUSKAL'S ALGORITHM
 - sort all edges by weight
@@ -1432,5 +1431,41 @@ Avoiding Worst Case Behavior
 - always use median as pivot
 - shuffle array before quicksorting
 */
+
+/*
+LECTURE 31: SOFTWARE ENGINEERING II
+
+Two sources of complexity:
+- dependency
+- obscurity
+
+Think strategically, not tactically. 
+
+Information Hiding: embed knowledge and design inside the module without exposing that complexity. Keep the interface simple. 
+
+
+*/
+
+/*
+LECTURE 32: MORE QUICKSORTING, SORTING SUMMARY
+
+- randomization is the most practical means of ensuring a decent quicksort
+    - pick pivots randomly, or shuffle before sorting
+- Java's quicksort is not random
+    - randomness can be expensive, and they decided it's not worth the expense to not crash for very specific sequences
+
+Hoare Partitioning (better way of quicksort partitioning than the three scans method):
+- First element is pivot. Create L and G pointers at second and last elements.
+- L pointer likes small items, hates larger or equal items than pivot
+- G pointer likes big items, hates smaller or equal items
+- Walk pointers towards eachother, stopping on hated item
+    - when pointers have both stopped, swap and move pointers by one
+    - When pointers cross, you're done
+- Swap pivot with G
+
+Stability: a sort if stable if the order of equivalent items is preserved
+
+*/
+
 
 }
