@@ -1467,10 +1467,53 @@ Stability: a sort if stable if the order of equivalent items is preserved
 
 */
 
+
 /*
 LECTURE 33: SOFTWARE ENGINEERING III
 
 Spend your time wisely. 
+
+*/
+
+
+/*
+LECTURE 34: SORTING AND ALGORITHMIC BOUNDS
+
+Sorting Summary:
+
+Heapsort
+    - memory: Q(1) | # Compares: Q(NlogN) | stable?: no
+    - notes: bad caching (has to do with array accessing across large index differences)
+Insertion
+    - memory: Q(1) | # Compares: Q(N^2) | stable?: yes
+    - notes: best for almost sorted and N < 15
+Mergesort
+    - memory: Q(N) | # Compares: Q(NlogN) | stable?: yes
+    - notes: fastest stable sort
+Random Quicksort
+    - memory: Q(logN) | # Compares: Q(NlogN) expected | stable?: no
+    - notes: fastest sort
+
+Some Math:
+- We're using OM as the Omega symbol for lower bounding function.
+- Easy to show that N! E OM[(N/2)^N/2] 
+    - that is to say, there always exists a k such that k*(N/2)^N/2 <= N!. 
+- Given the above statement, we can show that log(N!) E OM[NlogN]
+    - take the log of both sides to get log(N!) > log((N/2)^N/2) 
+    - bring down exponent, drop the 2 and it's log(N!) > Nlog(N/2)
+    - log(N/2) is just logN - log2, so we end up with log(N!) > Nlog(N)
+- We can also show that NlogN E OM[log(N!)]
+    - log(N!) = logN + log(N-1) + log(N-2) + ... + log(1)
+    - NlogN = log(N) + log(N) + log(N) + ... + log(N)
+
+- We've shown that log(N!) and NlogN bound eachother by below. Therefore they have the same order of growth. 
+
+Can we create a better sorting algorithm than NlogN?
+- Call this hypothetical sort TUCS (the ultimate comparison sort)
+- TUCS is in O(NlogN), otherwise it wouldn't be our best algo
+- TUCS is also in OM(N), since we have to look at every item to sort something. We can't do better than linear. 
+- The puppy cat dog game reduces to a sorting problem, and we know with the decision tree we constructed it takes at least log(N!) compares to solve it. 
+- So the lower bound for any sort is log(N!). Thus our best comparison sort is always NlogN.
 
 */
 
