@@ -1517,4 +1517,44 @@ Can we create a better sorting algorithm than NlogN?
 
 */
 
+/*
+LECTURE 35: RADIX SORTS
+
+We could potentially do a better sort than NlogN if it's not a comparison sort.
+
+Counting Sort: exploit space rather than using comparisons
+- Suppose you have a map of keys to strings, where the keys are distinct numbers from 0 to 11
+- just copy the key into the key'th place of an array 
+- we can generalize this to duplicate keys, non integer keys, etc. 
+
+Generalized Counting Sort:
+- count number of occurence of each item
+- iterate through the list, using count array to decide where to put everything
+
+Counting Sort Runtime:
+- when we have a huge alphabet (key) set, it becomes slow to build the count array
+    - Suppose we're sorting by card suits. The alphabet set is each suit. 
+    - say we were sorting cities by population: the count array would be size 37 million to accomodate Tokyo
+- total runtime on N keys with alphabet size R is Q(N+R)
+    - create an array of size R to store counts: Q(R)
+    - counting number of each item: Q(N)
+    - calculate target position of each item: Q(R)
+    - create an array of size N to store ordered data: Q(N)
+    - copy items from original array to ordered array: do N times:
+        - check target position: Q(1)
+        - update target position: Q(1)
+    - copy items from ordered array back to original array: Q(N)
+
+What if there's way too many alphabet characters, say, all possible strings?
+
+LSD Radix Sort (least significant digit):
+- sort each digit independently from rightmost digit towards left
+    - so we make one counting sort pass on the first digit. Then we make another pass for the second digit, and so on.
+    - we can treat an empty space as less than any other alphabet character
+    - Q(WN+WR) runtime, where W is the width of our longest key
+
+MSD Radix Sort
+
+*/
+
 }
