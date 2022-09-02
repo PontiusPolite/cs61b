@@ -46,7 +46,28 @@ public class Engine {
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
 
+        StringInputSource stringInput = new StringInputSource(input);
+
+        while (stringInput.hasNext()) {
+            char c =  stringInput.next();
+
+            if (c == 'n' || c == 'N') {
+                // TODO: create new world
+            }
+            if (c == 'l' || c == 'L') {
+                // TODO: load world
+            }
+            if (c == 'q' || c == 'Q') {
+                // TODO: save world and quit program
+            }
+
+        }
+
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
