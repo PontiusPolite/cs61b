@@ -9,8 +9,6 @@ import java.util.Random;
  */
 public class RectangleRoom implements Structure{
 
-    public
-
     public RectangleRoom(TETile wall, TETile floor, )
 
     /** Returns an array of WorldTiles that the pseudorandomly generated structure consists of.

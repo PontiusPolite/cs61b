@@ -24,7 +24,7 @@ Describes an (x,y) coordinate in the game world.
 2. `public int y` the y coordinate
 
 ## World
-This class contains all of the data needed to represent the game world. It is a 2D array of `WorldTile`s as well as the `Player`'s location. `World` is serializable into a save file. 
+This class maintains the state of the game world. The tiles of the game world are structured in a 2D array of `WorldTile`s. `World` is serializable into a save file. 
 
 ## WorldTile
 This class ties a `Position` to a `TETile`. All `Structure` implementations consist of an array of `WorldTile`s, thus we can examine tile location data within these `Structure`s.

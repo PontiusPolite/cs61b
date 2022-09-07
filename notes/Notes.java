@@ -1557,4 +1557,29 @@ MSD Radix Sort
 
 */
 
+/*
+LECTURE 36: SORTING AND DATA STRUCTURE CONCLUSIONS
+
+idk just watch the lecture
+
+Counting sort is good for huge data set. But in reality you should test things experimentally due to the optimizations made by the Just In Time compiler. 
+
+
+
+LECTURE 37: not really a lecture
+*/
+
+/*
+LECTURE 38: COMPRESSION
+
+Prefix Free Codes: no codeword is a prefix for another
+    - normal byte representation of letters has some letters sharing same bits at front
+    - if we 
+
+
+
+
+
+*/
+
 }
