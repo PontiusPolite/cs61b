@@ -2,12 +2,20 @@ package byow.Core;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
+import byow.TileEngine.Tileset;
+
+import java.util.Random;
 
 public class Engine {
-    TERenderer ter = new TERenderer();
+
     /* Feel free to change the width and height. */
-    public static final int WIDTH = 80;
-    public static final int HEIGHT = 30;
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 30;
+
+    private static TERenderer ter;
+    private static World world;
+
+    private static final Random r = new Random();
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -67,7 +75,22 @@ public class Engine {
         return finalWorldFrame;
     }
 
-    public static void main(String[] args) {
-
+    private static void initializeRenderer() {
+        ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
     }
+
+    public static void main(String[] args) {
+        initializeRenderer();
+
+        world = new World(WIDTH, HEIGHT, Tileset.NOTHING);
+
+        world.generateRooms(r);
+        world.generateHallways(r);
+
+        ter.renderFrame(world.getTiles());
+    }
+
+
+
 }

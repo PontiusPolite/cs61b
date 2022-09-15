@@ -4,15 +4,17 @@ import byow.TileEngine.TETile;
 
 /**
  * Created by Carson Crow on 9/2/2022
+ *
+ * A StructureTile attaches a Position to a TETile.
  */
-public class WorldTile {
+public class StructureTile{
 
     private Position position;
-    private TETile type;
+    private TETile teTile;
 
-    public WorldTile(Position p, TETile t) {
+    public StructureTile(Position p, TETile t) {
         this.position = p;
-        this.type = t;
+        this.teTile = t;
     }
 
     public Position getPosition() {

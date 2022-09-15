@@ -1,3 +1,7 @@
+# Overview
+
+- A structure is a list of TETiles and positions. So we do need world tiles. 
+
 # Classes and Data Structures
 
 ## Main

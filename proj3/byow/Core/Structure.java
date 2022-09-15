@@ -10,12 +10,10 @@ import byow.TileEngine.TETile;
  *
  */
 public interface Structure {
-    /** Returns an array of WorldTiles that the pseudorandomly generated structure consists of.
+    /** Returns an array of StructureTiles (which are Position, TETile pairs) that the
+     * pseudorandomly generated structure consists of.
+     * Other attributes of the structure are determined by the specific instance.
      * @param r an instance of Random for generating pseudorandom numbers
-     * @param wall the material the structure's perimeter is made of
-     * @param floor the material the structure's floor is made of
-     * @param positions location data for where the structure should be
-     *
      */
-    public WorldTile[] generate(Random r, TETile wall, TETile floor, Position... positions);
+    public StructureTile[] generate(Random r);
 }
