@@ -12,11 +12,6 @@ public class Engine {
     private static final int WIDTH = 80;
     private static final int HEIGHT = 30;
 
-    private static TERenderer ter;
-    private static World world;
-
-    private static final Random r = new Random();
-
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
@@ -45,7 +40,7 @@ public class Engine {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] interactWithInputString(String input) {
+    public static TETile[][] interactWithInputString(String input) {
         // TODO: Fill out this method so that it run the engine using the input
         // passed in as an argument, and return a 2D tile representation of the
         // world that would have been drawn if the same inputs had been given
@@ -54,41 +49,58 @@ public class Engine {
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
 
-        InputSource stringInput = new StringInputSource(input);
+        StringInputSource stringInput = new StringInputSource(input);
+        TETile[][] finalWorldFrame = null;
+
 
         while (stringInput.hasNext()) {
-            char c =  stringInput.next();
+            char next = stringInput.next();
 
-            if (c == 'n' || c == 'N') {
-                // TODO: create new world
-            }
-            if (c == 'l' || c == 'L') {
-                // TODO: load world
-            }
-            if (c == 'q' || c == 'Q') {
-                // TODO: save world and quit program
+            switch (next) {
+                case 'n':
+                    long seed = readSeedFromStringInput(stringInput);
+                    World w = new RoomWorld(seed, WIDTH, HEIGHT);
+                    finalWorldFrame = w.getTiles();
+
+                case 'l':
+                    // TODO: load world
+                case  'q':
+                    // TODO: save and quit
+
+
             }
 
         }
 
-        TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
     }
 
-    private static void initializeRenderer() {
-        ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
+    /** Returns a parsed long of every character from sis.next() until sis.next() equals 's',
+     * which indicates the end of the seed.
+     */
+    private static long readSeedFromStringInput(StringInputSource sis) {
+        String seed = "";
+        while (sis.hasNext()) {
+            char next = sis.next();
+            // Stop reading the seed if we reach the 's' input character.
+            if (next == 's') {
+                break;
+            }
+            seed += next;
+        }
+        // Convert seed from string to long
+        return Long.parseLong(seed);
     }
 
+
     public static void main(String[] args) {
-        initializeRenderer();
+        TERenderer ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
 
-        world = new World(WIDTH, HEIGHT, Tileset.NOTHING);
-
-        world.generateRooms(r);
-        world.generateHallways(r);
-
-        ter.renderFrame(world.getTiles());
+        // TODO: figure out why executing with string vs console produces different worlds.
+        ter.renderFrame(interactWithInputString(args[0]));
+        long seed = 1234567;
+        //ter.renderFrame((new RoomWorld(seed, WIDTH, HEIGHT)).generate());
     }
 
 

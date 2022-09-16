@@ -9,6 +9,10 @@ package byow.Core;
 public interface InputSource {
     /** Returns the next character from the implemented input source. */
     public char next();
+
+    /** Returns the next character as a String from the implemented input source. */
+    public String nextAsString();
+
     /** Returns true if there exists another character from the implemented input source. */
     public boolean hasNext();
 }

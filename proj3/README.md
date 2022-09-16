@@ -1,6 +1,11 @@
 # Overview
 
-- A structure is a list of TETiles and positions. So we do need world tiles. 
+How to connect rooms?
+- Rooms are stored in a disjoint set. Just check if connected or not.
+- Every room needs to belong to the same set. 
+
+When we do enemy pathfinding, we can then use an adjacency graph of every tile?  
+
 
 # Classes and Data Structures
 

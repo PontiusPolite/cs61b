@@ -4,7 +4,7 @@ import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import org.junit.Test;
 
-import byow.Core.World;
+import byow.Core.RoomWorld;
 import static org.junit.Assert.*;
 
 /**
@@ -14,14 +14,13 @@ public class WorldInitializeTest {
 
     @Test
     public void testBlankWorld() {
-        TETile background = Tileset.NOTHING;
 
-        World w = new World(10, 10, background);
-        w.initialize();
+        RoomWorld w = new RoomWorld(1, 10, 10);
+        w.fillWorld(Tileset.NOTHING);
         TETile[][] t = w.getTiles();
-        assertEquals(t[0][0], background);
-        assertEquals(t[9][0], background);
-        assertEquals(t[0][9], background);
-        assertEquals(t[9][9], background);
+        assertEquals(t[0][0], Tileset.NOTHING);
+        assertEquals(t[9][0], Tileset.NOTHING);
+        assertEquals(t[0][9], Tileset.NOTHING);
+        assertEquals(t[9][9], Tileset.NOTHING);
     }
 }

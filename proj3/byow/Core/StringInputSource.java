@@ -15,13 +15,21 @@ public class StringInputSource implements InputSource{
     }
 
     /**
-     * Returns the next character in the user's input string (command line argument).
+     * Returns the next character in the user's input string (command line argument), converted to
+     * lower case.
      */
     @Override
     public char next() {
         char c = input.charAt(index);
         index += 1;
-        return c;
+        return Character.toLowerCase(c);
+    }
+
+    @Override
+    public String nextAsString() {
+        String c = "" + input.charAt(index);
+        index += 1;
+        return c.toLowerCase();
     }
 
     /**

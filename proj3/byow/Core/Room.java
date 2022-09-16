@@ -12,20 +12,32 @@ import java.util.Random;
  */
 public class Room {
 
-    private Position position;
-    private int width;
-    private int height;
-    private TETile wall;
+    private Rectangle bounds;
     private TETile floor;
+    private TETile wall;
 
-    public Room(Position p, int w, int h, TETile wallTile, TETile floorTile) {
-        this.position = p;
-        this.width = w;
-        this.height = h;
-        this.wall = wallTile;
-        this.floor = floorTile;
+    public Room(Position p, int w, int h) {
+        bounds = new Rectangle(p, w, h);
     }
 
+    public Room(Rectangle location) {
+        bounds = location;
+    }
 
+    public int x() {
+        return bounds.origin().x;
+    }
+
+    public int y() {
+        return bounds.origin().y;
+    }
+
+    public int width() {
+        return bounds.width();
+    }
+
+    public int height() {
+        return bounds.height();
+    }
 
 }
