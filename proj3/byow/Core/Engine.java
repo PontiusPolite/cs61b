@@ -96,11 +96,7 @@ public class Engine {
     public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
-
-        // TODO: figure out why executing with string vs console produces different worlds.
         ter.renderFrame(interactWithInputString(args[0]));
-        long seed = 1234567;
-        //ter.renderFrame((new RoomWorld(seed, WIDTH, HEIGHT)).generate());
     }
 
 

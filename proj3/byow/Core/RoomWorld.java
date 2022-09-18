@@ -1,6 +1,9 @@
 package byow.Core;
 
 import byow.TileEngine.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -8,9 +11,9 @@ import java.util.Random;
  * Created by Carson Crow on 9/7/2022
  */
 public class RoomWorld implements World{
-    private final int NUM_ROOMS = 5;
-    private final int MIN_ROOM_SIZE = 5;
-    private final int MAX_ROOM_SIZE = 10;
+    private final int NUM_ROOMS = 20;
+    private final int MIN_ROOM_SIZE = 4;
+    private final int MAX_ROOM_SIZE = 8;
     private final TETile GROUND_TILE = Tileset.GRASS;
     private final TETile WALL_TILE = Tileset.WALL;
     private final TETile FLOOR_TILE = Tileset.FLOOR;
@@ -21,7 +24,7 @@ public class RoomWorld implements World{
     private final Rectangle dimensions;
 
     private final TETile[][] tiles;
-    private Room[] rooms;
+    private List<Room> rooms;
 
 
     public RoomWorld(long seed, int width, int height) {
@@ -29,7 +32,7 @@ public class RoomWorld implements World{
         System.out.println(seed);
         randy = new Random();
         randy.setSeed(seed);
-        rooms = new Room[NUM_ROOMS];
+        rooms = new ArrayList<>();
         tiles = generate();
     }
 
@@ -74,7 +77,7 @@ public class RoomWorld implements World{
     }
 
 
-    private void addRoomsToTiles(Room[] rooms, TETile[][] tiles) {
+    private void addRoomsToTiles(List<Room> rooms, TETile[][] tiles) {
         for (Room rm : rooms) {
             addRoomToTiles(rm, tiles);
         }

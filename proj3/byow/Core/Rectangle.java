@@ -7,25 +7,31 @@ package byow.Core;
  * dimensions of some game object.
  */
 public class Rectangle {
-    /** smallestCorner refers to the corner of the rectangle with the smallest x and y coordinates.
-     * Outside this class, this Position is referred to as the 'origin'.
+    /** corners[0] is always the Position with the smallest x and y values (bottom left)
+     * corners[1] is always bottom right
+     * corners[2] is always top right
+     * corners[3] is always top left
      */
-    private final Position smallestCorner;
-    private final Position largestCorner;
+    private final Position[] corners;
 
-    /** corner1 and corner2 are interpreted as opposite corners of the Rectangle. If these Positions
-     * are on a vertical or horizontal lines, the resulting Rectangle will have a width or height
-     * of 1, respectively. */
-    public Rectangle(Position corner1, Position corner2) {
-        smallestCorner = calculateSmallestCorner(corner1, corner2);
-        largestCorner = calculateLargestCorner(corner1, corner2);
-    }
 
     /** origin refers to the corner with the smallest x and y coordinates (bottom left in
      * our tile world). */
     public Rectangle(Position origin, int width, int height) {
-        smallestCorner = origin;
-        largestCorner = new Position(smallestCorner.x + width, smallestCorner.y + height);
+        corners = new Position[4];
+        corners[0] = origin;
+        corners[1] = new Position(origin.x + width, origin.y);
+        corners[2] = new Position(origin.x + width, origin.y + height);
+        corners[3] = new Position(origin.x, origin.y + height);
+    }
+
+    public Rectangle(int x, int y, int width, int height) {
+        Position origin = new Position(x, y);
+        corners = new Position[4];
+        corners[0] = origin;
+        corners[1] = new Position(origin.x + width, origin.y);
+        corners[2] = new Position(origin.x + width, origin.y + height);
+        corners[3] = new Position(origin.x, origin.y + height);
     }
 
     private Position calculateSmallestCorner(Position corner1, Position corner2) {
@@ -55,22 +61,37 @@ public class Rectangle {
     }
 
     public int width() {
-        return largestCorner.x - smallestCorner.x;
+        return corners[2].x - corners[0].x;
     }
 
     public int height() {
-        return largestCorner.y - smallestCorner.y;
+        return corners[2].y - corners[0].y;
     }
 
     /** Returns the Position of the Rectangle corner with the smallest x and y coordinates. */
     public Position origin() {
-        return smallestCorner;
+        return corners[0];
     }
 
-    /** Returns true if this Rectangle intersects with r. */
-    public boolean intersectsWith(Rectangle r) {
-        boolean xIntersects = (this.origin().x + this.width() >= r.origin().x || r.origin().x + r.width() >= this.origin().x);
-        boolean yIntersects = (this.smallestCorner.y + this.height() >= r.origin().y || r.origin().y + r.height() >= this.origin().y);
-        return xIntersects || yIntersects;
+    /** Returns true if the Rectangle intersects with r. */
+    public boolean intersects(Rectangle r) {
+        for (Position c : this.corners) {
+            if (r.contains(c)) {
+                return true;
+            }
+        }
+        for (Position c : r.corners) {
+            if (this.contains(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Returns true if this Rectangle contains p within its bounds. */
+    public boolean contains(Position p) {
+        boolean containsX = p.x >= this.corners[0].x && p.x <= this.corners[2].x;
+        boolean containsY = p.y >= this.corners[0].y && p.y <= this.corners[2].y;
+        return containsX && containsY;
     }
 }

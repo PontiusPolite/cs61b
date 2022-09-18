@@ -1,8 +1,9 @@
 # Overview
 
 How to connect rooms?
-- Rooms are stored in a disjoint set. Just check if connected or not.
-- Every room needs to belong to the same set. 
+- take a list of the rooms, and shuffle it.
+- Connect the first two rooms, then remove the first and add it to the back. Continue n times for n random hallways
+
 
 When we do enemy pathfinding, we can then use an adjacency graph of every tile?  
 

@@ -40,4 +40,6 @@ public class Room {
         return bounds.height();
     }
 
+    public Rectangle bounds() { return bounds; }
+
 }

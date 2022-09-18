@@ -1,5 +1,7 @@
 package byow.Core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -11,24 +13,25 @@ import java.util.Random;
 public class RoomGenerator {
 
     private final Rectangle bounds;
-    private int minSize;
-    private int maxSize;
+    private final int minSize;
+    private final int maxSize;
     private final Random r;
+    private final List<Room> rooms;
 
     public RoomGenerator(Random r, Rectangle bounds, int minRoomSize, int maxRoomSize) {
         this.r = r;
         this.bounds = bounds;
         this.minSize = minRoomSize;
         this.maxSize = maxRoomSize;
+        rooms = new ArrayList<>();
     }
 
-    public Room[] generateRooms(int n) {
-        Room[] rooms = new Room[n];
+    public List<Room> generateRooms(int n) {
         for (int i = 0; i < n; i += 1) {
             Room rm = generateRandomDistinctRoom();
             // TODO: check if this Room intersects with any others in rooms. If so, try again.
             // Brute force solution, come up with something better?
-            rooms[i] = rm;
+            rooms.add(rm);
         }
         return rooms;
     }
@@ -47,7 +50,19 @@ public class RoomGenerator {
 
         Room rm = new Room(roomPosition, roomWidth, roomHeight);
 
-        return rm;
+        boolean isDistinct = true;
+
+        for (Room r : this.rooms) {
+            if (rm.bounds().intersects(r.bounds())){
+                isDistinct = false;
+            }
+        }
+
+        if (isDistinct) {
+            return rm;
+        }
+
+        return generateRandomDistinctRoom();
     }
 
 
