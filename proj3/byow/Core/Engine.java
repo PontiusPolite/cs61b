@@ -4,13 +4,16 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.Random;
 
 public class Engine {
 
     /* Feel free to change the width and height. */
-    private static final int WIDTH = 80;
+    private static final int WIDTH = 60;
     private static final int HEIGHT = 30;
+    private static final File CWD = new File(System.getProperty("user.dir"));
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -96,7 +99,8 @@ public class Engine {
     public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
-        ter.renderFrame(interactWithInputString(args[0]));
+        ter.renderFrame(interactWithInputString("n11s"));
+        System.out.println(CWD);
     }
 
 

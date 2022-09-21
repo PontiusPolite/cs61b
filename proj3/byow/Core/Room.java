@@ -42,4 +42,19 @@ public class Room {
 
     public Rectangle bounds() { return bounds; }
 
+    /** Returns a random position in the Room. */
+    public Position getRandomPoint(Random r) {
+        return bounds.getRandomPoint(r);
+    }
+
+    /** Returns a random position in the Room, excluding walls. */
+    public Position getRandomInsidePoint(Random r) {
+        return bounds.getRandomInsidePoint(r);
+    }
+
+    @Override
+    public String toString() {
+        return(String.format("Room at (%d, %d) has width %d and height %d", this.x(), this.y(), this.width(), this.height()));
+    }
+
 }

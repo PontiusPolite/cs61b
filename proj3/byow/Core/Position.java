@@ -17,4 +17,9 @@ public class Position {
         double y2 = Math.pow(this.y - p.y, 2);
         return Math.sqrt(x2 + y2);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Position at (%d, %d)", x, y);
+    }
 }

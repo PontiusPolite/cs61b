@@ -2,6 +2,7 @@ package byow.Core;
 
 import byow.TileEngine.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -10,10 +11,12 @@ import java.util.Random;
 /**
  * Created by Carson Crow on 9/7/2022
  */
-public class RoomWorld implements World{
-    private final int NUM_ROOMS = 20;
-    private final int MIN_ROOM_SIZE = 4;
-    private final int MAX_ROOM_SIZE = 8;
+public class RoomWorld implements World, Serializable {
+    private final int NUM_ROOMS = 5;
+    private final int MIN_ROOM_SIZE = 5;
+    private final int MAX_ROOM_SIZE = 10;
+    private final int NUM_HALLWAYS = 5;
+    private final int HALLWAY_SIZE = 3;
     private final TETile GROUND_TILE = Tileset.GRASS;
     private final TETile WALL_TILE = Tileset.WALL;
     private final TETile FLOOR_TILE = Tileset.FLOOR;
@@ -25,14 +28,15 @@ public class RoomWorld implements World{
 
     private final TETile[][] tiles;
     private List<Room> rooms;
+    private List<Hallway> hallways;
 
 
     public RoomWorld(long seed, int width, int height) {
         dimensions = new Rectangle(ORIGIN, width, height);
-        System.out.println(seed);
         randy = new Random();
         randy.setSeed(seed);
         rooms = new ArrayList<>();
+        hallways = new ArrayList<>();
         tiles = generate();
     }
 
@@ -43,9 +47,13 @@ public class RoomWorld implements World{
         }
 
         RoomGenerator roomGen = new RoomGenerator(randy, this.dimensions, MIN_ROOM_SIZE, MAX_ROOM_SIZE);
-        rooms = roomGen.generateRooms(NUM_ROOMS);
-
+        rooms = roomGen.generate(NUM_ROOMS);
         addRoomsToTiles(rooms, tiles);
+
+        HallwayGenerator hallGen = new HallwayGenerator(randy, rooms, HALLWAY_SIZE);
+        hallways = hallGen.generate(NUM_HALLWAYS);
+        addHallwaysToTiles(hallways, tiles);
+
 
         return tiles;
     }
@@ -86,8 +94,7 @@ public class RoomWorld implements World{
     private void addRoomToTiles(Room room, TETile[][] tiles) {
         for (int i = room.x(); i < room.x() + room.width(); i += 1) {
             for (int j = room.y(); j < room.y() + room.height(); j += 1) {
-                boolean shouldBeWall = (i == room.x() || i == room.x() + room.width() - 1);
-                shouldBeWall = shouldBeWall || (j == room.y() || j == room.y() + room.height() - 1);
+                boolean shouldBeWall = room.bounds().hasPointOnEdge(i, j);
                 if (shouldBeWall) {
                     tiles[i][j] = WALL_TILE;
                 } else {
@@ -98,15 +105,34 @@ public class RoomWorld implements World{
         }
     }
 
-    /** Returns a random Position with coordinates between the given bounds (inclusive of both). */
-    private Position randomPosition(Random r, int minX, int maxX, int minY, int maxY) {
-        int x = RandomUtils.uniform(r, minX, maxX + 1);
-        int y = RandomUtils.uniform(r, minY, maxY + 1);
-        return new Position(x, y);
+    private void addHallwaysToTiles(List<Hallway> hallways, TETile[][] tiles) {
+        for (Hallway h : hallways) {
+            addHallwayToTiles(h, tiles);
+        }
     }
 
-    public void generateHallways(Random r) {
+    private void addHallwayToTiles(Hallway h, TETile[][] tiles) {
+        for (int i = 0; i < h.getSegments().length; i += 1) {
+            Rectangle s = h.getSegments()[i];
+            addHallwaySegmentToTiles(s, tiles);
+        }
+    }
 
+    private void addHallwaySegmentToTiles(Rectangle segment, TETile[][] tiles) {
+        for (int i = segment.x(); i < segment.x() + segment.width(); i += 1) {
+            for (int j = segment.y(); j < segment.y() + segment.height(); j += 1) {
+                if (validateCoordinates(i, j)) {
+                    boolean shouldBeWall = segment.hasPointOnEdge(i, j) && tiles[i][j] != FLOOR_TILE;
+                    if (shouldBeWall) {
+                        tiles[i][j] = WALL_TILE;
+                    } else {
+                        tiles[i][j] = FLOOR_TILE;
+                    }
+
+                }
+                //tiles[i][j] = Tileset.WATER;
+            }
+        }
     }
 
     /** Returns true if p is within the bounds of the World instance. */

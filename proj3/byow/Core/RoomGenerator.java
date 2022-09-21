@@ -15,54 +15,51 @@ public class RoomGenerator {
     private final Rectangle bounds;
     private final int minSize;
     private final int maxSize;
-    private final Random r;
+    private final Random randy;
     private final List<Room> rooms;
 
     public RoomGenerator(Random r, Rectangle bounds, int minRoomSize, int maxRoomSize) {
-        this.r = r;
+        this.randy = r;
         this.bounds = bounds;
         this.minSize = minRoomSize;
         this.maxSize = maxRoomSize;
         rooms = new ArrayList<>();
     }
 
-    public List<Room> generateRooms(int n) {
+    public List<Room> generate(int n) {
         for (int i = 0; i < n; i += 1) {
             Room rm = generateRandomDistinctRoom();
-            // TODO: check if this Room intersects with any others in rooms. If so, try again.
-            // Brute force solution, come up with something better?
             rooms.add(rm);
         }
         return rooms;
     }
 
-    /** Helper function for generateRooms. Returns a pseudorandomly generated rectangular Room whose walls are within the bounds
-     * Rectangle (inclusive) and whose size is within this' given values.
+    /** Helper function for generate(). Returns a pseudorandomly generated rectangular Room whose walls are within the bounds
+     * Rectangle (inclusive), whose size is within this' given values, and which doesn't intersect any other rooms.
      */
     private Room generateRandomDistinctRoom() {
-        int roomWidth = RandomUtils.uniform(r, minSize, maxSize + 1);
-        int roomHeight = RandomUtils.uniform(r, minSize, maxSize + 1);
 
-        int roomX = RandomUtils.uniform(r, bounds.origin().x, bounds.origin().x + bounds.width() - roomWidth);
-        int roomY = RandomUtils.uniform(r, bounds.origin().y, bounds.origin().y + bounds.height() - roomHeight);
-
-        Position roomPosition = new Position(roomX, roomY);
-
-        Room rm = new Room(roomPosition, roomWidth, roomHeight);
+        Room rm = generateRandomRoom();
 
         boolean isDistinct = true;
-
         for (Room r : this.rooms) {
             if (rm.bounds().intersects(r.bounds())){
                 isDistinct = false;
             }
         }
-
         if (isDistinct) {
             return rm;
         }
-
         return generateRandomDistinctRoom();
+    }
+
+    private Room generateRandomRoom() {
+        int roomWidth = RandomUtils.uniform(randy, minSize, maxSize + 1);
+        int roomHeight = RandomUtils.uniform(randy, minSize, maxSize + 1);
+        int roomX = RandomUtils.uniform(randy, bounds.origin().x, bounds.origin().x + bounds.width() - roomWidth);
+        int roomY = RandomUtils.uniform(randy, bounds.origin().y, bounds.origin().y + bounds.height() - roomHeight);
+
+        return new Room(new Position(roomX, roomY), roomWidth, roomHeight);
     }
 
 

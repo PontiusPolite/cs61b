@@ -11,33 +11,43 @@ public class HallwayGenerator {
 
     private List<Room> queue;
     private List<Hallway> hallways;
-    private Random randy;
+    private final Random randy;
+    private int hallwaySize;
 
-    public HallwayGenerator(Random r, List<Room> rooms) {
+    public HallwayGenerator(Random r, List<Room> rooms, int hallwaySize) {
         this.randy = r;
-        this.queue = rooms;
-        shuffleQueue;
+        this.queue = shuffleIntoQueue(rooms);
+        this.hallwaySize = hallwaySize;
         hallways = new ArrayList<>();
     }
 
     public List<Hallway> generate(int n) {
+        List<Hallway> hallways = new ArrayList<>();
         for (int i = 0; i < n; i += 1) {
             // TODO: randomize hallway thickness and number of turns
-            Hallway h = new Hallway(queue.get(0), queue.get(1));
-            Room first = queue.remove(0);
-            queue.add(first);
+            // TODO: randomize whether we connect to a room, or to a hallway we've already generated.
+            int numTurns = 1;
+            Hallway h = new Hallway(randy, queue.get(0), queue.get(1), this.hallwaySize);
+            hallways.add(h);
+            moveFirstRoomToEnd();
         }
+        return hallways;
     }
 
-    private void
-
-    private void shuffleQueue() {
+    private List<Room> shuffleIntoQueue(List<Room> rooms) {
         List<Room> shuffled = new ArrayList<>();
-        for (int i = 0; i < queue.size(); i += 1) {
-            int pick = randy.nextInt(queue.size());
-            shuffled.add(queue.remove(pick));
+        List<Room> copy = new ArrayList<>();
+        copy.addAll(rooms);
+        while(copy.size() > 0) {
+            int pick = randy.nextInt(copy.size());
+            shuffled.add(copy.remove(pick));
         }
-        queue = shuffled;
+        return shuffled;
+    }
+
+    private void moveFirstRoomToEnd() {
+        Room first = queue.remove(0);
+        queue.add(first);
     }
 
 }
