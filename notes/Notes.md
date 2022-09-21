@@ -1529,3 +1529,37 @@ Counting sort is good for huge data set. But in reality you should test things e
         - there are only 1+2+4+...+2^500 = 2^500-1 bit streams of length <=500
         - you can't make a bijection between those two sets. Size difference is just too great.
 
+
+# LECTURE 40: CLASS SUMMARY
+
+## Abstract Data Type Implementation Exampls
+
+Set & Map:
+- Chaining Hash Table
+- linked list
+- resizing array
+- BST (no balancing)
+- Red Black
+- B-Trees (2-3 and 2-3-4)
+- Trie
+- Heap
+
+Priority Queue:
+- Heap
+- Balanced Tree
+- Ordered Linked List
+
+List:
+- Linked List
+- Resizing Array
+
+Disjoint Sets:
+- quick find
+- quick union
+- weighted quick union
+- weighted quick union with path compression
+
+Graph:
+- adjacency matrix
+- edge list
+- adjacency lists
