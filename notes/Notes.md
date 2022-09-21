@@ -488,7 +488,8 @@ OR
         N     1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18
         C(N)  1  3  3  7  7  7  7  15 15 15  15  15  15  15  15  31  31  31
 
-- The runtime is Q(N), not Q(N*logN) despite it seeming that way at first
+- The runtime is Q(N), not Q(NlogN) despite it seeming that way at first
+
 
 ### Recursive Function Example 
     
@@ -1494,8 +1495,13 @@ Counting sort is good for huge data set. But in reality you should test things e
 
 # LECTURE 38: COMPRESSION
 
+## Codewords
+- in normal binary, each letter is represented by 8 bits. These 8 bits are the 'codeword'
+- we can try and compress this by making the codewords smaller, say with morse code
+
 ## Prefix Free Codes
 - no codeword is a prefix for another
+    - in morse code, there's some ambiguity because some sequences of dashes and dots are prefixes for another one. We can't tell where one letter starts and the other begins.
 - normal byte representation of letters has some letters sharing same bits at front
 - if we think of a tree where 0 goes left and 1 goes right, the characters need to all be leaves to prevent prefixes
 
@@ -1510,4 +1516,16 @@ Counting sort is good for huge data set. But in reality you should test things e
 - calculate relative frequency of characters
 - create a node for each character with a weight = relative frequency
 - take two smallest nodes and merge into a super node with weight that is the sum
-- repeat until everything is part of a tree
+    - those two small nodes are now that super node's children
+- repeat until everything is part of a tree, with the same idea that 0 moves left and 1 moves right
+
+## Compression Theory
+- the main idea of huffman coding is to represent common symbols with the smallest number of bits
+- another idea is run-length encoding: replace sequences of same characters with that character and number
+- LZW: search for common repeated patterns
+- A 50% compression algo is impossible
+    - soft proof: 
+        - there are 2^1000 one thousand bit sequences
+        - there are only 1+2+4+...+2^500 = 2^500-1 bit streams of length <=500
+        - you can't make a bijection between those two sets. Size difference is just too great.
+
