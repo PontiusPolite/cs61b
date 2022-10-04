@@ -1,7 +1,7 @@
 
 # CS61B Data Structures, Spring 2021
 
-Materials from auditing UC Berkeley's Data Structures course. For comprehensive study notes, see `./notes/study-notes.md`. 
+Materials from auditing UC Berkeley's Data Structures course: https://sp21.datastructur.es/. For comprehensive study notes, see `./notes/study-notes.md`. 
 
 ## Project List
 
